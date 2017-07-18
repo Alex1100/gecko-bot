@@ -1,6 +1,5 @@
 require('dotenv').config();
 require('dotenv').load();
-require('autobahn');
 
 var GeminiAPI = require('gemini-api');
 var plnx = require('plnx');
@@ -21,7 +20,6 @@ var realTimePrices = {
         lowestAsk: 0,
         high24hour: 0,
         low24hour: 0,
-        transactionFee: 0,
         fourtyDayMovingAverage: 0
       },
       poloniexBTC: {
@@ -29,7 +27,6 @@ var realTimePrices = {
         lowestAsk: 0,
         high24hour: 0,
         low24hour: 0,
-        transactionFee: 0,
         fourtyDayMovingAverage: 0
       }
     },
@@ -107,19 +104,19 @@ setTimeout(() => {
   }, 250);
 }, 10000);
 
-setTimeout(() => {
-  setInterval(() => {
-    plnx.returnCurrencies()
-        .then(data => {
-          realTimePrices['poloniex']['poloniexBTC']['transactionFee'] = parseFloat(data['1CR'].BTC.txFee);
-          realTimePrices['poloniex']['poloniexETH']['transctionFee'] = parseFloat(data['1CR'].ETH.txFee);
-          console.log("\n\n\n\n\n\n\n\n\n\n\n\nTHE FLOATING POINT NUMBER IS: ", parseFloat(data['1CR'].ETH.txFee))
-        })
-        .catch(err => {
-          console.log("ERROR GETTING TRANSACTION FEE: ", err);
-        });
-  }, 8000);
-}, 15000);
+// setTimeout(() => {
+//   setInterval(() => {
+//     plnx.returnCurrencies()
+//         .then(data => {
+//           realTimePrices['poloniex']['poloniexBTC']['transactionFee'] = parseFloat(data['1CR'].BTC.txFee);
+//           realTimePrices['poloniex']['poloniexETH']['transctionFee'] = parseFloat(data['1CR'].ETH.txFee);
+//           console.log("\n\n\n\n\n\n\n\n\n\n\n\nTHE FLOATING POINT NUMBER IS: ", parseFloat(data['1CR'].ETH.txFee))
+//         })
+//         .catch(err => {
+//           console.log("ERROR GETTING TRANSACTION FEE: ", err);
+//         });
+//   }, 8000);
+// }, 15000);
 
 
 
