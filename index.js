@@ -9,6 +9,8 @@ var gemPub = process.env.GEMINI_PUB;
 var gemPriv = process.env.GEMINI_PRIV;
 var polKey = process.env.POLONIEX_API_KEY;
 var polPriv = process.env.POLONIEX_SECRET;
+var alive = true;
+var websocketClient = new GeminiAPI.default.WebsocketClient({ gemPub, gemPriv, sandbox: false });
 
 var realTimePrices = {
     gemini: {
@@ -208,341 +210,360 @@ var realTimePrices = {
 };
 
 
+var runBot = {};
+
+
+
+
+// while(alive === false){
+//   (function(){
+//     loopConditional();
+//   }());
+// }
+
 
 //KRAKEN, OKCOIN, BTCE, BITTREX LOGIC
-setTimeout(() => {
-  setInterval(() => {
-    coinTicker('kraken', 'ETH_USD')
-      .then(tick => {
-        realTimePrices.kraken.krakenETH_USD.last = parseFloat(tick.last);
-        realTimePrices.kraken.krakenETH_USD.ask = parseFloat(tick.ask);
-        realTimePrices.kraken.krakenETH_USD.bid = parseFloat(tick.bid);
-        realTimePrices.kraken.krakenETH_USD.high = parseFloat(tick.high);
-        realTimePrices.kraken.krakenETH_USD.vol = parseFloat(tick.vol);
-        realTimePrices.kraken.krakenETH_USD.timestamp = tick.timestamp;
-        realTime
-        realTi.log("\n\n\n\nETH_USD AT KRAKEN IS: ", realTimePrices.kraken.krakenETH_USD);
-      });
+runBot.botOne = {
+  run: () => {
+      setTimeout(() => {
+        setInterval(() => {
+          coinTicker('kraken', 'ETH_USD')
+            .then(tick => {
+              realTimePrices.kraken.krakenETH_USD.last = parseFloat(tick.last);
+              realTimePrices.kraken.krakenETH_USD.ask = parseFloat(tick.ask);
+              realTimePrices.kraken.krakenETH_USD.bid = parseFloat(tick.bid);
+              realTimePrices.kraken.krakenETH_USD.high = parseFloat(tick.high);
+              realTimePrices.kraken.krakenETH_USD.vol = parseFloat(tick.vol);
+              realTimePrices.kraken.krakenETH_USD.timestamp = tick.timestamp;
+              realTime
+              realTi.log("\n\n\n\nETH_USD AT KRAKEN IS: ", realTimePrices.kraken.krakenETH_USD);
+            });
 
-      coinTicker('kraken', 'BTC_USD')
+            coinTicker('kraken', 'BTC_USD')
+              .then(tick => {
+                realTimePrices.kraken.krakenBTC_USD.last = parseFloat(tick.last);
+                realTimePrices.kraken.krakenBTC_USD.ask = parseFloat(tick.ask);
+                realTimePrices.kraken.krakenBTC_USD.bid = parseFloat(tick.bid);
+                realTimePrices.kraken.krakenBTC_USD.high = parseFloat(tick.high);
+                realTimePrices.kraken.krakenBTC_USD.vol = parseFloat(tick.vol);
+                realTimePrices.kraken.krakenBTC_USD.timestamp = tick.timestamp;
+                console.log("\n\n\n\nBTC_USD AT KRAKEN IS: ", realTimePrices.kraken.krakenBTC_USD);
+              });
+
+              coinTicker('kraken', 'ETH_BTC')
+                .then(tick => {
+                  realTimePrices.kraken.krakenETH_BTC.last = parseFloat(tick.last);
+                  realTimePrices.kraken.krakenETH_BTC.ask = parseFloat(tick.ask);
+                  realTimePrices.kraken.krakenETH_BTC.bid = parseFloat(tick.bid);
+                  realTimePrices.kraken.krakenETH_BTC.high = parseFloat(tick.high);
+                  realTimePrices.kraken.krakenETH_BTC.vol = parseFloat(tick.vol);
+                  realTimePrices.kraken.krakenETH_BTC.timestamp = tick.timestamp;
+                  console.log("\n\n\n\nETH_BTC AT KRAKEN IS: ", realTimePrices.kraken.krakenETH_BTC);
+                });
+
+              coinTicker('okcoin', 'ETH_USD')
+                .then(tick => {
+                  realTimePrices.okcoin.okcoinETH_USD.last = parseFloat(tick.last);
+                  realTimePrices.okcoin.okcoinETH_USD.ask = parseFloat(tick.ask);
+                  realTimePrices.okcoin.okcoinETH_USD.bid = parseFloat(tick.bid);
+                  realTimePrices.okcoin.okcoinETH_USD.high = parseFloat(tick.high);
+                  realTimePrices.okcoin.okcoinETH_USD.vol = parseFloat(tick.vol);
+                  realTimePrices.okcoin.okcoinETH_USD.timestamp = tick.timestamp;
+                  console.log("\n\n\n\nETH_USD AT OKCOIN IS: ", realTimePrices.okcoin.okcoinETH_USD);
+                });
+
+              coinTicker('okcoin', 'BTC_USD')
+                .then(tick => {
+                  realTimePrices.okcoin.okcoinBTC_USD.last = parseFloat(tick.last);
+                  realTimePrices.okcoin.okcoinBTC_USD.ask = parseFloat(tick.ask);
+                  realTimePrices.okcoin.okcoinBTC_USD.bid = parseFloat(tick.bid);
+                  realTimePrices.okcoin.okcoinBTC_USD.high = parseFloat(tick.high);
+                  realTimePrices.okcoin.okcoinBTC_USD.vol = parseFloat(tick.vol);
+                  realTimePrices.okcoin.okcoinBTC_USD.timestamp = tick.timestamp;
+                  console.log("\n\n\n\nBTC_USD AT OKCOIN IS: ", realTimePrices.okcoin.okcoinBTC_USD);
+                });
+
+              coinTicker('btce', 'BTC_USD')
+                .then(tick => {
+                  realTimePrices.BTCe.BTCeBTC_USD.last = parseFloat(tick.last);
+                  realTimePrices.BTCe.BTCeBTC_USD.ask = parseFloat(tick.ask);
+                  realTimePrices.BTCe.BTCeBTC_USD.bid = parseFloat(tick.bid);
+                  realTimePrices.BTCe.BTCeBTC_USD.high = parseFloat(tick.high);
+                  realTimePrices.BTCe.BTCeBTC_USD.vol = parseFloat(tick.vol);
+                  realTimePrices.BTCe.BTCeBTC_USD.timestamp = tick.timestamp;
+                  console.log("\n\n\n\nBTC_USD AT BTCe IS: ", realTimePrices.BTCe.BTCeBTC_USD);
+                });
+
+              coinTicker('btce', 'ETH_USD')
+                .then(tick => {
+                  realTimePrices.BTCe.BTCeETH_USD.last = parseFloat(tick.last);
+                  realTimePrices.BTCe.BTCeETH_USD.ask = parseFloat(tick.ask);
+                  realTimePrices.BTCe.BTCeETH_USD.bid = parseFloat(tick.bid);
+                  realTimePrices.BTCe.BTCeETH_USD.high = parseFloat(tick.high);
+                  realTimePrices.BTCe.BTCeETH_USD.vol = parseFloat(tick.vol);
+                  realTimePrices.BTCe.BTCeETH_USD.timestamp = tick.timestamp;
+                  console.log("\n\n\n\nETH_USD AT BTCe IS: ", realTimePrices.BTCe.BTCeETH_USD);
+                });
+
+              coinTicker('btce', 'ETH_BTC')
+                .then(tick => {
+                  realTimePrices.BTCe.BTCeETH_BTC.last = parseFloat(tick.last);
+                  realTimePrices.BTCe.BTCeETH_BTC.ask = parseFloat(tick.ask);
+                  realTimePrices.BTCe.BTCeETH_BTC.bid = parseFloat(tick.bid);
+                  realTimePrices.BTCe.BTCeETH_BTC.high = parseFloat(tick.high);
+                  realTimePrices.BTCe.BTCeETH_BTC.vol = parseFloat(tick.vol);
+                  realTimePrices.BTCe.BTCeETH_BTC.timestamp = tick.timestamp;
+                  console.log("\n\n\n\nETH_BTC AT BTCe IS: ", realTimePrices.BTCe.BTCeETH_BTC);
+                });
+
+            coinTicker('bittrex', 'ETH_USD')
+              .then(tick => {
+                realTimePrices.bittrex.bittrexETH_USD.last = parseFloat(tick.last);
+                realTimePrices.bittrex.bittrexETH_USD.ask = parseFloat(tick.ask);
+                realTimePrices.bittrex.bittrexETH_USD.bid = parseFloat(tick.bid);
+                realTimePrices.bittrex.bittrexETH_USD.high = parseFloat(tick.high);
+                realTimePrices.bittrex.bittrexETH_USD.vol = parseFloat(tick.vol);
+                realTimePrices.bittrex.bittrexETH_USD.timestamp = tick.timestamp;
+                console.log("\n\n\n\nETH_USD AT bittrex IS: ", realTimePrices.bittrex.bittrexETH_USD);
+              });
+
+            coinTicker('bittrex', 'BTC_USD')
+              .then(tick => {
+                realTimePrices.bittrex.bittrexBTC_USD.last = parseFloat(tick.last);
+                realTimePrices.bittrex.bittrexBTC_USD.ask = parseFloat(tick.ask);
+                realTimePrices.bittrex.bittrexBTC_USD.bid = parseFloat(tick.bid);
+                realTimePrices.bittrex.bittrexBTC_USD.high = parseFloat(tick.high);
+                realTimePrices.bittrex.bittrexBTC_USD.vol = parseFloat(tick.vol);
+                realTimePrices.bittrex.bittrexBTC_USD.timestamp = tick.timestamp;
+                console.log("\n\n\n\nBTC_USD AT BITTREX IS: ", realTimePrices.bittrex.bittrexBTC_USD);
+              });
+
+        }, 1200)
+      }, 10500)
+  }
+};
+
+runBot.botTwo = {
+  run: setTimeout(() => {
+    setInterval(() => {
+      coinTicker('bitfinex', 'ETH_USD')
         .then(tick => {
-          realTimePrices.kraken.krakenBTC_USD.last = parseFloat(tick.last);
-          realTimePrices.kraken.krakenBTC_USD.ask = parseFloat(tick.ask);
-          realTimePrices.kraken.krakenBTC_USD.bid = parseFloat(tick.bid);
-          realTimePrices.kraken.krakenBTC_USD.high = parseFloat(tick.high);
-          realTimePrices.kraken.krakenBTC_USD.vol = parseFloat(tick.vol);
-          realTimePrices.kraken.krakenBTC_USD.timestamp = tick.timestamp;
-          console.log("\n\n\n\nBTC_USD AT KRAKEN IS: ", realTimePrices.kraken.krakenBTC_USD);
+          realTimePrices.bitfinex.bitfinexETH_USD.last = parseFloat(tick.last);
+          realTimePrices.bitfinex.bitfinexETH_USD.ask = parseFloat(tick.ask);
+          realTimePrices.bitfinex.bitfinexETH_USD.bid = parseFloat(tick.bid);
+          realTimePrices.bitfinex.bitfinexETH_USD.high = parseFloat(tick.high);
+          realTimePrices.bitfinex.bitfinexETH_USD.vol = parseFloat(tick.vol);
+          realTimePrices.bitfinex.bitfinexETH_USD.timestamp = tick.timestamp;
+          console.log("\n\n\n\nETH_USD AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexETH_USD);
         });
 
-        coinTicker('kraken', 'ETH_BTC')
-          .then(tick => {
-            realTimePrices.kraken.krakenETH_BTC.last = parseFloat(tick.last);
-            realTimePrices.kraken.krakenETH_BTC.ask = parseFloat(tick.ask);
-            realTimePrices.kraken.krakenETH_BTC.bid = parseFloat(tick.bid);
-            realTimePrices.kraken.krakenETH_BTC.high = parseFloat(tick.high);
-            realTimePrices.kraken.krakenETH_BTC.vol = parseFloat(tick.vol);
-            realTimePrices.kraken.krakenETH_BTC.timestamp = tick.timestamp;
-            console.log("\n\n\n\nETH_BTC AT KRAKEN IS: ", realTimePrices.kraken.krakenETH_BTC);
-          });
-
-        coinTicker('okcoin', 'ETH_USD')
-          .then(tick => {
-            realTimePrices.okcoin.okcoinETH_USD.last = parseFloat(tick.last);
-            realTimePrices.okcoin.okcoinETH_USD.ask = parseFloat(tick.ask);
-            realTimePrices.okcoin.okcoinETH_USD.bid = parseFloat(tick.bid);
-            realTimePrices.okcoin.okcoinETH_USD.high = parseFloat(tick.high);
-            realTimePrices.okcoin.okcoinETH_USD.vol = parseFloat(tick.vol);
-            realTimePrices.okcoin.okcoinETH_USD.timestamp = tick.timestamp;
-            console.log("\n\n\n\nETH_USD AT OKCOIN IS: ", realTimePrices.okcoin.okcoinETH_USD);
-          });
-
-        coinTicker('okcoin', 'BTC_USD')
-          .then(tick => {
-            realTimePrices.okcoin.okcoinBTC_USD.last = parseFloat(tick.last);
-            realTimePrices.okcoin.okcoinBTC_USD.ask = parseFloat(tick.ask);
-            realTimePrices.okcoin.okcoinBTC_USD.bid = parseFloat(tick.bid);
-            realTimePrices.okcoin.okcoinBTC_USD.high = parseFloat(tick.high);
-            realTimePrices.okcoin.okcoinBTC_USD.vol = parseFloat(tick.vol);
-            realTimePrices.okcoin.okcoinBTC_USD.timestamp = tick.timestamp;
-            console.log("\n\n\n\nBTC_USD AT OKCOIN IS: ", realTimePrices.okcoin.okcoinBTC_USD);
-          });
-
-        coinTicker('btce', 'BTC_USD')
-          .then(tick => {
-            realTimePrices.BTCe.BTCeBTC_USD.last = parseFloat(tick.last);
-            realTimePrices.BTCe.BTCeBTC_USD.ask = parseFloat(tick.ask);
-            realTimePrices.BTCe.BTCeBTC_USD.bid = parseFloat(tick.bid);
-            realTimePrices.BTCe.BTCeBTC_USD.high = parseFloat(tick.high);
-            realTimePrices.BTCe.BTCeBTC_USD.vol = parseFloat(tick.vol);
-            realTimePrices.BTCe.BTCeBTC_USD.timestamp = tick.timestamp;
-            console.log("\n\n\n\nBTC_USD AT BTCe IS: ", realTimePrices.BTCe.BTCeBTC_USD);
-          });
-
-        coinTicker('btce', 'ETH_USD')
-          .then(tick => {
-            realTimePrices.BTCe.BTCeETH_USD.last = parseFloat(tick.last);
-            realTimePrices.BTCe.BTCeETH_USD.ask = parseFloat(tick.ask);
-            realTimePrices.BTCe.BTCeETH_USD.bid = parseFloat(tick.bid);
-            realTimePrices.BTCe.BTCeETH_USD.high = parseFloat(tick.high);
-            realTimePrices.BTCe.BTCeETH_USD.vol = parseFloat(tick.vol);
-            realTimePrices.BTCe.BTCeETH_USD.timestamp = tick.timestamp;
-            console.log("\n\n\n\nETH_USD AT BTCe IS: ", realTimePrices.BTCe.BTCeETH_USD);
-          });
-
-        coinTicker('btce', 'ETH_BTC')
-          .then(tick => {
-            realTimePrices.BTCe.BTCeETH_BTC.last = parseFloat(tick.last);
-            realTimePrices.BTCe.BTCeETH_BTC.ask = parseFloat(tick.ask);
-            realTimePrices.BTCe.BTCeETH_BTC.bid = parseFloat(tick.bid);
-            realTimePrices.BTCe.BTCeETH_BTC.high = parseFloat(tick.high);
-            realTimePrices.BTCe.BTCeETH_BTC.vol = parseFloat(tick.vol);
-            realTimePrices.BTCe.BTCeETH_BTC.timestamp = tick.timestamp;
-            console.log("\n\n\n\nETH_BTC AT BTCe IS: ", realTimePrices.BTCe.BTCeETH_BTC);
-          });
-
-      coinTicker('bittrex', 'ETH_USD')
+      coinTicker('bitfinex', 'BTC_USD')
         .then(tick => {
-          realTimePrices.bittrex.bittrexETH_USD.last = parseFloat(tick.last);
-          realTimePrices.bittrex.bittrexETH_USD.ask = parseFloat(tick.ask);
-          realTimePrices.bittrex.bittrexETH_USD.bid = parseFloat(tick.bid);
-          realTimePrices.bittrex.bittrexETH_USD.high = parseFloat(tick.high);
-          realTimePrices.bittrex.bittrexETH_USD.vol = parseFloat(tick.vol);
-          realTimePrices.bittrex.bittrexETH_USD.timestamp = tick.timestamp;
-          console.log("\n\n\n\nETH_USD AT bittrex IS: ", realTimePrices.bittrex.bittrexETH_USD);
+          realTimePrices.bitfinex.bitfinexBTC_USD.last = parseFloat(tick.last);
+          realTimePrices.bitfinex.bitfinexBTC_USD.ask = parseFloat(tick.ask);
+          realTimePrices.bitfinex.bitfinexBTC_USD.bid = parseFloat(tick.bid);
+          realTimePrices.bitfinex.bitfinexBTC_USD.high = parseFloat(tick.high);
+          realTimePrices.bitfinex.bitfinexBTC_USD.vol = parseFloat(tick.vol);
+          realTimePrices.bitfinex.bitfinexBTC_USD.timestamp = tick.timestamp;
+          console.log("\n\n\n\nBTC_USD AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexBTC_USD);
         });
 
-      coinTicker('bittrex', 'BTC_USD')
+        coinTicker('bitfinex', 'ETH_BTC')
+          .then(tick => {
+            realTimePrices.bitfinex.bitfinexETH_BTC.last = parseFloat(tick.last);
+            realTimePrices.bitfinex.bitfinexETH_BTC.ask = parseFloat(tick.ask);
+            realTimePrices.bitfinex.bitfinexETH_BTC.bid = parseFloat(tick.bid);
+            realTimePrices.bitfinex.bitfinexETH_BTC.high = parseFloat(tick.high);
+            realTimePrices.bitfinex.bitfinexETH_BTC.vol = parseFloat(tick.vol);
+            realTimePrices.bitfinex.bitfinexETH_BTC.timestamp = tick.timestamp;
+            console.log("\n\n\n\nETH_BTC AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexETH_BTC);
+          });
+        }, 1900)
+  }, 10500)
+};
+
+runBot.botThree = {
+  run: setTimeout(() => {
+    setInterval(() => {
+      coinTicker('exmo', 'ETH_USD')
         .then(tick => {
-          realTimePrices.bittrex.bittrexBTC_USD.last = parseFloat(tick.last);
-          realTimePrices.bittrex.bittrexBTC_USD.ask = parseFloat(tick.ask);
-          realTimePrices.bittrex.bittrexBTC_USD.bid = parseFloat(tick.bid);
-          realTimePrices.bittrex.bittrexBTC_USD.high = parseFloat(tick.high);
-          realTimePrices.bittrex.bittrexBTC_USD.vol = parseFloat(tick.vol);
-          realTimePrices.bittrex.bittrexBTC_USD.timestamp = tick.timestamp;
-          console.log("\n\n\n\nBTC_USD AT BITTREX IS: ", realTimePrices.bittrex.bittrexBTC_USD);
+          realTimePrices.exmo.exmoETH_USD.last = parseFloat(tick.last);
+          realTimePrices.exmo.exmoETH_USD.ask = parseFloat(tick.ask);
+          realTimePrices.exmo.exmoETH_USD.bid = parseFloat(tick.bid);
+          realTimePrices.exmo.exmoETH_USD.high = parseFloat(tick.high);
+          realTimePrices.exmo.exmoETH_USD.vol = parseFloat(tick.vol);
+          realTimePrices.exmo.exmoETH_USD.timestamp = tick.timestamp;
+          console.log("\n\n\n\nETH_USD AT EXMO IS: ", realTimePrices.exmo.exmoETH_USD);
         });
 
-    }, 1200);
-}, 10500);
-
-
-setTimeout(() => {
-  setInterval(() => {
-    coinTicker('bitfinex', 'ETH_USD')
-      .then(tick => {
-        realTimePrices.bitfinex.bitfinexETH_USD.last = parseFloat(tick.last);
-        realTimePrices.bitfinex.bitfinexETH_USD.ask = parseFloat(tick.ask);
-        realTimePrices.bitfinex.bitfinexETH_USD.bid = parseFloat(tick.bid);
-        realTimePrices.bitfinex.bitfinexETH_USD.high = parseFloat(tick.high);
-        realTimePrices.bitfinex.bitfinexETH_USD.vol = parseFloat(tick.vol);
-        realTimePrices.bitfinex.bitfinexETH_USD.timestamp = tick.timestamp;
-        console.log("\n\n\n\nETH_USD AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexETH_USD);
-      });
-
-    coinTicker('bitfinex', 'BTC_USD')
-      .then(tick => {
-        realTimePrices.bitfinex.bitfinexBTC_USD.last = parseFloat(tick.last);
-        realTimePrices.bitfinex.bitfinexBTC_USD.ask = parseFloat(tick.ask);
-        realTimePrices.bitfinex.bitfinexBTC_USD.bid = parseFloat(tick.bid);
-        realTimePrices.bitfinex.bitfinexBTC_USD.high = parseFloat(tick.high);
-        realTimePrices.bitfinex.bitfinexBTC_USD.vol = parseFloat(tick.vol);
-        realTimePrices.bitfinex.bitfinexBTC_USD.timestamp = tick.timestamp;
-        console.log("\n\n\n\nBTC_USD AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexBTC_USD);
-      });
-
-      coinTicker('bitfinex', 'ETH_BTC')
+      coinTicker('exmo', 'BTC_USD')
         .then(tick => {
-          realTimePrices.bitfinex.bitfinexETH_BTC.last = parseFloat(tick.last);
-          realTimePrices.bitfinex.bitfinexETH_BTC.ask = parseFloat(tick.ask);
-          realTimePrices.bitfinex.bitfinexETH_BTC.bid = parseFloat(tick.bid);
-          realTimePrices.bitfinex.bitfinexETH_BTC.high = parseFloat(tick.high);
-          realTimePrices.bitfinex.bitfinexETH_BTC.vol = parseFloat(tick.vol);
-          realTimePrices.bitfinex.bitfinexETH_BTC.timestamp = tick.timestamp;
-          console.log("\n\n\n\nETH_BTC AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexETH_BTC);
-        });
-      }, 1900)
-}, 10500);
-
-
-setTimeout(() => {
-  setInterval(() => {
-    coinTicker('exmo', 'ETH_USD')
-      .then(tick => {
-        realTimePrices.exmo.exmoETH_USD.last = parseFloat(tick.last);
-        realTimePrices.exmo.exmoETH_USD.ask = parseFloat(tick.ask);
-        realTimePrices.exmo.exmoETH_USD.bid = parseFloat(tick.bid);
-        realTimePrices.exmo.exmoETH_USD.high = parseFloat(tick.high);
-        realTimePrices.exmo.exmoETH_USD.vol = parseFloat(tick.vol);
-        realTimePrices.exmo.exmoETH_USD.timestamp = tick.timestamp;
-        console.log("\n\n\n\nETH_USD AT EXMO IS: ", realTimePrices.exmo.exmoETH_USD);
-      });
-
-    coinTicker('exmo', 'BTC_USD')
-      .then(tick => {
-        realTimePrices.exmo.exmoBTC_USD.last = parseFloat(tick.last);
-        realTimePrices.exmo.exmoBTC_USD.ask = parseFloat(tick.ask);
-        realTimePrices.exmo.exmoBTC_USD.bid = parseFloat(tick.bid);
-        realTimePrices.exmo.exmoBTC_USD.high = parseFloat(tick.high);
-        realTimePrices.exmo.exmoBTC_USD.vol = parseFloat(tick.vol);
-        realTimePrices.exmo.exmoBTC_USD.timestamp = tick.timestamp;
-        console.log("\n\n\n\nBTC_USD AT EXMO IS: ", realTimePrices.exmo.exmoBTC_USD);
-      });
-
-      coinTicker('exmo', 'ETH_BTC')
-        .then(tick => {
-          realTimePrices.exmo.exmoETH_BTC.last = parseFloat(tick.last);
-          realTimePrices.exmo.exmoETH_BTC.ask = parseFloat(tick.ask);
-          realTimePrices.exmo.exmoETH_BTC.bid = parseFloat(tick.bid);
-          realTimePrices.exmo.exmoETH_BTC.high = parseFloat(tick.high);
-          realTimePrices.exmo.exmoETH_BTC.vol = parseFloat(tick.vol);
-          realTimePrices.exmo.exmoETH_BTC.timestamp = tick.timestamp;
-          console.log("\n\n\n\nETH_BTC AT EXMO IS: ", realTimePrices.exmo.exmoETH_BTC);
+          realTimePrices.exmo.exmoBTC_USD.last = parseFloat(tick.last);
+          realTimePrices.exmo.exmoBTC_USD.ask = parseFloat(tick.ask);
+          realTimePrices.exmo.exmoBTC_USD.bid = parseFloat(tick.bid);
+          realTimePrices.exmo.exmoBTC_USD.high = parseFloat(tick.high);
+          realTimePrices.exmo.exmoBTC_USD.vol = parseFloat(tick.vol);
+          realTimePrices.exmo.exmoBTC_USD.timestamp = tick.timestamp;
+          console.log("\n\n\n\nBTC_USD AT EXMO IS: ", realTimePrices.exmo.exmoBTC_USD);
         });
 
+        coinTicker('exmo', 'ETH_BTC')
+          .then(tick => {
+            realTimePrices.exmo.exmoETH_BTC.last = parseFloat(tick.last);
+            realTimePrices.exmo.exmoETH_BTC.ask = parseFloat(tick.ask);
+            realTimePrices.exmo.exmoETH_BTC.bid = parseFloat(tick.bid);
+            realTimePrices.exmo.exmoETH_BTC.high = parseFloat(tick.high);
+            realTimePrices.exmo.exmoETH_BTC.vol = parseFloat(tick.vol);
+            realTimePrices.exmo.exmoETH_BTC.timestamp = tick.timestamp;
+            console.log("\n\n\n\nETH_BTC AT EXMO IS: ", realTimePrices.exmo.exmoETH_BTC);
+          });
 
-  }, 1500)
-}, 10500)
+
+    }, 1500)
+  }, 10500)
+};
 
 
+runBot.botFour = {
+  //GEMINI LOGIC
 
-//GEMINI LOGIC//
-var websocketClient = new GeminiAPI.default.WebsocketClient({ gemPub, gemPriv, sandbox: false });
-
-//working for asking prices
-setTimeout(() => {
-  websocketClient.openMarketSocket('btcusd',(onOpen) => {
-    websocketClient.addMarketMessageListener(data => {
-      if(data.events[0].side === 'ask'){
-        realTimePrices['gemini']['geminiBTC_USD'] = Number(data.events[0].price);
-        console.log("\n PRICE OF BTC GEMINI IS: ", realTimePrices.gemini.geminiBTC_USD);
-      }
+  //working for asking prices
+  run: setTimeout(() => {
+    websocketClient.openMarketSocket('btcusd',(onOpen) => {
+      websocketClient.addMarketMessageListener(data => {
+        if(data.events[0].side === 'ask'){
+          realTimePrices['gemini']['geminiBTC_USD'] = Number(data.events[0].price);
+          console.log("\n PRICE OF BTC GEMINI IS: ", realTimePrices.gemini.geminiBTC_USD);
+        }
+      });
     });
-  });
-}, 2500)
+  }, 2500)
+};
 
-// //working for asking prices
-setTimeout(() => {
-  websocketClient.openMarketSocket('ethusd',(onOpen) => {
-    websocketClient.addMarketMessageListener(data => {
-      if(data.events[0].side === 'ask'){
-        realTimePrices['gemini']['geminiETH_USD'] = Number(data.events[0].price);
-        console.log("\n PRICE OF ETH GEMINI IS: ", realTimePrices.gemini.geminiETH_USD);
-      }
-    });
-  });
-}, 5600)
+runBot.botFive = {
 
-
-
-
-// //POLONIEX LOGIC
-setTimeout(() => {
-  setInterval(() => {
-    plnx.returnTicker()
-      .then((data) => {
-        //USDT_BTC
-        if(data.USDT_BTC.highestBid){
-          realTimePrices['poloniex']['poloniexUSDT_BTC']['highestBid'] = parseFloat(data.USDT_BTC.highestBid);
+  // //working for asking prices
+  run: setTimeout(() => {
+    websocketClient.openMarketSocket('ethusd',(onOpen) => {
+      websocketClient.addMarketMessageListener(data => {
+        if(data.events[0].side === 'ask'){
+          realTimePrices['gemini']['geminiETH_USD'] = Number(data.events[0].price);
+          console.log("\n PRICE OF ETH GEMINI IS: ", realTimePrices.gemini.geminiETH_USD);
         }
-        if(data.USDT_BTC.lowestAsk){
-          realTimePrices['poloniex']['poloniexUSDT_BTC']['lowestAsk'] = parseFloat(data.USDT_BTC.lowestAsk);
-        }
-        if(data.USDT_BTC.high24hr){
-          realTimePrices['poloniex']['poloniexUSDT_BTC']['high24hour'] = parseFloat(data.USDT_BTC.high24hr);
-        }
-        if(data.USDT_BTC.low24hr){
-          realTimePrices['poloniex']['poloniexUSDT_BTC']['low24hour'] = parseFloat(data.USDT_BTC.low24hr);
-        }
-
-
-        //USDT_ETH
-        if(data.USDT_ETH.highestBid){
-          realTimePrices['poloniex']['poloniexUSDT_ETH']['highestBid'] = parseFloat(data.USDT_ETH.highestBid);
-        }
-        if(data.USDT_ETH.lowestAsk){
-          realTimePrices['poloniex']['poloniexUSDT_ETH']['lowestAsk'] = parseFloat(data.USDT_ETH.lowestAsk);
-        }
-        if(data.USDT_ETH.high24hr){
-          realTimePrices['poloniex']['poloniexUSDT_ETH']['high24hour'] = parseFloat(data.USDT_ETH.high24hr);
-        }
-        if(data.USDT_ETH.low24hr){
-          realTimePrices['poloniex']['poloniexUSDT_ETH']['low24hour'] = parseFloat(data.USDT_ETH.low24hr);
-        }
-      })
-      .catch((err) => {
-        console.log("GOOD BYE: ", err);
-        console.log(err);
       });
+    });
+  }, 5600)
+};
 
-      console.log("\n\nBTC AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexUSDT_BTC']);
-      console.log("\n\n");
-      console.log("ETH AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexUSDT_ETH']);
 
-      plnx.returnCurrencies({})
+runBot.botSix = {
+  // //POLONIEX LOGIC
+  run: setTimeout(() => {
+    setInterval(() => {
+      plnx.returnTicker()
+        .then((data) => {
+          //USDT_BTC
+          if(data.USDT_BTC.highestBid){
+            realTimePrices['poloniex']['poloniexUSDT_BTC']['highestBid'] = parseFloat(data.USDT_BTC.highestBid);
+          }
+          if(data.USDT_BTC.lowestAsk){
+            realTimePrices['poloniex']['poloniexUSDT_BTC']['lowestAsk'] = parseFloat(data.USDT_BTC.lowestAsk);
+          }
+          if(data.USDT_BTC.high24hr){
+            realTimePrices['poloniex']['poloniexUSDT_BTC']['high24hour'] = parseFloat(data.USDT_BTC.high24hr);
+          }
+          if(data.USDT_BTC.low24hr){
+            realTimePrices['poloniex']['poloniexUSDT_BTC']['low24hour'] = parseFloat(data.USDT_BTC.low24hr);
+          }
+
+
+          //USDT_ETH
+          if(data.USDT_ETH.highestBid){
+            realTimePrices['poloniex']['poloniexUSDT_ETH']['highestBid'] = parseFloat(data.USDT_ETH.highestBid);
+          }
+          if(data.USDT_ETH.lowestAsk){
+            realTimePrices['poloniex']['poloniexUSDT_ETH']['lowestAsk'] = parseFloat(data.USDT_ETH.lowestAsk);
+          }
+          if(data.USDT_ETH.high24hr){
+            realTimePrices['poloniex']['poloniexUSDT_ETH']['high24hour'] = parseFloat(data.USDT_ETH.high24hr);
+          }
+          if(data.USDT_ETH.low24hr){
+            realTimePrices['poloniex']['poloniexUSDT_ETH']['low24hour'] = parseFloat(data.USDT_ETH.low24hr);
+          }
+        })
+        .catch((err) => {
+          console.log("GOOD BYE: ", err);
+          console.log(err);
+        });
+
+        console.log("\n\nBTC AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexUSDT_BTC']);
+        console.log("\n\n");
+        console.log("ETH AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexUSDT_ETH']);
+
+        plnx.returnCurrencies({})
+          .then(data => {
+            console.log("FEES ARE: ", realTimePrices.poloniex.poloniexUSDT_BTC.transactionFee)
+            realTimePrices.poloniex.poloniexUSDT_BTC.transactionFee = parseFloat(data.BTC.txFee);
+            realTimePrices.poloniex.poloniexUSDT_ETH.transactionFee = parseFloat(data.ETH.txFee);
+          })
+          .catch(err => {
+            console.log("ERROR GETTING TRANSACTION FEE: ", err);
+          });
+
+    }, 175);
+  }, 6000)
+};
+
+runBot.botSeven = {
+  run: setTimeout(() => {
+    setInterval(() => {
+      var movingAverages = [];
+      var today = new Date();
+      var todayDate = Math.floor(today.setDate(today.getDate()-0)/1000);
+      var fourtyDaysAgoDate = Math.floor(today.setDate(today.getDate()-40)/1000);
+
+      plnx.returnChartData({ currencyPair: 'USDT_BTC', start: fourtyDaysAgoDate, end: todayDate, period: 86400 })
         .then(data => {
-          console.log("FEES ARE: ", realTimePrices.poloniex.poloniexUSDT_BTC.transactionFee)
-          realTimePrices.poloniex.poloniexUSDT_BTC.transactionFee = parseFloat(data.BTC.txFee);
-          realTimePrices.poloniex.poloniexUSDT_ETH.transactionFee = parseFloat(data.ETH.txFee);
+          var movingAveragesBTC = [];
+          data.forEach(day => {
+            movingAveragesBTC.push(day.close);
+          })
+
+          realTimePrices['poloniex']['poloniexUSDT_BTC']['fourtyDayMovingAverage'] = movingAveragesBTC.reduce((a, b) => a + b, 0)/movingAveragesBTC.length;
+          //console.log(realTimePrices['poloniex']['poloniexUSDT_BTC']['fourtyDayMovingAverage']);
         })
         .catch(err => {
-          console.log("ERROR GETTING TRANSACTION FEE: ", err);
+          console.log(err);
         });
 
-  }, 175);
-}, 6000);
 
+      plnx.returnChartData({ currencyPair: 'USDT_ETH', start: fourtyDaysAgoDate, end: todayDate, period: 86400 })
+        .then(data => {
+          var movingAveragesETH = [];
+          data.forEach(day => {
+            movingAveragesETH.push(day.close);
+          })
 
-
-setTimeout(() => {
-  setInterval(() => {
-    var movingAverages = [];
-    var today = new Date();
-    var todayDate = Math.floor(today.setDate(today.getDate()-0)/1000);
-    var fourtyDaysAgoDate = Math.floor(today.setDate(today.getDate()-40)/1000);
-
-    plnx.returnChartData({ currencyPair: 'USDT_BTC', start: fourtyDaysAgoDate, end: todayDate, period: 86400 })
-      .then(data => {
-        var movingAveragesBTC = [];
-        data.forEach(day => {
-          movingAveragesBTC.push(day.close);
+          realTimePrices['poloniex']['poloniexUSDT_ETH']['fourtyDayMovingAverage'] = movingAveragesETH.reduce((a, b) => a + b, 0)/movingAveragesETH.length;
+          //console.log(realTimePrices['poloniex']['poloniexUSDT_ETH']['fourtyDayMovingAverage']);
         })
+        .catch(err => {
+          console.log(err);
+        });
 
-        realTimePrices['poloniex']['poloniexUSDT_BTC']['fourtyDayMovingAverage'] = movingAveragesBTC.reduce((a, b) => a + b, 0)/movingAveragesBTC.length;
-        //console.log(realTimePrices['poloniex']['poloniexUSDT_BTC']['fourtyDayMovingAverage']);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-
-    plnx.returnChartData({ currencyPair: 'USDT_ETH', start: fourtyDaysAgoDate, end: todayDate, period: 86400 })
-      .then(data => {
-        var movingAveragesETH = [];
-        data.forEach(day => {
-          movingAveragesETH.push(day.close);
-        })
-
-        realTimePrices['poloniex']['poloniexUSDT_ETH']['fourtyDayMovingAverage'] = movingAveragesETH.reduce((a, b) => a + b, 0)/movingAveragesETH.length;
-        //console.log(realTimePrices['poloniex']['poloniexUSDT_ETH']['fourtyDayMovingAverage']);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-  }, 280);
-}, 7000);
-
-
+    }, 280);
+  }, 7000)
+}
 
 
 // //DAVE's ARBITRAGE CHECKER VERSION1
 function checkArbitrage(){
-  var mostProfitableSpread = -1000000;
-  var tradeType;
+  var mostProfitableSpread = -Infinity;
+  var tradeType = '';
+  console.log("MADE IT INSIDE ARB FUNCTION!!!");
 
   if (
-    (realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC) > 5 &&
+    ((realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC) > 5) &&
     realTimePrices.poloniex.poloniexUSDT_BTC !== 0 &&
     realTimePrices.gemini.geminiBTC_USD !== 0
   ) {
@@ -556,7 +577,7 @@ function checkArbitrage(){
   }
 
   if (
-    (realTimePrices.poloniex.poloniexUSDT_BTC - realTimePrices.gemini.geminiBTC_USD) > 5 &&
+    ((realTimePrices.poloniex.poloniexUSDT_BTC - realTimePrices.gemini.geminiBTC_USD) > 5) &&
     realTimePrices.poloniex.poloniexUSDT_BTC !== 0 &&
     realTimePrices.gemini.geminiBTC_USD !== 0
   ) {
@@ -570,7 +591,7 @@ function checkArbitrage(){
   }
 
   if (
-    (realTimePrices.poloniex.poloniexUSDT_ETH - realTimePrices.gemini.geminiETH_USD) > 5 &&
+    ((realTimePrices.poloniex.poloniexUSDT_ETH - realTimePrices.gemini.geminiETH_USD) > 5) &&
     realTimePrices.poloniex.poloniexUSDT_ETH !== 0 &&
     realTimePrices.gemini.geminiETH_USD !== 0
   ) {
@@ -584,7 +605,7 @@ function checkArbitrage(){
   }
 
   if (
-    (realTimePrices.gemini.geminiETH_USD - realTimePrices.poloniex.poloniexUSDT_ETH) > 5 &&
+    ((realTimePrices.gemini.geminiETH_USD - realTimePrices.poloniex.poloniexUSDT_ETH) > 5) &&
     realTimePrices.poloniex.poloniexUSDT_ETH !== 0 &&
     realTimePrices.gemini.geminiETH_USD !== 0
   ) {
@@ -597,30 +618,383 @@ function checkArbitrage(){
     }
   }
 
-  if (mostProfitableSpread > -1000000) {
+  if (mostProfitableSpread > -Infinity) {
     console.log(tradeType, mostProfitableSpread);
   }
+  alive = true;
 };
 
 function loopConditional(){
-  while (true) {
-    if (
-      realTimePrices.gemini.geminiBTC_USD !== 0 &&
-      realTimePrices.gemini.geminiETH_USD !== 0 &&
-      realTimePrices.poloniex.poloniexUSDT_BTC !== 0 &&
-      realTimePrices.poloniex.poloniexUSDT_ETH !== 0
-    ) {
-      checkArbitrage();
-    }
-  }
-}
+    if(
+      (realTimePrices.gemini.geminiBTC_USD !== 0 &&
+      realTimePrices.gemini.geminiETH_USD !== 0) &&
+      (realTimePrices.poloniex.poloniexUSDT_BTC !== 0 &&
+      realTimePrices.poloniex.poloniexUSDT_ETH !== 0)
+    ){
+      setTimeout(() => {
+        checkArbitrage();
+      }, 600);
+    };
+};
 
 
 //checkArbitrage function does not work and freezes
 //loop from gathering information
-// setTimeout(() => {
-//   setInterval(() => {
-//     console.log(realTimePrices.poloniex.poloniexUSDT_BTC.transactionFee);
-//     loopConditional();
-//   }, 2000);
-// }, 11000);
+runBot.botEight = {
+  run: setTimeout(() => {
+    setInterval(() => {
+      console.log("IT's FUCKING HAPPENING!!!");
+      alive = false;
+      //loopConditional();
+    }, 10000);
+  }, 20000)
+};
+
+
+
+
+while(alive !== undefined){
+  // (function(){
+    if(alive === true){
+      return {
+        setTimeout(() => {
+          setInterval(() => {
+            coinTicker('kraken', 'ETH_USD')
+              .then(tick => {
+                realTimePrices.kraken.krakenETH_USD.last = parseFloat(tick.last);
+                realTimePrices.kraken.krakenETH_USD.ask = parseFloat(tick.ask);
+                realTimePrices.kraken.krakenETH_USD.bid = parseFloat(tick.bid);
+                realTimePrices.kraken.krakenETH_USD.high = parseFloat(tick.high);
+                realTimePrices.kraken.krakenETH_USD.vol = parseFloat(tick.vol);
+                realTimePrices.kraken.krakenETH_USD.timestamp = tick.timestamp;
+                realTime
+                realTi.log("\n\n\n\nETH_USD AT KRAKEN IS: ", realTimePrices.kraken.krakenETH_USD);
+              });
+
+              coinTicker('kraken', 'BTC_USD')
+                .then(tick => {
+                  realTimePrices.kraken.krakenBTC_USD.last = parseFloat(tick.last);
+                  realTimePrices.kraken.krakenBTC_USD.ask = parseFloat(tick.ask);
+                  realTimePrices.kraken.krakenBTC_USD.bid = parseFloat(tick.bid);
+                  realTimePrices.kraken.krakenBTC_USD.high = parseFloat(tick.high);
+                  realTimePrices.kraken.krakenBTC_USD.vol = parseFloat(tick.vol);
+                  realTimePrices.kraken.krakenBTC_USD.timestamp = tick.timestamp;
+                  console.log("\n\n\n\nBTC_USD AT KRAKEN IS: ", realTimePrices.kraken.krakenBTC_USD);
+                });
+
+                coinTicker('kraken', 'ETH_BTC')
+                  .then(tick => {
+                    realTimePrices.kraken.krakenETH_BTC.last = parseFloat(tick.last);
+                    realTimePrices.kraken.krakenETH_BTC.ask = parseFloat(tick.ask);
+                    realTimePrices.kraken.krakenETH_BTC.bid = parseFloat(tick.bid);
+                    realTimePrices.kraken.krakenETH_BTC.high = parseFloat(tick.high);
+                    realTimePrices.kraken.krakenETH_BTC.vol = parseFloat(tick.vol);
+                    realTimePrices.kraken.krakenETH_BTC.timestamp = tick.timestamp;
+                    console.log("\n\n\n\nETH_BTC AT KRAKEN IS: ", realTimePrices.kraken.krakenETH_BTC);
+                  });
+
+                coinTicker('okcoin', 'ETH_USD')
+                  .then(tick => {
+                    realTimePrices.okcoin.okcoinETH_USD.last = parseFloat(tick.last);
+                    realTimePrices.okcoin.okcoinETH_USD.ask = parseFloat(tick.ask);
+                    realTimePrices.okcoin.okcoinETH_USD.bid = parseFloat(tick.bid);
+                    realTimePrices.okcoin.okcoinETH_USD.high = parseFloat(tick.high);
+                    realTimePrices.okcoin.okcoinETH_USD.vol = parseFloat(tick.vol);
+                    realTimePrices.okcoin.okcoinETH_USD.timestamp = tick.timestamp;
+                    console.log("\n\n\n\nETH_USD AT OKCOIN IS: ", realTimePrices.okcoin.okcoinETH_USD);
+                  });
+
+                coinTicker('okcoin', 'BTC_USD')
+                  .then(tick => {
+                    realTimePrices.okcoin.okcoinBTC_USD.last = parseFloat(tick.last);
+                    realTimePrices.okcoin.okcoinBTC_USD.ask = parseFloat(tick.ask);
+                    realTimePrices.okcoin.okcoinBTC_USD.bid = parseFloat(tick.bid);
+                    realTimePrices.okcoin.okcoinBTC_USD.high = parseFloat(tick.high);
+                    realTimePrices.okcoin.okcoinBTC_USD.vol = parseFloat(tick.vol);
+                    realTimePrices.okcoin.okcoinBTC_USD.timestamp = tick.timestamp;
+                    console.log("\n\n\n\nBTC_USD AT OKCOIN IS: ", realTimePrices.okcoin.okcoinBTC_USD);
+                  });
+
+                coinTicker('btce', 'BTC_USD')
+                  .then(tick => {
+                    realTimePrices.BTCe.BTCeBTC_USD.last = parseFloat(tick.last);
+                    realTimePrices.BTCe.BTCeBTC_USD.ask = parseFloat(tick.ask);
+                    realTimePrices.BTCe.BTCeBTC_USD.bid = parseFloat(tick.bid);
+                    realTimePrices.BTCe.BTCeBTC_USD.high = parseFloat(tick.high);
+                    realTimePrices.BTCe.BTCeBTC_USD.vol = parseFloat(tick.vol);
+                    realTimePrices.BTCe.BTCeBTC_USD.timestamp = tick.timestamp;
+                    console.log("\n\n\n\nBTC_USD AT BTCe IS: ", realTimePrices.BTCe.BTCeBTC_USD);
+                  });
+
+                coinTicker('btce', 'ETH_USD')
+                  .then(tick => {
+                    realTimePrices.BTCe.BTCeETH_USD.last = parseFloat(tick.last);
+                    realTimePrices.BTCe.BTCeETH_USD.ask = parseFloat(tick.ask);
+                    realTimePrices.BTCe.BTCeETH_USD.bid = parseFloat(tick.bid);
+                    realTimePrices.BTCe.BTCeETH_USD.high = parseFloat(tick.high);
+                    realTimePrices.BTCe.BTCeETH_USD.vol = parseFloat(tick.vol);
+                    realTimePrices.BTCe.BTCeETH_USD.timestamp = tick.timestamp;
+                    console.log("\n\n\n\nETH_USD AT BTCe IS: ", realTimePrices.BTCe.BTCeETH_USD);
+                  });
+
+                coinTicker('btce', 'ETH_BTC')
+                  .then(tick => {
+                    realTimePrices.BTCe.BTCeETH_BTC.last = parseFloat(tick.last);
+                    realTimePrices.BTCe.BTCeETH_BTC.ask = parseFloat(tick.ask);
+                    realTimePrices.BTCe.BTCeETH_BTC.bid = parseFloat(tick.bid);
+                    realTimePrices.BTCe.BTCeETH_BTC.high = parseFloat(tick.high);
+                    realTimePrices.BTCe.BTCeETH_BTC.vol = parseFloat(tick.vol);
+                    realTimePrices.BTCe.BTCeETH_BTC.timestamp = tick.timestamp;
+                    console.log("\n\n\n\nETH_BTC AT BTCe IS: ", realTimePrices.BTCe.BTCeETH_BTC);
+                  });
+
+              coinTicker('bittrex', 'ETH_USD')
+                .then(tick => {
+                  realTimePrices.bittrex.bittrexETH_USD.last = parseFloat(tick.last);
+                  realTimePrices.bittrex.bittrexETH_USD.ask = parseFloat(tick.ask);
+                  realTimePrices.bittrex.bittrexETH_USD.bid = parseFloat(tick.bid);
+                  realTimePrices.bittrex.bittrexETH_USD.high = parseFloat(tick.high);
+                  realTimePrices.bittrex.bittrexETH_USD.vol = parseFloat(tick.vol);
+                  realTimePrices.bittrex.bittrexETH_USD.timestamp = tick.timestamp;
+                  console.log("\n\n\n\nETH_USD AT bittrex IS: ", realTimePrices.bittrex.bittrexETH_USD);
+                });
+
+              coinTicker('bittrex', 'BTC_USD')
+                .then(tick => {
+                  realTimePrices.bittrex.bittrexBTC_USD.last = parseFloat(tick.last);
+                  realTimePrices.bittrex.bittrexBTC_USD.ask = parseFloat(tick.ask);
+                  realTimePrices.bittrex.bittrexBTC_USD.bid = parseFloat(tick.bid);
+                  realTimePrices.bittrex.bittrexBTC_USD.high = parseFloat(tick.high);
+                  realTimePrices.bittrex.bittrexBTC_USD.vol = parseFloat(tick.vol);
+                  realTimePrices.bittrex.bittrexBTC_USD.timestamp = tick.timestamp;
+                  console.log("\n\n\n\nBTC_USD AT BITTREX IS: ", realTimePrices.bittrex.bittrexBTC_USD);
+                });
+
+          }, 1200);
+        }, 10500);
+
+
+      //runTwo
+      setTimeout(() => {
+        setInterval(() => {
+          coinTicker('bitfinex', 'ETH_USD')
+            .then(tick => {
+              realTimePrices.bitfinex.bitfinexETH_USD.last = parseFloat(tick.last);
+              realTimePrices.bitfinex.bitfinexETH_USD.ask = parseFloat(tick.ask);
+              realTimePrices.bitfinex.bitfinexETH_USD.bid = parseFloat(tick.bid);
+              realTimePrices.bitfinex.bitfinexETH_USD.high = parseFloat(tick.high);
+              realTimePrices.bitfinex.bitfinexETH_USD.vol = parseFloat(tick.vol);
+              realTimePrices.bitfinex.bitfinexETH_USD.timestamp = tick.timestamp;
+              console.log("\n\n\n\nETH_USD AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexETH_USD);
+            });
+
+          coinTicker('bitfinex', 'BTC_USD')
+            .then(tick => {
+              realTimePrices.bitfinex.bitfinexBTC_USD.last = parseFloat(tick.last);
+              realTimePrices.bitfinex.bitfinexBTC_USD.ask = parseFloat(tick.ask);
+              realTimePrices.bitfinex.bitfinexBTC_USD.bid = parseFloat(tick.bid);
+              realTimePrices.bitfinex.bitfinexBTC_USD.high = parseFloat(tick.high);
+              realTimePrices.bitfinex.bitfinexBTC_USD.vol = parseFloat(tick.vol);
+              realTimePrices.bitfinex.bitfinexBTC_USD.timestamp = tick.timestamp;
+              console.log("\n\n\n\nBTC_USD AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexBTC_USD);
+            });
+
+            coinTicker('bitfinex', 'ETH_BTC')
+              .then(tick => {
+                realTimePrices.bitfinex.bitfinexETH_BTC.last = parseFloat(tick.last);
+                realTimePrices.bitfinex.bitfinexETH_BTC.ask = parseFloat(tick.ask);
+                realTimePrices.bitfinex.bitfinexETH_BTC.bid = parseFloat(tick.bid);
+                realTimePrices.bitfinex.bitfinexETH_BTC.high = parseFloat(tick.high);
+                realTimePrices.bitfinex.bitfinexETH_BTC.vol = parseFloat(tick.vol);
+                realTimePrices.bitfinex.bitfinexETH_BTC.timestamp = tick.timestamp;
+                console.log("\n\n\n\nETH_BTC AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexETH_BTC);
+              });
+          }, 1900);
+        }, 10500);
+
+      //botThree
+      setTimeout(() => {
+        setInterval(() => {
+          coinTicker('exmo', 'ETH_USD')
+            .then(tick => {
+              realTimePrices.exmo.exmoETH_USD.last = parseFloat(tick.last);
+              realTimePrices.exmo.exmoETH_USD.ask = parseFloat(tick.ask);
+              realTimePrices.exmo.exmoETH_USD.bid = parseFloat(tick.bid);
+              realTimePrices.exmo.exmoETH_USD.high = parseFloat(tick.high);
+              realTimePrices.exmo.exmoETH_USD.vol = parseFloat(tick.vol);
+              realTimePrices.exmo.exmoETH_USD.timestamp = tick.timestamp;
+              console.log("\n\n\n\nETH_USD AT EXMO IS: ", realTimePrices.exmo.exmoETH_USD);
+            });
+
+          coinTicker('exmo', 'BTC_USD')
+            .then(tick => {
+              realTimePrices.exmo.exmoBTC_USD.last = parseFloat(tick.last);
+              realTimePrices.exmo.exmoBTC_USD.ask = parseFloat(tick.ask);
+              realTimePrices.exmo.exmoBTC_USD.bid = parseFloat(tick.bid);
+              realTimePrices.exmo.exmoBTC_USD.high = parseFloat(tick.high);
+              realTimePrices.exmo.exmoBTC_USD.vol = parseFloat(tick.vol);
+              realTimePrices.exmo.exmoBTC_USD.timestamp = tick.timestamp;
+              console.log("\n\n\n\nBTC_USD AT EXMO IS: ", realTimePrices.exmo.exmoBTC_USD);
+            });
+
+            coinTicker('exmo', 'ETH_BTC')
+              .then(tick => {
+                realTimePrices.exmo.exmoETH_BTC.last = parseFloat(tick.last);
+                realTimePrices.exmo.exmoETH_BTC.ask = parseFloat(tick.ask);
+                realTimePrices.exmo.exmoETH_BTC.bid = parseFloat(tick.bid);
+                realTimePrices.exmo.exmoETH_BTC.high = parseFloat(tick.high);
+                realTimePrices.exmo.exmoETH_BTC.vol = parseFloat(tick.vol);
+                realTimePrices.exmo.exmoETH_BTC.timestamp = tick.timestamp;
+                console.log("\n\n\n\nETH_BTC AT EXMO IS: ", realTimePrices.exmo.exmoETH_BTC);
+              });
+
+        }, 1500);
+      }, 10500);
+
+      //botFour
+      setTimeout(() => {
+        websocketClient.openMarketSocket('btcusd',(onOpen) => {
+          websocketClient.addMarketMessageListener(data => {
+            if(data.events[0].side === 'ask'){
+              realTimePrices['gemini']['geminiBTC_USD'] = Number(data.events[0].price);
+              console.log("\n PRICE OF BTC GEMINI IS: ", realTimePrices.gemini.geminiBTC_USD);
+            }
+          });
+        });
+      }, 2500);
+
+
+      //botFive
+      setTimeout(() => {
+        websocketClient.openMarketSocket('ethusd',(onOpen) => {
+          websocketClient.addMarketMessageListener(data => {
+            if(data.events[0].side === 'ask'){
+              realTimePrices['gemini']['geminiETH_USD'] = Number(data.events[0].price);
+              console.log("\n PRICE OF ETH GEMINI IS: ", realTimePrices.gemini.geminiETH_USD);
+            }
+          });
+        });
+      }, 5600);
+
+
+      //botSix
+      setTimeout(() => {
+        setInterval(() => {
+          plnx.returnTicker()
+            .then((data) => {
+              //USDT_BTC
+              if(data.USDT_BTC.highestBid){
+                realTimePrices['poloniex']['poloniexUSDT_BTC']['highestBid'] = parseFloat(data.USDT_BTC.highestBid);
+              }
+              if(data.USDT_BTC.lowestAsk){
+                realTimePrices['poloniex']['poloniexUSDT_BTC']['lowestAsk'] = parseFloat(data.USDT_BTC.lowestAsk);
+              }
+              if(data.USDT_BTC.high24hr){
+                realTimePrices['poloniex']['poloniexUSDT_BTC']['high24hour'] = parseFloat(data.USDT_BTC.high24hr);
+              }
+              if(data.USDT_BTC.low24hr){
+                realTimePrices['poloniex']['poloniexUSDT_BTC']['low24hour'] = parseFloat(data.USDT_BTC.low24hr);
+              }
+
+
+              //USDT_ETH
+              if(data.USDT_ETH.highestBid){
+                realTimePrices['poloniex']['poloniexUSDT_ETH']['highestBid'] = parseFloat(data.USDT_ETH.highestBid);
+              }
+              if(data.USDT_ETH.lowestAsk){
+                realTimePrices['poloniex']['poloniexUSDT_ETH']['lowestAsk'] = parseFloat(data.USDT_ETH.lowestAsk);
+              }
+              if(data.USDT_ETH.high24hr){
+                realTimePrices['poloniex']['poloniexUSDT_ETH']['high24hour'] = parseFloat(data.USDT_ETH.high24hr);
+              }
+              if(data.USDT_ETH.low24hr){
+                realTimePrices['poloniex']['poloniexUSDT_ETH']['low24hour'] = parseFloat(data.USDT_ETH.low24hr);
+              }
+            })
+            .catch((err) => {
+              console.log("GOOD BYE: ", err);
+              console.log(err);
+            });
+
+            console.log("\n\nBTC AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexUSDT_BTC']);
+            console.log("\n\n");
+            console.log("ETH AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexUSDT_ETH']);
+
+            plnx.returnCurrencies({})
+              .then(data => {
+                console.log("FEES ARE: ", realTimePrices.poloniex.poloniexUSDT_BTC.transactionFee)
+                realTimePrices.poloniex.poloniexUSDT_BTC.transactionFee = parseFloat(data.BTC.txFee);
+                realTimePrices.poloniex.poloniexUSDT_ETH.transactionFee = parseFloat(data.ETH.txFee);
+              })
+              .catch(err => {
+                console.log("ERROR GETTING TRANSACTION FEE: ", err);
+              });
+
+        }, 175);
+      }, 6000);
+
+      //botSeven
+      setTimeout(() => {
+        setInterval(() => {
+          var movingAverages = [];
+          var today = new Date();
+          var todayDate = Math.floor(today.setDate(today.getDate()-0)/1000);
+          var fourtyDaysAgoDate = Math.floor(today.setDate(today.getDate()-40)/1000);
+
+          plnx.returnChartData({ currencyPair: 'USDT_BTC', start: fourtyDaysAgoDate, end: todayDate, period: 86400 })
+            .then(data => {
+              var movingAveragesBTC = [];
+              data.forEach(day => {
+                movingAveragesBTC.push(day.close);
+              })
+
+              realTimePrices['poloniex']['poloniexUSDT_BTC']['fourtyDayMovingAverage'] = movingAveragesBTC.reduce((a, b) => a + b, 0)/movingAveragesBTC.length;
+              //console.log(realTimePrices['poloniex']['poloniexUSDT_BTC']['fourtyDayMovingAverage']);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+
+
+          plnx.returnChartData({ currencyPair: 'USDT_ETH', start: fourtyDaysAgoDate, end: todayDate, period: 86400 })
+            .then(data => {
+              var movingAveragesETH = [];
+              data.forEach(day => {
+                movingAveragesETH.push(day.close);
+              })
+
+              realTimePrices['poloniex']['poloniexUSDT_ETH']['fourtyDayMovingAverage'] = movingAveragesETH.reduce((a, b) => a + b, 0)/movingAveragesETH.length;
+              //console.log(realTimePrices['poloniex']['poloniexUSDT_ETH']['fourtyDayMovingAverage']);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+
+        }, 280);
+      }, 7000);
+
+
+      //botEight
+      setTimeout(() => {
+        setInterval(() => {
+          console.log("IT's FUCKING HAPPENING!!!");
+          alive = false;
+        }, 10000);
+      }, 20000);
+    }
+
+
+    //runBot.botTwo.run;
+    //runBot.botThree.run;
+    //runBot.botFour.run;
+    //runBot.botFive.run;
+    //runBot.botSix.run;
+    //runBot.botSeven.run;
+    //runBot.botEight.run;
+  // }());
+  } else {
+    return {
+      loopConditional();
+    }
+  }
+}
