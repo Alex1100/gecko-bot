@@ -12,6 +12,7 @@
     "autobahn": "^17.5.2",
     "ccxt": "^0.1.146",
     "coin-ticker": "^2.0.3",
+    "crypto-socket": "^1.0.6",
     "dot-env": "0.0.1",
     "dotenv": "^4.0.0",
     "gemini-api": "^2.0.4",
