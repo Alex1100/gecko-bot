@@ -110,7 +110,7 @@ setInterval(() => {
 // //GEMINI LOGIC//
 var websocketClient = new GeminiAPI.default.WebsocketClient({ gemPub, gemPriv, sandbox: false });
 
-// //working
+// //working for asking prices
 websocketClient.openMarketSocket('btcusd',(onOpen) => {
   websocketClient.addMarketMessageListener(data => {
     if(data.events[0].side === 'ask'){
@@ -120,7 +120,7 @@ websocketClient.openMarketSocket('btcusd',(onOpen) => {
   });
 });
 
-//working
+//working for asking prices
 websocketClient.openMarketSocket('ethusd',(onOpen) => {
   websocketClient.addMarketMessageListener(data => {
     if(data.events[0].side === 'ask'){
