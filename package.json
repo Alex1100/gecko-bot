@@ -9,7 +9,11 @@
   "author": "Alex1100 <alex100.software@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "autobahn": "^17.5.2",
     "ccxt": "^0.1.146",
-    "dot-env": "0.0.1"
+    "dot-env": "0.0.1",
+    "dotenv": "^4.0.0",
+    "gemini-api": "^2.0.4",
+    "plnx": "^0.1.1"
   }
 }
