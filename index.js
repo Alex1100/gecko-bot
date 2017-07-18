@@ -21,14 +21,16 @@ var realTimePrices = {
         lowestAsk: 0,
         high24hour: 0,
         low24hour: 0,
-        fourtyDayMovingAverage: 0
+        fourtyDayMovingAverage: 0,
+        transactionFee: 0.0,
       },
       poloniexUSDT_BTC: {
         highestBid: 0,
         lowestAsk: 0,
         high24hour: 0,
         low24hour: 0,
-        fourtyDayMovingAverage: 0
+        fourtyDayMovingAverage: 0,
+        transactionFee: 0.0,
       }
     },
     kraken: {
@@ -40,7 +42,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'kraken',
-        pair: 'eth_usd'
+        pair: 'eth_usd',
       },
       krakenBTC_USD: {
         last: 0,
@@ -50,7 +52,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'kraken',
-        pair: 'btc_usd'
+        pair: 'btc_usd',
       },
       krakenETH_BTC: {
         last: 0,
@@ -60,7 +62,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'kraken',
-        pair: 'eth_btc'
+        pair: 'eth_btc',
       },
     },
     okcoin: {
@@ -72,7 +74,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'okcoin',
-        pair: 'btc_usd'
+        pair: 'btc_usd',
       },
       okcoinETH_USD: {
         last: 0,
@@ -82,7 +84,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'okcoin',
-        pair: 'eth_usd'
+        pair: 'eth_usd',
       }
     },
     BTCe: {
@@ -94,7 +96,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'btce',
-        pair: 'btc_usd'
+        pair: 'btc_usd',
       },
       BTCeETH_USD: {
         last: 0,
@@ -104,7 +106,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'btce',
-        pair: 'eth_usd'
+        pair: 'eth_usd',
       },
       BTCeETH_BTC: {
         last: 0,
@@ -114,7 +116,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'btce',
-        pair: 'eth_btc'
+        pair: 'eth_btc',
       }
     },
     bittrex: {
@@ -126,7 +128,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'bittrex',
-        pair: 'btc_usd'
+        pair: 'btc_usd',
       },
       bittrexETH_USD: {
         last: 0,
@@ -136,7 +138,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'bittrex',
-        pair: 'eth_usd'
+        pair: 'eth_usd',
       }
     },
     bitfinex: {
@@ -148,7 +150,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'bitfinex',
-        pair: 'btc_usd'
+        pair: 'btc_usd',
       },
       bitfinexETH_USD: {
         last: 0,
@@ -158,7 +160,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'bitfinex',
-        pair: 'eth_usd'
+        pair: 'eth_usd',
       },
       bitfinexETH_BTC: {
         last: 0,
@@ -168,7 +170,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'bitfinex',
-        pair: 'eth_btc'
+        pair: 'eth_btc',
       }
     },
     exmo: {
@@ -180,7 +182,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'exmo',
-        pair: 'btc_usd'
+        pair: 'btc_usd',
       },
       exmoETH_USD: {
         last: 0,
@@ -190,7 +192,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'exmo',
-        pair: 'eth_usd'
+        pair: 'eth_usd',
       },
       exmoETH_BTC: {
         last: 0,
@@ -200,7 +202,7 @@ var realTimePrices = {
         vol: 0,
         timestamp: '',
         exchange: 'exmo',
-        pair: 'eth_btc'
+        pair: 'eth_btc',
       }
     }
 };
@@ -321,8 +323,8 @@ setTimeout(() => {
           console.log("\n\n\n\nBTC_USD AT BITTREX IS: ", realTimePrices.bittrex.bittrexBTC_USD);
         });
 
-    }, 800);
-}, 4000);
+    }, 1200);
+}, 10500);
 
 
 setTimeout(() => {
@@ -359,8 +361,8 @@ setTimeout(() => {
           realTimePrices.bitfinex.bitfinexETH_BTC.timestamp = tick.timestamp;
           console.log("\n\n\n\nETH_BTC AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexETH_BTC);
         });
-      }, 5000)
-}, 14000);
+      }, 1900)
+}, 10500);
 
 
 setTimeout(() => {
@@ -398,8 +400,9 @@ setTimeout(() => {
           console.log("\n\n\n\nETH_BTC AT EXMO IS: ", realTimePrices.exmo.exmoETH_BTC);
         });
 
-      }, 9000)
-}, 28000)
+
+  }, 1500)
+}, 10500)
 
 
 
@@ -407,24 +410,28 @@ setTimeout(() => {
 var websocketClient = new GeminiAPI.default.WebsocketClient({ gemPub, gemPriv, sandbox: false });
 
 //working for asking prices
-websocketClient.openMarketSocket('btcusd',(onOpen) => {
-  websocketClient.addMarketMessageListener(data => {
-    if(data.events[0].side === 'ask'){
-      realTimePrices['gemini']['geminiBTC_USD'] = Number(data.events[0].price);
-      console.log("\n PRICE OF BTC GEMINI IS: ", realTimePrices.gemini.geminiBTC_USD);
-    }
+setTimeout(() => {
+  websocketClient.openMarketSocket('btcusd',(onOpen) => {
+    websocketClient.addMarketMessageListener(data => {
+      if(data.events[0].side === 'ask'){
+        realTimePrices['gemini']['geminiBTC_USD'] = Number(data.events[0].price);
+        console.log("\n PRICE OF BTC GEMINI IS: ", realTimePrices.gemini.geminiBTC_USD);
+      }
+    });
   });
-});
+}, 2500)
 
-//working for asking prices
-websocketClient.openMarketSocket('ethusd',(onOpen) => {
-  websocketClient.addMarketMessageListener(data => {
-    if(data.events[0].side === 'ask'){
-      realTimePrices['gemini']['geminiETH_USD'] = Number(data.events[0].price);
-      console.log("\n PRICE OF ETH GEMINI IS: ", realTimePrices.gemini.geminiETH_USD);
-    }
+// //working for asking prices
+setTimeout(() => {
+  websocketClient.openMarketSocket('ethusd',(onOpen) => {
+    websocketClient.addMarketMessageListener(data => {
+      if(data.events[0].side === 'ask'){
+        realTimePrices['gemini']['geminiETH_USD'] = Number(data.events[0].price);
+        console.log("\n PRICE OF ETH GEMINI IS: ", realTimePrices.gemini.geminiETH_USD);
+      }
+    });
   });
-});
+}, 5600)
 
 
 
@@ -436,56 +443,54 @@ setTimeout(() => {
       .then((data) => {
         //USDT_BTC
         if(data.USDT_BTC.highestBid){
-          realTimePrices['poloniex']['poloniexUSDT_BTC']['highestBid'] = Number(data.USDT_BTC.highestBid);
+          realTimePrices['poloniex']['poloniexUSDT_BTC']['highestBid'] = parseFloat(data.USDT_BTC.highestBid);
         }
         if(data.USDT_BTC.lowestAsk){
-          realTimePrices['poloniex']['poloniexUSDT_BTC']['lowestAsk'] = Number(data.USDT_BTC.lowestAsk);
+          realTimePrices['poloniex']['poloniexUSDT_BTC']['lowestAsk'] = parseFloat(data.USDT_BTC.lowestAsk);
         }
         if(data.USDT_BTC.high24hr){
-          realTimePrices['poloniex']['poloniexUSDT_BTC']['high24hour'] = Number(data.USDT_BTC.high24hr);
+          realTimePrices['poloniex']['poloniexUSDT_BTC']['high24hour'] = parseFloat(data.USDT_BTC.high24hr);
         }
         if(data.USDT_BTC.low24hr){
-          realTimePrices['poloniex']['poloniexUSDT_BTC']['low24hour'] = Number(data.USDT_BTC.low24hr);
+          realTimePrices['poloniex']['poloniexUSDT_BTC']['low24hour'] = parseFloat(data.USDT_BTC.low24hr);
         }
 
 
         //USDT_ETH
         if(data.USDT_ETH.highestBid){
-          realTimePrices['poloniex']['poloniexUSDT_ETH']['highestBid'] = Number(data.USDT_ETH.highestBid);
+          realTimePrices['poloniex']['poloniexUSDT_ETH']['highestBid'] = parseFloat(data.USDT_ETH.highestBid);
         }
         if(data.USDT_ETH.lowestAsk){
-          realTimePrices['poloniex']['poloniexUSDT_ETH']['lowestAsk'] = Number(data.USDT_ETH.lowestAsk);
+          realTimePrices['poloniex']['poloniexUSDT_ETH']['lowestAsk'] = parseFloat(data.USDT_ETH.lowestAsk);
         }
         if(data.USDT_ETH.high24hr){
-          realTimePrices['poloniex']['poloniexUSDT_ETH']['high24hour'] = Number(data.USDT_ETH.high24hr);
+          realTimePrices['poloniex']['poloniexUSDT_ETH']['high24hour'] = parseFloat(data.USDT_ETH.high24hr);
         }
         if(data.USDT_ETH.low24hr){
-          realTimePrices['poloniex']['poloniexUSDT_ETH']['low24hour'] = Number(data.USDT_ETH.low24hr);
+          realTimePrices['poloniex']['poloniexUSDT_ETH']['low24hour'] = parseFloat(data.USDT_ETH.low24hr);
         }
       })
       .catch((err) => {
+        console.log("GOOD BYE: ", err);
         console.log(err);
       });
 
       console.log("\n\nBTC AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexUSDT_BTC']);
       console.log("\n\n");
       console.log("ETH AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexUSDT_ETH']);
-  }, 250);
-}, 10000);
 
-// setTimeout(() => {
-//   setInterval(() => {
-//     plnx.returnCurrencies()
-//         .then(data => {
-//           realTimePrices['poloniex']['poloniexUSDT_BTC']['transactionFee'] = parseFloat(data['1CR'].BTC.txFee);
-//           realTimePrices['poloniex']['poloniexUSDT_ETH']['transctionFee'] = parseFloat(data['1CR'].ETH.txFee);
-//           console.log("\n\n\n\n\n\n\n\n\n\n\n\nTHE FLOATING POINT NUMBER IS: ", parseFloat(data['1CR'].ETH.txFee))
-//         })
-//         .catch(err => {
-//           console.log("ERROR GETTING TRANSACTION FEE: ", err);
-//         });
-//   }, 8000);
-// }, 15000);
+      plnx.returnCurrencies({})
+        .then(data => {
+          console.log("FEES ARE: ", realTimePrices.poloniex.poloniexUSDT_BTC.transactionFee)
+          realTimePrices.poloniex.poloniexUSDT_BTC.transactionFee = parseFloat(data.BTC.txFee);
+          realTimePrices.poloniex.poloniexUSDT_ETH.transactionFee = parseFloat(data.ETH.txFee);
+        })
+        .catch(err => {
+          console.log("ERROR GETTING TRANSACTION FEE: ", err);
+        });
+
+  }, 175);
+}, 6000);
 
 
 
@@ -504,7 +509,7 @@ setTimeout(() => {
         })
 
         realTimePrices['poloniex']['poloniexUSDT_BTC']['fourtyDayMovingAverage'] = movingAveragesBTC.reduce((a, b) => a + b, 0)/movingAveragesBTC.length;
-        console.log(realTimePrices['poloniex']['poloniexUSDT_BTC']['fourtyDayMovingAverage']);
+        //console.log(realTimePrices['poloniex']['poloniexUSDT_BTC']['fourtyDayMovingAverage']);
       })
       .catch(err => {
         console.log(err);
@@ -525,25 +530,25 @@ setTimeout(() => {
         console.log(err);
       });
 
-  }, 150);
-}, 25000);
+  }, 280);
+}, 7000);
 
 
 
 
 // //DAVE's ARBITRAGE CHECKER VERSION1
-checkArbitrage = () => {
-  let mostProfitableSpread = -Infinity;
-  let tradeType;
+function checkArbitrage(){
+  var mostProfitableSpread = -1000000;
+  var tradeType;
 
   if (
-    realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC > 5 &&
+    (realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC) > 5 &&
     realTimePrices.poloniex.poloniexUSDT_BTC !== 0 &&
     realTimePrices.gemini.geminiBTC_USD !== 0
   ) {
     // console.log("BTC PRICE GAP FROM GEMINI TO POLONIEX", realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC);
     if (
-      realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC > mostProfitableSpread
+      (realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC) > mostProfitableSpread
     ) {
       mostProfitableSpread = realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC;
       tradeType = "BTC IS WORTH MORE ON GEMINI THAN POLONIEX, SPREAD: ";
@@ -551,13 +556,13 @@ checkArbitrage = () => {
   }
 
   if (
-    realTimePrices.poloniex.poloniexUSDT_BTC - realTimePrices.gemini.geminiBTC_USD > 5 &&
+    (realTimePrices.poloniex.poloniexUSDT_BTC - realTimePrices.gemini.geminiBTC_USD) > 5 &&
     realTimePrices.poloniex.poloniexUSDT_BTC !== 0 &&
     realTimePrices.gemini.geminiBTC_USD !== 0
   ) {
     // console.log("BTC PRICE GAP FROM POLONIEX TO GEMINI", realTimePrices.poloBTC - realTimePrices.geminiBTC_USD);
     if (
-      realTimePrices.poloniex.poloniexUSDT_BTC - realTimePrices.gemini.geminiBTC_USD > mostProfitableSpread
+      (realTimePrices.poloniex.poloniexUSDT_BTC - realTimePrices.gemini.geminiBTC_USD) > mostProfitableSpread
     ) {
       mostProfitableSpread = realTimePrices.poloniex.poloniexUSDT_BTC - realTimePrices.gemini.geminiBTC_USD;
       tradeType = "BTC IS WORTH MORE ON POLONIEX THAN GEMINI, SPREAD: ";
@@ -565,13 +570,13 @@ checkArbitrage = () => {
   }
 
   if (
-    realTimePrices.poloniex.poloniexUSDT_ETH - realTimePrices.gemini.geminiETH_USD > 5 &&
+    (realTimePrices.poloniex.poloniexUSDT_ETH - realTimePrices.gemini.geminiETH_USD) > 5 &&
     realTimePrices.poloniex.poloniexUSDT_ETH !== 0 &&
     realTimePrices.gemini.geminiETH_USD !== 0
   ) {
     // console.log("ETH PRICE GAP FROM POLONIEX TO GEMINI", realTimePrices.poloETH - realTimePrices.geminiETH_USD);
     if (
-      realTimePrices.poloniex.poloniexUSDT_ETH - realTimePrices.gemini.geminiETH_USD > mostProfitableSpread
+      (realTimePrices.poloniex.poloniexUSDT_ETH - realTimePrices.gemini.geminiETH_USD) > mostProfitableSpread
     ) {
       mostProfitableSpread = realTimePrices.poloniex.poloniexUSDT_ETH - realTimePrices.gemini.geminiETH_USD;
       tradeType = "ETH IS WORTH MORE ON POLONIEX THAN GEMINI, SPREAD: ";
@@ -579,25 +584,25 @@ checkArbitrage = () => {
   }
 
   if (
-    realTimePrices.gemini.geminiETH_USD - realTimePrices.poloniex.poloniexUSDT_ETH > 5 &&
+    (realTimePrices.gemini.geminiETH_USD - realTimePrices.poloniex.poloniexUSDT_ETH) > 5 &&
     realTimePrices.poloniex.poloniexUSDT_ETH !== 0 &&
     realTimePrices.gemini.geminiETH_USD !== 0
   ) {
     // console.log("ETH PRICE GAP FROM GEMINI TO POLONIEX", realTimePrices.gemoniETH - realTimePrices.poloETH);
     if (
-      realTimePrices.gemini.geminiETH_USD - realTimePrices.poloniex.poloniexUSDT_ETH > mostProfitableSpread
+      (realTimePrices.gemini.geminiETH_USD - realTimePrices.poloniex.poloniexUSDT_ETH) > mostProfitableSpread
     ) {
       mostProfitableSpread = realTimePrices.gemini.geminiETH_USD - realTimePrices.poloniex.poloniexUSDT_ETH;
       tradeType = "ETH IS WORTH MORE ON GEMINI THAN POLONIEX, SPREAD: ";
     }
   }
 
-  if (mostProfitableSpread > -Infinity) {
+  if (mostProfitableSpread > -1000000) {
     console.log(tradeType, mostProfitableSpread);
   }
 };
 
-loopConditional = () => {
+function loopConditional(){
   while (true) {
     if (
       realTimePrices.gemini.geminiBTC_USD !== 0 &&
@@ -615,6 +620,7 @@ loopConditional = () => {
 //loop from gathering information
 // setTimeout(() => {
 //   setInterval(() => {
+//     console.log(realTimePrices.poloniex.poloniexUSDT_BTC.transactionFee);
 //     loopConditional();
-//   }, 1000);
-// }, 40000);
+//   }, 2000);
+// }, 11000);
