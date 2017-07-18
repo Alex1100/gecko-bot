@@ -103,29 +103,29 @@ setInterval(() => {
       console.log("\n\n");
       console.log("ETH AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexETH']);
 
-}, 1000);
+}, 80);
 
 
 
 // //GEMINI LOGIC//
-// var websocketClient = new GeminiAPI.default.WebsocketClient({ gemPub, gemPriv, sandbox: false });
+var websocketClient = new GeminiAPI.default.WebsocketClient({ gemPub, gemPriv, sandbox: false });
 
 // //working
-// websocketClient.openMarketSocket('btcusd',(onOpen) => {
-//   websocketClient.addMarketMessageListener(data => {
-//     if(data.events[0].side === 'ask'){
-//       realTimePrices['gemini']['geminiBTC'] = Number(data.events[0].price);
-//       console.log("\n PRICE OF BTC GEMINI IS: ", realTimePrices.gemini.geminiBTC);
-//     }
-//   });
-// });
+websocketClient.openMarketSocket('btcusd',(onOpen) => {
+  websocketClient.addMarketMessageListener(data => {
+    if(data.events[0].side === 'ask'){
+      realTimePrices['gemini']['geminiBTC'] = Number(data.events[0].price);
+      console.log("\n PRICE OF BTC GEMINI IS: ", realTimePrices.gemini.geminiBTC);
+    }
+  });
+});
 
-// //working
-// websocketClient.openMarketSocket('ethusd',(onOpen) => {
-//   websocketClient.addMarketMessageListener(data => {
-//     if(data.events[0].side === 'ask'){
-//       realTimePrices['gemini']['geminiETH'] = Number(data.events[0].price);
-//       console.log("\n PRICE OF ETH GEMINI IS: ", realTimePrices.gemini.geminiETH);
-//     }
-//   });
-// });
+//working
+websocketClient.openMarketSocket('ethusd',(onOpen) => {
+  websocketClient.addMarketMessageListener(data => {
+    if(data.events[0].side === 'ask'){
+      realTimePrices['gemini']['geminiETH'] = Number(data.events[0].price);
+      console.log("\n PRICE OF ETH GEMINI IS: ", realTimePrices.gemini.geminiETH);
+    }
+  });
+});
