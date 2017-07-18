@@ -11,9 +11,11 @@
   "dependencies": {
     "autobahn": "^17.5.2",
     "ccxt": "^0.1.146",
+    "coin-ticker": "^2.0.3",
     "dot-env": "0.0.1",
     "dotenv": "^4.0.0",
     "gemini-api": "^2.0.4",
-    "plnx": "^0.1.1"
+    "plnx": "^0.1.1",
+    "ws": "^3.0.0"
   }
 }
