@@ -11,27 +11,27 @@ var polKey = process.env.POLONIEX_API_KEY;
 var polPriv = process.env.POLONIEX_SECRET;
 
 var realTimePrices = {
-    'gemini': {
-      'geminiETH': 0,
-      'geminiBTC': 0
+    gemini: {
+      geminiETH: 0,
+      geminiBTC: 0
     },
-    'poloniex': {
-      'poloniexETH': {
-        'highestBid': 0,
-        'lowestAsk': 0,
-        'high24hour': 0,
-        'low24hour': 0
+    poloniex: {
+      poloniexETH: {
+        highestBid: 0,
+        lowestAsk: 0,
+        high24hour: 0,
+        low24hour: 0,
+        transactionFee: 0
       },
-      'poloniexBTC': {
-        'highestBid': 0,
-        'lowestAsk': 0,
-        'high24hour': 0,
-        'low24hour': 0
+      poloniexBTC: {
+        highestBid: 0,
+        lowestAsk: 0,
+        high24hour: 0,
+        low24hour: 0,
+        transactionFee: 0
       }
     },
 };
-
-//console.log(realTimePrices.poloniex.poloniexBTC.high24hr);
 
 
 //POLONIEX LOGIC//
@@ -41,45 +41,76 @@ var realTimePrices = {
 //   })
 // });
 
-// setInterval(() => {
-//   plnx.returnTicker()
-//     .then((data) => {
-//       console.log("JUST UPDATED: ");
-//       //console.log(data.USDT_BTC.highestBid);
-//       if(data.USDT_BTC.highestBid){
-//         realTimePrices['poloniex']['poloniexBTC']['highestBid'] = Number(data.USDT_BTC.highestBid);
-//       }
-//       if(data.USDT_BTC.lowestAsk){
-//         realTimePrices['poloniex']['poloniexBTC']['lowestAsk'] = Number(data.USDT_BTC.lowestAsk);
-//       }
-//       if(data.USDT_BTC.high24hr){
-//         realTimePrices['poloniex']['poloniexBTC']['high24hour'] = Number(data.USDT_BTC.high24hr);
-//       }
-//       if(data.USDT_BTC.low24hr){
-//         realTimePrices['poloniex']['poloniexBTC']['low24hour'] = Number(data.USDT_BTC.low24hr);
-//       }
-//       console.log("THE PRICE OF BTC AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexBTC']);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// }, 10000);
+setInterval(() => {
+  plnx.returnTicker()
+    .then((data) => {
+      //USDT_BTC
+      if(data.USDT_BTC.highestBid){
+        realTimePrices['poloniex']['poloniexBTC']['highestBid'] = Number(data.USDT_BTC.highestBid);
+      }
+      if(data.USDT_BTC.lowestAsk){
+        realTimePrices['poloniex']['poloniexBTC']['lowestAsk'] = Number(data.USDT_BTC.lowestAsk);
+      }
+      if(data.USDT_BTC.high24hr){
+        realTimePrices['poloniex']['poloniexBTC']['high24hour'] = Number(data.USDT_BTC.high24hr);
+      }
+      if(data.USDT_BTC.low24hr){
+        realTimePrices['poloniex']['poloniexBTC']['low24hour'] = Number(data.USDT_BTC.low24hr);
+      }
+
+
+      //USDT_ETH
+      if(data.USDT_ETH.highestBid){
+        realTimePrices['poloniex']['poloniexETH']['highestBid'] = Number(data.USDT_ETH.highestBid);
+      }
+      if(data.USDT_ETH.lowestAsk){
+        realTimePrices['poloniex']['poloniexETH']['lowestAsk'] = Number(data.USDT_ETH.lowestAsk);
+      }
+      if(data.USDT_ETH.high24hr){
+        realTimePrices['poloniex']['poloniexETH']['high24hour'] = Number(data.USDT_ETH.high24hr);
+      }
+      if(data.USDT_ETH.low24hr){
+        realTimePrices['poloniex']['poloniexETH']['low24hour'] = Number(data.USDT_ETH.low24hr);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+    var today = new Date();
+    var todayDate = today.setDate(today.getDate()-0);
+    var fourtyDaysAgoDate = today.setDate(today.getDate()-40);
+
+    // plnx.returnChartData({ currencyPair: 'USDT_BTC', start: fourtyDaysAgoDate, end: todayDate, period: 86400 })
+    //   .then(data => {
+    //     console.log(data);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+
+    plnx.returnCurrencies({})
+      .then(data => {
+        //console.log(data);
+        realTimePrices.poloniex.poloniexBTC.transactionFee = Number(data.BTC.txFee);
+        realTimePrices.poloniex.poloniexETH.transctionFee = Number(data.ETH.txFee);
+      })
+      .catch(err => {
+        console.log("ERROR GETTING TRANSACTION FEE: ", err);
+      });
+
+      console.log("\n\nBTC AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexBTC']);
+      console.log("\n\n");
+      console.log("ETH AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexETH']);
+
+}, 1000);
 
 
 
-//GEMINI LOGIC//
-var websocketClient = new GeminiAPI.default.WebsocketClient({ gemPub, gemPriv, sandbox: false });
+// //GEMINI LOGIC//
+// var websocketClient = new GeminiAPI.default.WebsocketClient({ gemPub, gemPriv, sandbox: false });
 
-// websocketClient.openMarketSocket('ethusd',(onOpen) => {
-//   websocketClient.addMarketMessageListener(data => {
-//     if(data.events[0].side === 'ask'){
-//         realTimePrices['geminiETH'] = Number(data.events[0].price);
-//         console.log("\n PRICE OF ETHER GEMINI IS: ", realTimePrices.geminiETH);
-//     }
-//   });
-// });
-
-//working
+// //working
 // websocketClient.openMarketSocket('btcusd',(onOpen) => {
 //   websocketClient.addMarketMessageListener(data => {
 //     if(data.events[0].side === 'ask'){
@@ -89,12 +120,12 @@ var websocketClient = new GeminiAPI.default.WebsocketClient({ gemPub, gemPriv, s
 //   });
 // });
 
-//working
-websocketClient.openMarketSocket('ethusd',(onOpen) => {
-  websocketClient.addMarketMessageListener(data => {
-    if(data.events[0].side === 'ask'){
-      realTimePrices['gemini']['geminiETH'] = Number(data.events[0].price);
-      console.log("\n PRICE OF ETH GEMINI IS: ", realTimePrices.gemini.geminiETH);
-    }
-  });
-});
+// //working
+// websocketClient.openMarketSocket('ethusd',(onOpen) => {
+//   websocketClient.addMarketMessageListener(data => {
+//     if(data.events[0].side === 'ask'){
+//       realTimePrices['gemini']['geminiETH'] = Number(data.events[0].price);
+//       console.log("\n PRICE OF ETH GEMINI IS: ", realTimePrices.gemini.geminiETH);
+//     }
+//   });
+// });
