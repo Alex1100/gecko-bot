@@ -10,6 +10,11 @@ var gemPriv = process.env.GEMINI_PRIV;
 var polKey = process.env.POLONIEX_API_KEY;
 var polPriv = process.env.POLONIEX_SECRET;
 
+var functionFrequencyCounter = {
+  geminiChecker: 0,
+  poloniexChecker: 0
+};
+
 var realTimePrices = {
     gemini: {
       geminiETH_USD: 0,
@@ -220,8 +225,7 @@ setTimeout(() => {
         realTimePrices.kraken.krakenETH_USD.high = parseFloat(tick.high);
         realTimePrices.kraken.krakenETH_USD.vol = parseFloat(tick.vol);
         realTimePrices.kraken.krakenETH_USD.timestamp = tick.timestamp;
-        realTime
-        realTi.log("\n\n\n\nETH_USD AT KRAKEN IS: ", realTimePrices.kraken.krakenETH_USD);
+        //console.log("\n\n\n\nETH_USD AT KRAKEN IS: ", realTimePrices.kraken.krakenETH_USD);
       });
 
       coinTicker('kraken', 'BTC_USD')
@@ -232,7 +236,7 @@ setTimeout(() => {
           realTimePrices.kraken.krakenBTC_USD.high = parseFloat(tick.high);
           realTimePrices.kraken.krakenBTC_USD.vol = parseFloat(tick.vol);
           realTimePrices.kraken.krakenBTC_USD.timestamp = tick.timestamp;
-          console.log("\n\n\n\nBTC_USD AT KRAKEN IS: ", realTimePrices.kraken.krakenBTC_USD);
+          //console.log("\n\n\n\nBTC_USD AT KRAKEN IS: ", realTimePrices.kraken.krakenBTC_USD);
         });
 
         coinTicker('kraken', 'ETH_BTC')
@@ -243,7 +247,7 @@ setTimeout(() => {
             realTimePrices.kraken.krakenETH_BTC.high = parseFloat(tick.high);
             realTimePrices.kraken.krakenETH_BTC.vol = parseFloat(tick.vol);
             realTimePrices.kraken.krakenETH_BTC.timestamp = tick.timestamp;
-            console.log("\n\n\n\nETH_BTC AT KRAKEN IS: ", realTimePrices.kraken.krakenETH_BTC);
+            //console.log("\n\n\n\nETH_BTC AT KRAKEN IS: ", realTimePrices.kraken.krakenETH_BTC);
           });
 
         coinTicker('okcoin', 'ETH_USD')
@@ -254,7 +258,7 @@ setTimeout(() => {
             realTimePrices.okcoin.okcoinETH_USD.high = parseFloat(tick.high);
             realTimePrices.okcoin.okcoinETH_USD.vol = parseFloat(tick.vol);
             realTimePrices.okcoin.okcoinETH_USD.timestamp = tick.timestamp;
-            console.log("\n\n\n\nETH_USD AT OKCOIN IS: ", realTimePrices.okcoin.okcoinETH_USD);
+            //console.log("\n\n\n\nETH_USD AT OKCOIN IS: ", realTimePrices.okcoin.okcoinETH_USD);
           });
 
         coinTicker('okcoin', 'BTC_USD')
@@ -265,7 +269,7 @@ setTimeout(() => {
             realTimePrices.okcoin.okcoinBTC_USD.high = parseFloat(tick.high);
             realTimePrices.okcoin.okcoinBTC_USD.vol = parseFloat(tick.vol);
             realTimePrices.okcoin.okcoinBTC_USD.timestamp = tick.timestamp;
-            console.log("\n\n\n\nBTC_USD AT OKCOIN IS: ", realTimePrices.okcoin.okcoinBTC_USD);
+            //console.log("\n\n\n\nBTC_USD AT OKCOIN IS: ", realTimePrices.okcoin.okcoinBTC_USD);
           });
 
         coinTicker('btce', 'BTC_USD')
@@ -276,7 +280,7 @@ setTimeout(() => {
             realTimePrices.BTCe.BTCeBTC_USD.high = parseFloat(tick.high);
             realTimePrices.BTCe.BTCeBTC_USD.vol = parseFloat(tick.vol);
             realTimePrices.BTCe.BTCeBTC_USD.timestamp = tick.timestamp;
-            console.log("\n\n\n\nBTC_USD AT BTCe IS: ", realTimePrices.BTCe.BTCeBTC_USD);
+            //console.log("\n\n\n\nBTC_USD AT BTCe IS: ", realTimePrices.BTCe.BTCeBTC_USD);
           });
 
         coinTicker('btce', 'ETH_USD')
@@ -287,7 +291,7 @@ setTimeout(() => {
             realTimePrices.BTCe.BTCeETH_USD.high = parseFloat(tick.high);
             realTimePrices.BTCe.BTCeETH_USD.vol = parseFloat(tick.vol);
             realTimePrices.BTCe.BTCeETH_USD.timestamp = tick.timestamp;
-            console.log("\n\n\n\nETH_USD AT BTCe IS: ", realTimePrices.BTCe.BTCeETH_USD);
+            //console.log("\n\n\n\nETH_USD AT BTCe IS: ", realTimePrices.BTCe.BTCeETH_USD);
           });
 
         coinTicker('btce', 'ETH_BTC')
@@ -298,7 +302,7 @@ setTimeout(() => {
             realTimePrices.BTCe.BTCeETH_BTC.high = parseFloat(tick.high);
             realTimePrices.BTCe.BTCeETH_BTC.vol = parseFloat(tick.vol);
             realTimePrices.BTCe.BTCeETH_BTC.timestamp = tick.timestamp;
-            console.log("\n\n\n\nETH_BTC AT BTCe IS: ", realTimePrices.BTCe.BTCeETH_BTC);
+            //console.log("\n\n\n\nETH_BTC AT BTCe IS: ", realTimePrices.BTCe.BTCeETH_BTC);
           });
 
       coinTicker('bittrex', 'ETH_USD')
@@ -309,7 +313,7 @@ setTimeout(() => {
           realTimePrices.bittrex.bittrexETH_USD.high = parseFloat(tick.high);
           realTimePrices.bittrex.bittrexETH_USD.vol = parseFloat(tick.vol);
           realTimePrices.bittrex.bittrexETH_USD.timestamp = tick.timestamp;
-          console.log("\n\n\n\nETH_USD AT bittrex IS: ", realTimePrices.bittrex.bittrexETH_USD);
+          //console.log("\n\n\n\nETH_USD AT bittrex IS: ", realTimePrices.bittrex.bittrexETH_USD);
         });
 
       coinTicker('bittrex', 'BTC_USD')
@@ -320,7 +324,7 @@ setTimeout(() => {
           realTimePrices.bittrex.bittrexBTC_USD.high = parseFloat(tick.high);
           realTimePrices.bittrex.bittrexBTC_USD.vol = parseFloat(tick.vol);
           realTimePrices.bittrex.bittrexBTC_USD.timestamp = tick.timestamp;
-          console.log("\n\n\n\nBTC_USD AT BITTREX IS: ", realTimePrices.bittrex.bittrexBTC_USD);
+          //console.log("\n\n\n\nBTC_USD AT BITTREX IS: ", realTimePrices.bittrex.bittrexBTC_USD);
         });
 
     }, 1200);
@@ -337,7 +341,7 @@ setTimeout(() => {
         realTimePrices.bitfinex.bitfinexETH_USD.high = parseFloat(tick.high);
         realTimePrices.bitfinex.bitfinexETH_USD.vol = parseFloat(tick.vol);
         realTimePrices.bitfinex.bitfinexETH_USD.timestamp = tick.timestamp;
-        console.log("\n\n\n\nETH_USD AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexETH_USD);
+        //console.log("\n\n\n\nETH_USD AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexETH_USD);
       });
 
     coinTicker('bitfinex', 'BTC_USD')
@@ -348,7 +352,7 @@ setTimeout(() => {
         realTimePrices.bitfinex.bitfinexBTC_USD.high = parseFloat(tick.high);
         realTimePrices.bitfinex.bitfinexBTC_USD.vol = parseFloat(tick.vol);
         realTimePrices.bitfinex.bitfinexBTC_USD.timestamp = tick.timestamp;
-        console.log("\n\n\n\nBTC_USD AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexBTC_USD);
+        //console.log("\n\n\n\nBTC_USD AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexBTC_USD);
       });
 
       coinTicker('bitfinex', 'ETH_BTC')
@@ -359,7 +363,7 @@ setTimeout(() => {
           realTimePrices.bitfinex.bitfinexETH_BTC.high = parseFloat(tick.high);
           realTimePrices.bitfinex.bitfinexETH_BTC.vol = parseFloat(tick.vol);
           realTimePrices.bitfinex.bitfinexETH_BTC.timestamp = tick.timestamp;
-          console.log("\n\n\n\nETH_BTC AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexETH_BTC);
+          //console.log("\n\n\n\nETH_BTC AT BITFINEX IS: ", realTimePrices.bitfinex.bitfinexETH_BTC);
         });
       }, 1900)
 }, 10500);
@@ -375,7 +379,7 @@ setTimeout(() => {
         realTimePrices.exmo.exmoETH_USD.high = parseFloat(tick.high);
         realTimePrices.exmo.exmoETH_USD.vol = parseFloat(tick.vol);
         realTimePrices.exmo.exmoETH_USD.timestamp = tick.timestamp;
-        console.log("\n\n\n\nETH_USD AT EXMO IS: ", realTimePrices.exmo.exmoETH_USD);
+        //console.log("\n\n\n\nETH_USD AT EXMO IS: ", realTimePrices.exmo.exmoETH_USD);
       });
 
     coinTicker('exmo', 'BTC_USD')
@@ -386,7 +390,7 @@ setTimeout(() => {
         realTimePrices.exmo.exmoBTC_USD.high = parseFloat(tick.high);
         realTimePrices.exmo.exmoBTC_USD.vol = parseFloat(tick.vol);
         realTimePrices.exmo.exmoBTC_USD.timestamp = tick.timestamp;
-        console.log("\n\n\n\nBTC_USD AT EXMO IS: ", realTimePrices.exmo.exmoBTC_USD);
+        //console.log("\n\n\n\nBTC_USD AT EXMO IS: ", realTimePrices.exmo.exmoBTC_USD);
       });
 
       coinTicker('exmo', 'ETH_BTC')
@@ -397,7 +401,7 @@ setTimeout(() => {
           realTimePrices.exmo.exmoETH_BTC.high = parseFloat(tick.high);
           realTimePrices.exmo.exmoETH_BTC.vol = parseFloat(tick.vol);
           realTimePrices.exmo.exmoETH_BTC.timestamp = tick.timestamp;
-          console.log("\n\n\n\nETH_BTC AT EXMO IS: ", realTimePrices.exmo.exmoETH_BTC);
+          //console.log("\n\n\n\nETH_BTC AT EXMO IS: ", realTimePrices.exmo.exmoETH_BTC);
         });
 
 
@@ -415,7 +419,8 @@ setTimeout(() => {
     websocketClient.addMarketMessageListener(data => {
       if(data.events[0].side === 'ask'){
         realTimePrices['gemini']['geminiBTC_USD'] = Number(data.events[0].price);
-        console.log("\n PRICE OF BTC GEMINI IS: ", realTimePrices.gemini.geminiBTC_USD);
+        //console.log("\n PRICE OF BTC GEMINI IS: ", realTimePrices.gemini.geminiBTC_USD);
+        //checkArbitrage(realTimePrices);
       }
     });
   });
@@ -427,7 +432,8 @@ setTimeout(() => {
     websocketClient.addMarketMessageListener(data => {
       if(data.events[0].side === 'ask'){
         realTimePrices['gemini']['geminiETH_USD'] = Number(data.events[0].price);
-        console.log("\n PRICE OF ETH GEMINI IS: ", realTimePrices.gemini.geminiETH_USD);
+        //console.log("\n PRICE OF ETH GEMINI IS: ", realTimePrices.gemini.geminiETH_USD);
+        //checkArbitrage(realTimePrices);
       }
     });
   });
@@ -471,23 +477,25 @@ setTimeout(() => {
         }
       })
       .catch((err) => {
-        console.log("GOOD BYE: ", err);
-        console.log(err);
+        //console.log("GOOD BYE: ", err);
+        //console.log(err);
       });
 
-      console.log("\n\nBTC AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexUSDT_BTC']);
-      console.log("\n\n");
-      console.log("ETH AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexUSDT_ETH']);
+      // console.log("\n\nBTC AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexUSDT_BTC']);
+      // console.log("\n\n");
+      // console.log("ETH AT POLONIEX IS: ", realTimePrices['poloniex']['poloniexUSDT_ETH']);
 
       plnx.returnCurrencies({})
         .then(data => {
-          console.log("FEES ARE: ", realTimePrices.poloniex.poloniexUSDT_BTC.transactionFee)
+          //console.log("FEES ARE: ", realTimePrices.poloniex.poloniexUSDT_BTC.transactionFee)
           realTimePrices.poloniex.poloniexUSDT_BTC.transactionFee = parseFloat(data.BTC.txFee);
           realTimePrices.poloniex.poloniexUSDT_ETH.transactionFee = parseFloat(data.ETH.txFee);
         })
         .catch(err => {
-          console.log("ERROR GETTING TRANSACTION FEE: ", err);
+          //console.log("ERROR GETTING TRANSACTION FEE: ", err);
         });
+
+        //checkArbitrage(realTimePrices);
 
   }, 175);
 }, 6000);
@@ -509,10 +517,10 @@ setTimeout(() => {
         })
 
         realTimePrices['poloniex']['poloniexUSDT_BTC']['fourtyDayMovingAverage'] = movingAveragesBTC.reduce((a, b) => a + b, 0)/movingAveragesBTC.length;
-        //console.log(realTimePrices['poloniex']['poloniexUSDT_BTC']['fourtyDayMovingAverage']);
+        console.log(realTimePrices['poloniex']['poloniexUSDT_BTC']['fourtyDayMovingAverage']);
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
       });
 
 
@@ -527,93 +535,135 @@ setTimeout(() => {
         //console.log(realTimePrices['poloniex']['poloniexUSDT_ETH']['fourtyDayMovingAverage']);
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
       });
 
   }, 280);
 }, 7000);
 
 
+//Alex Arbitrage Checker Version 1
+function checkArbitrage(info){
+  checkGeminiToPoloniexETH_USD_ETH_USDT(info.gemini, info.poloniex.poloniexUSDT_ETH);
+  checkPoloniexToGeminiETH_USDT_ETH_USD(info.poloniex.poloniexUSDT_ETH, info.gemini);
+}
+
+//CHECK USD_BTC ARBITRAGE BETWEEN GEMINI AND POLONIEX
+function checkGeminiToPoloniexETH_USD_ETH_USDT(gem, pol){
+  var geminiToPoloniexSpread = (gem.geminiETH_USD - (pol.highestBid * 0.98));
+  if(geminiToPoloniexSpread > 1.0){
+    var time = new Date();
+    //console.log(`Gemini vs Poloniex Spread is ${geminiToPoloniexSpread} at ${time.toLocaleString('en-US', { hour: 'numeric', minute:'numeric', second: 'numeric', hour12: true })}`);
+  }
+  functionFrequencyCounter.geminiChecker += 1;
+}
+
+//CHECK USD_BTC ARBITRAGE BETWEEN POLONIEX AND GEMINI
+function checkPoloniexToGeminiETH_USDT_ETH_USD(pol, gem){
+  //console.log("GOT IN THE POLO TO GEM CHECKER BRUHHHHH: ", ((pol.highestBid * 0.98) - gem.geminiETH_USD)) ;
+  var poloniexToGeminiSpread = ((pol.highestBid * 0.98) - gem.geminiETH_USD);
+  if(poloniexToGeminiSpread > 1.0){
+    var time = new Date();
+    //console.log(`Poloniex vs Gemini Spread is ${poloniexToGeminiSpread} at ${time.toLocaleString('en-US', { hour: 'numeric', minute:'numeric', second: 'numeric', hour12: true })}`);
+  }
+  functionFrequencyCounter.poloniexChecker += 1;
+}
+
+setTimeout(() => {
+  setInterval(() => {
+    checkArbitrage(realTimePrices);
+  }, 0.000000000000000001);
+}, 60000);
+
+
+// setTimeout(() => {
+//   setInterval(() => {
+//     console.log(`\nTHE COUNT OF FUNCTIONS ARE GEMII: ${functionFrequencyCounter.geminiChecker} and POLO: ${functionFrequencyCounter.poloniexChecker}\n`);
+//     functionFrequencyCounter.poloniexChecker = 0;
+//     functionFrequencyCounter.geminiChecker = 0;
+//   }, 1000);
+// }, 60000);
+
 
 
 // //DAVE's ARBITRAGE CHECKER VERSION1
-function checkArbitrage(){
-  var mostProfitableSpread = -1000000;
-  var tradeType;
+// function checkArbitrage(){
+//   var mostProfitableSpread = -1000000;
+//   var tradeType;
 
-  if (
-    (realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC) > 5 &&
-    realTimePrices.poloniex.poloniexUSDT_BTC !== 0 &&
-    realTimePrices.gemini.geminiBTC_USD !== 0
-  ) {
-    // console.log("BTC PRICE GAP FROM GEMINI TO POLONIEX", realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC);
-    if (
-      (realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC) > mostProfitableSpread
-    ) {
-      mostProfitableSpread = realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC;
-      tradeType = "BTC IS WORTH MORE ON GEMINI THAN POLONIEX, SPREAD: ";
-    }
-  }
+//   if (
+//     (realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC) > 5 &&
+//     realTimePrices.poloniex.poloniexUSDT_BTC !== 0 &&
+//     realTimePrices.gemini.geminiBTC_USD !== 0
+//   ) {
+//     // console.log("BTC PRICE GAP FROM GEMINI TO POLONIEX", realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC);
+//     if (
+//       (realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC) > mostProfitableSpread
+//     ) {
+//       mostProfitableSpread = realTimePrices.gemini.geminiBTC_USD - realTimePrices.poloniex.poloniexUSDT_BTC;
+//       tradeType = "BTC IS WORTH MORE ON GEMINI THAN POLONIEX, SPREAD: ";
+//     }
+//   }
 
-  if (
-    (realTimePrices.poloniex.poloniexUSDT_BTC - realTimePrices.gemini.geminiBTC_USD) > 5 &&
-    realTimePrices.poloniex.poloniexUSDT_BTC !== 0 &&
-    realTimePrices.gemini.geminiBTC_USD !== 0
-  ) {
-    // console.log("BTC PRICE GAP FROM POLONIEX TO GEMINI", realTimePrices.poloBTC - realTimePrices.geminiBTC_USD);
-    if (
-      (realTimePrices.poloniex.poloniexUSDT_BTC - realTimePrices.gemini.geminiBTC_USD) > mostProfitableSpread
-    ) {
-      mostProfitableSpread = realTimePrices.poloniex.poloniexUSDT_BTC - realTimePrices.gemini.geminiBTC_USD;
-      tradeType = "BTC IS WORTH MORE ON POLONIEX THAN GEMINI, SPREAD: ";
-    }
-  }
+//   if (
+//     (realTimePrices.poloniex.poloniexUSDT_BTC - realTimePrices.gemini.geminiBTC_USD) > 5 &&
+//     realTimePrices.poloniex.poloniexUSDT_BTC !== 0 &&
+//     realTimePrices.gemini.geminiBTC_USD !== 0
+//   ) {
+//     // console.log("BTC PRICE GAP FROM POLONIEX TO GEMINI", realTimePrices.poloBTC - realTimePrices.geminiBTC_USD);
+//     if (
+//       (realTimePrices.poloniex.poloniexUSDT_BTC - realTimePrices.gemini.geminiBTC_USD) > mostProfitableSpread
+//     ) {
+//       mostProfitableSpread = realTimePrices.poloniex.poloniexUSDT_BTC - realTimePrices.gemini.geminiBTC_USD;
+//       tradeType = "BTC IS WORTH MORE ON POLONIEX THAN GEMINI, SPREAD: ";
+//     }
+//   }
 
-  if (
-    (realTimePrices.poloniex.poloniexUSDT_ETH - realTimePrices.gemini.geminiETH_USD) > 5 &&
-    realTimePrices.poloniex.poloniexUSDT_ETH !== 0 &&
-    realTimePrices.gemini.geminiETH_USD !== 0
-  ) {
-    // console.log("ETH PRICE GAP FROM POLONIEX TO GEMINI", realTimePrices.poloETH - realTimePrices.geminiETH_USD);
-    if (
-      (realTimePrices.poloniex.poloniexUSDT_ETH - realTimePrices.gemini.geminiETH_USD) > mostProfitableSpread
-    ) {
-      mostProfitableSpread = realTimePrices.poloniex.poloniexUSDT_ETH - realTimePrices.gemini.geminiETH_USD;
-      tradeType = "ETH IS WORTH MORE ON POLONIEX THAN GEMINI, SPREAD: ";
-    }
-  }
+//   if (
+//     (realTimePrices.poloniex.poloniexUSDT_ETH - realTimePrices.gemini.geminiETH_USD) > 5 &&
+//     realTimePrices.poloniex.poloniexUSDT_ETH !== 0 &&
+//     realTimePrices.gemini.geminiETH_USD !== 0
+//   ) {
+//     // console.log("ETH PRICE GAP FROM POLONIEX TO GEMINI", realTimePrices.poloETH - realTimePrices.geminiETH_USD);
+//     if (
+//       (realTimePrices.poloniex.poloniexUSDT_ETH - realTimePrices.gemini.geminiETH_USD) > mostProfitableSpread
+//     ) {
+//       mostProfitableSpread = realTimePrices.poloniex.poloniexUSDT_ETH - realTimePrices.gemini.geminiETH_USD;
+//       tradeType = "ETH IS WORTH MORE ON POLONIEX THAN GEMINI, SPREAD: ";
+//     }
+//   }
 
-  if (
-    (realTimePrices.gemini.geminiETH_USD - realTimePrices.poloniex.poloniexUSDT_ETH) > 5 &&
-    realTimePrices.poloniex.poloniexUSDT_ETH !== 0 &&
-    realTimePrices.gemini.geminiETH_USD !== 0
-  ) {
-    // console.log("ETH PRICE GAP FROM GEMINI TO POLONIEX", realTimePrices.gemoniETH - realTimePrices.poloETH);
-    if (
-      (realTimePrices.gemini.geminiETH_USD - realTimePrices.poloniex.poloniexUSDT_ETH) > mostProfitableSpread
-    ) {
-      mostProfitableSpread = realTimePrices.gemini.geminiETH_USD - realTimePrices.poloniex.poloniexUSDT_ETH;
-      tradeType = "ETH IS WORTH MORE ON GEMINI THAN POLONIEX, SPREAD: ";
-    }
-  }
+//   if (
+//     (realTimePrices.gemini.geminiETH_USD - realTimePrices.poloniex.poloniexUSDT_ETH) > 5 &&
+//     realTimePrices.poloniex.poloniexUSDT_ETH !== 0 &&
+//     realTimePrices.gemini.geminiETH_USD !== 0
+//   ) {
+//     // console.log("ETH PRICE GAP FROM GEMINI TO POLONIEX", realTimePrices.gemoniETH - realTimePrices.poloETH);
+//     if (
+//       (realTimePrices.gemini.geminiETH_USD - realTimePrices.poloniex.poloniexUSDT_ETH) > mostProfitableSpread
+//     ) {
+//       mostProfitableSpread = realTimePrices.gemini.geminiETH_USD - realTimePrices.poloniex.poloniexUSDT_ETH;
+//       tradeType = "ETH IS WORTH MORE ON GEMINI THAN POLONIEX, SPREAD: ";
+//     }
+//   }
 
-  if (mostProfitableSpread > -1000000) {
-    console.log(tradeType, mostProfitableSpread);
-  }
-};
+//   if (mostProfitableSpread > -1000000) {
+//     console.log(tradeType, mostProfitableSpread);
+//   }
+// };
 
-function loopConditional(){
-  while (true) {
-    if (
-      realTimePrices.gemini.geminiBTC_USD !== 0 &&
-      realTimePrices.gemini.geminiETH_USD !== 0 &&
-      realTimePrices.poloniex.poloniexUSDT_BTC !== 0 &&
-      realTimePrices.poloniex.poloniexUSDT_ETH !== 0
-    ) {
-      checkArbitrage();
-    }
-  }
-}
+// function loopConditional(){
+//   while (true) {
+//     if (
+//       realTimePrices.gemini.geminiBTC_USD !== 0 &&
+//       realTimePrices.gemini.geminiETH_USD !== 0 &&
+//       realTimePrices.poloniex.poloniexUSDT_BTC !== 0 &&
+//       realTimePrices.poloniex.poloniexUSDT_ETH !== 0
+//     ) {
+//       checkArbitrage();
+//     }
+//   }
+// }
 
 
 //checkArbitrage function does not work and freezes
