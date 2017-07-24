@@ -125,7 +125,7 @@ module.exports = {
 //       headers: {
 //         "Content-Type": "text/plain",
 //         "Content-Length": 0,
-//         "X-GEMINI-APIKEY": process.enc.gemPub,
+//         "X-GEMINI-APIKEY": process.env.gemPub,
 //         "X-GEMINI-PAYLOAD": base,
 //         "X-GEMINI-SIGNATURE": signature
 //       }
