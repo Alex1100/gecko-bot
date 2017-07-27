@@ -2,12 +2,12 @@ require("dotenv").load();
 const axios = require("axios");
 let cryptoSocket = require("crypto-socket");
 let flag = true;
-cryptoSocket.start("gemini");
+//cryptoSocket.start("gemini");
 cryptoSocket.start("gdax");
-cryptoSocket.start("bitfinex");
-cryptoSocket.start("poloniex");
-cryptoSocket.start("bittrex");
-cryptoSocket.start("cex");
+// cryptoSocket.start("bitfinex");
+// cryptoSocket.start("poloniex");
+// cryptoSocket.start("bittrex");
+// cryptoSocket.start("cex");
 let buyEthOnGdax = require('./exchanges/gdax').buyEthOnGdax;
 //let buyBtcOnGdax = require('exchanges/gdax').buyBtcOnGdax;
 let withdrawEthOnGdax = require('./exchanges/gdax').withdrawEthOnGdax;
@@ -36,10 +36,10 @@ let requestBalancesOnGemini = require('./exchanges/gemini').requestBalances;
 let signRequestOnGemini = require('./exchanges/gemini').signRequest;
 
 
-requestBalances();
-setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 200);
+withdrawEthOnGdax();
+//setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 200);
 
-setTimeout(() => {checkArbitrage()}, 140000);
+//setTimeout(() => {checkArbitrage()}, 140000);
 
 checkArbitrage = (exchange, currency) => {
   let gdaxEthToGemini = cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD;
