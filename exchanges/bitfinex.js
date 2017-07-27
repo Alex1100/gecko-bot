@@ -1,3 +1,4 @@
+let cryptoSocket = require("crypto-socket");
 require("dotenv").load();
 const btoa = require("btoa");
 const createHmac = require("create-hmac");

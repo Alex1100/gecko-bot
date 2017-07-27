@@ -12,9 +12,11 @@
   "dependencies": {
     "btoa": "^1.1.2",
     "coin-ticker": "^2.0.3",
+    "coinbase": "^2.0.6",
     "create-hmac": "^1.1.6",
     "crypto-socket": "^1.0.6",
     "dotenv": "^4.0.0",
+    "gdax": "^0.4.2",
     "gemini-api": "^2.0.4",
     "nonce": "^1.0.4",
     "plnx": "^0.1.1"
