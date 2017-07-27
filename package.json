@@ -19,6 +19,7 @@
     "gdax": "^0.4.2",
     "gemini-api": "^2.0.4",
     "nonce": "^1.0.4",
-    "plnx": "^0.1.1"
+    "plnx": "^0.1.1",
+    "poloniex-api-node": "^1.3.1"
   }
 }

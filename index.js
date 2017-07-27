@@ -3,7 +3,7 @@ const axios = require("axios");
 let cryptoSocket = require("crypto-socket");
 let flag = true;
 //cryptoSocket.start("gemini");
-cryptoSocket.start("gdax");
+//cryptoSocket.start("gdax");
 // cryptoSocket.start("bitfinex");
 // cryptoSocket.start("poloniex");
 // cryptoSocket.start("bittrex");
@@ -34,9 +34,13 @@ let withdrawEthOnGemini = require('./exchanges/gemini').withdrawEthOnGemini;
 // let withdrawBtcOnCex = require('exchanges/cex').withdrawBtcOnCex;
 let requestBalancesOnGemini = require('./exchanges/gemini').requestBalances;
 let signRequestOnGemini = require('./exchanges/gemini').signRequest;
+let returnBalancesPoloniex = require('./exchanges/poloniex').returnBalancesPoloniex;
+let returnPoloAddresses = require('./exchanges/poloniex').returnPoloAddresses;
+let createNewCurrencyAddress = require('./exchanges/poloniex').createNewCurrencyAddress;
 
-
-withdrawEthOnGdax();
+//createNewCurrencyAddress();
+returnPoloAddresses();
+//withdrawEthOnGdax();
 //setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 200);
 
 //setTimeout(() => {checkArbitrage()}, 140000);
