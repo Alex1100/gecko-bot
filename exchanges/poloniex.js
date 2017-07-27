@@ -1,4 +1,3 @@
-let cryptoSocket = require("crypto-socket");
 require("dotenv").load();
 const btoa = require("btoa");
 const createHmac = require("create-hmac");
@@ -7,6 +6,7 @@ const axios = require("axios");
 let loopConditional = require('../index').loopConditional;
 const Poloniex = require('poloniex-api-node');
 let poloniex = new Poloniex(process.env.POLONIEX_API_KEY, process.env.POLONIEX_SECRET, { socketTimeout: 15000 });
+let cryptoSocket = require("crypto-socket");
 
 
 signRequest = request => {
@@ -17,29 +17,44 @@ signRequest = request => {
   return { base, signature };
 };
 
+poloniexFeeInfo = () => {
+  poloniex.returnFeeInfo();
+}
 
 buyEthOnPoloniex = () => {
   console.log("BUY ETH ON POLONIEX");
-  flag = true;
-  loopConditional();
+  poloniexFeeInfo().then(fee => {
+    console.log(fee);
+    loopConditional();
+  })
 };
 
 buyBtcOnPoloniex = () => {
   console.log("BUY BTC ON POLONIEX");
-  flag = true;
-  loopConditional();
+  poloniexFeeInfo().then(fee => {
+    console.log(fee);
+    loopConditional();
+  })
 };
 
-withdrawEthOnPoloniex = () => {
+withdrawEthOnPoloniex = (amount, address) => {
   console.log("WITHDRAW ETH POLONIEX");
-  flag = true;
-  loopConditional();
+  poloniex.withdraw('ETH', amount, address).then(res => {
+    console.log(`SUCCESSFULLY WITHDREW ${amount} ETH from POLONIEX to ${address}`);
+  })
+  .catch(err => {
+    console.log("FAILED TO WITHDRAW BECAUSE: ", err);
+  })
 };
 
 withdrawBtcOnPoloniex = () => {
   console.log("WITHDRAW BTC POLONIEX");
-  flag = true;
-  loopConditional();
+  poloniex.withdraw('BTC', amount, address).then(res => {
+    console.log(`SUCCESSFULLY WITHDREW ${amount} BTC from POLONIEX to ${address}`);
+  })
+  .catch(err => {
+    console.log("FAILED TO WITHDRAW BECAUSE: ", err);
+  })
 };
 
 returnBalancesPoloniex = () => {

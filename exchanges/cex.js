@@ -1,10 +1,10 @@
-let cryptoSocket = require("crypto-socket");
 require("dotenv").load();
 const btoa = require("btoa");
 const createHmac = require("create-hmac");
 const n = require("nonce")();
 const axios = require("axios");
 let loopConditional = require('../index').loopConditional;
+let cryptoSocket = require("crypto-socket");
 
 buyEthOnCex = () => {
   console.log("BUY ETH ON CEX");

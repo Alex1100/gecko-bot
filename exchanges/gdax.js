@@ -10,8 +10,8 @@ var Gdax = require('gdax');
 var Client = require('coinbase').Client;
 var client = new Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_KEY_SECRET});
 let loopConditional = require('../index').loopConditional;
-var cryptoSocket = require("crypto-socket");
 var apiURI = 'https://api.gdax.com';
+var cryptoSocket = require("crypto-socket");
 
 var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, Buffer(process.env.GDAX_API_KEY_SECRET, 'base64'), process.env.GDAX_API_KEY_PASSPHRASE, apiURI);
 

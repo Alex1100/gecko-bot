@@ -2,12 +2,12 @@ require("dotenv").load();
 const axios = require("axios");
 let cryptoSocket = require("crypto-socket");
 let flag = true;
-//cryptoSocket.start("gemini");
-//cryptoSocket.start("gdax");
-// cryptoSocket.start("bitfinex");
-// cryptoSocket.start("poloniex");
-// cryptoSocket.start("bittrex");
-// cryptoSocket.start("cex");
+cryptoSocket.start("gemini");
+cryptoSocket.start("gdax");
+cryptoSocket.start("bitfinex");
+cryptoSocket.start("poloniex");
+cryptoSocket.start("bittrex");
+cryptoSocket.start("cex");
 let buyEthOnGdax = require('./exchanges/gdax').buyEthOnGdax;
 //let buyBtcOnGdax = require('exchanges/gdax').buyBtcOnGdax;
 let withdrawEthOnGdax = require('./exchanges/gdax').withdrawEthOnGdax;
@@ -41,7 +41,7 @@ let createNewCurrencyAddress = require('./exchanges/poloniex').createNewCurrency
 //createNewCurrencyAddress();
 returnPoloAddresses();
 //withdrawEthOnGdax();
-//setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 200);
+setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 200);
 
 //setTimeout(() => {checkArbitrage()}, 140000);
 
