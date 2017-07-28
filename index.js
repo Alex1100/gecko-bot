@@ -13,8 +13,6 @@ let gdax = require('./exchanges/gdax');
 let gemini = require('./exchanges/gemini');
 let poloniex = require('./exchanges/poloniex');
 
-bitfinex.requestBalances();
-
 
 //DAVE's NEW CHECKARB FUNCTION
 checkArbitrage = (exchange, currency) => {
@@ -540,6 +538,7 @@ checkArbitrage = (exchange, currency) => {
   if (largestSpread) {
     flag = false;
     if (currency === spreadCurrency) {
+      //there are some catch 22's here we need to work out the kinks bruh
       setTimeout(trades[exchange].withdraw(spreadCurrency), 0);
     } else if (currency === "BTC") {
       // Price to buy ETH with all BTC is 1 ETH converted to BTC + 10 cents in BTC
