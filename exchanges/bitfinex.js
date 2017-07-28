@@ -69,7 +69,7 @@ withdraw = (currency, amount, address) => {
   })
 }
 
-buy = () => {
+buy = (currency) => {
   //changed node_module bitfinex to include
   //param use_all_available to 1, which
   //will use all funds for the new order

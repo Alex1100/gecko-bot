@@ -50,55 +50,41 @@ const API_KEYS = {
 };
 
 
-buyEthOnBittrex = () => {
-  console.log("BUY ETH ON BITTREX");
+buy = () => {
+  console.log("BUY ON BITTREX");
   flag = true;
   loopConditional();
 };
 
-buyBtcOnBittrex = () => {
-  console.log("BUY BTC ON BITTREX");
+withdraw = () => {
+  console.log("WITHDRAW BITTREX");
   flag = true;
   loopConditional();
 };
 
-withdrawEthOnBittrex = () => {
-  console.log("WITHDRAW ETH BITTREX");
-  flag = true;
-  loopConditional();
-};
-
-withdrawBtcOnBittrex = () => {
-  console.log("WITHDRAW BTC BITTREX");
-  flag = true;
-  loopConditional();
-};
-
-requestBalancesBittrex = () => {
+requestBalances = () => {
   bittrex.getbalances( function( data ) {
     console.log( data );
   });
   return;
 }
 
-getDepositAddressEthBittrex = () => {
+getEthDepositAddress = () => {
   bittrex.getdepositaddress({ currency : 'ETH' }, function( data ) {
     console.log( data );
   });
 }
 
-getDepositAddressBtcBittrex = () => {
+getBtcDepositAddress = () => {
   bittrex.getdepositaddress({ currency : 'BTC' }, function( data ) {
     console.log( data );
   });
 }
 
 module.exports = {
-  buyEthOnBittrex,
-  buyBtcOnBittrex,
-  withdrawEthOnBittrex,
-  withdrawBtcOnBittrex,
-  requestBalancesBittrex,
-  getDepositAddressEthBittrex,
-  getDepositAddressBtcBittrex
+  buy,
+  withdraw,
+  requestBalances,
+  getEthDepositAddress,
+  getBtcDepositAddress
 };

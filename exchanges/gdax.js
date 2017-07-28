@@ -56,76 +56,87 @@ signGdaxRequest = (timestamp, method, reqPath, reqBody) => {
   return { signature, timestampeh };
 }
 
-//works
-buy = (size, price, side) => {
-  //currency pair is ETH-BTC
-  let axiosBod = {
-    "size": size,
-    "price": price,
-    "side": side,
-    "product_id": "ETH-BTC"
-  };
+//works but test it out the inner functions work, I just used your setup to
+//keep the function signature consistent
+buy = (currency) => {
+  currency = currency.toUpperCase();
+  requestBalances().then(balancesObj => {
+    const pairs = {
+      ETH: {
+        buy: () =>
+          let axiosBod = {
+            "size": size,
+            "price": price,
+            "side": 'buy',
+            "product_id": "ETH-BTC"
+          };
 
-  let body = JSON.stringify(axiosBod);
-  var timestamp = (Date.now()/1000).toString();
-  let buyGdaxRequest = signGdaxRequest(timestamp, "POST", "/orders", body);
+          let body = JSON.stringify(axiosBod);
+          var timestamp = (Date.now()/1000).toString();
+          let buyGdaxRequest = signGdaxRequest(timestamp, "POST", "/orders", body);
 
-  var instance = axios.create({
-    headers: {
-      "Content-Type": "application/json",
-      "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
-      "CB-ACCESS-SIGN": buyGdaxRequest.signature,
-      "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
-      "CB-ACCESS-TIMESTAMP": buyGdaxRequest.timestampeh,
-    },
-    baseURL: apiURI,
-    data: axiosBod
+          var instance = axios.create({
+            headers: {
+              "Content-Type": "application/json",
+              "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
+              "CB-ACCESS-SIGN": buyGdaxRequest.signature,
+              "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
+              "CB-ACCESS-TIMESTAMP": buyGdaxRequest.timestampeh,
+            },
+            baseURL: apiURI,
+            data: axiosBod
+          });
+
+          console.log("Instance is: ", instance);
+
+          instance.post("/orders")
+            .then(res => {
+                console.log(`${size} BTC bought at ${price}\n\n`, res);
+                return;
+                loopConditional('gdax', 'BTCUSD');
+            })
+            .catch(err => {console.log("SOMETHING WENT WRONG BECAUSE: ", err)});
+      },
+      BTC: {
+        let axiosBod = {
+          "size": size,
+          "price": price,
+          "side": 'sell',
+          "product_id": "ETH-BTC"
+        };
+
+        let body = JSON.stringify(axiosBod);
+        var timestamp = (Date.now()/1000).toString();
+        let buyGdaxRequest = signGdaxRequest(timestamp, "POST", "/orders", body);
+
+        var instance = axios.create({
+          headers: {
+            "Content-Type": "application/json",
+            "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
+            "CB-ACCESS-SIGN": buyGdaxRequest.signature,
+            "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
+            "CB-ACCESS-TIMESTAMP": buyGdaxRequest.timestampeh,
+          },
+          baseURL: apiURI,
+          data: axiosBod
+        });
+
+        console.log("Instance is: ", instance);
+
+        instance.post("/orders")
+          .then(res => {
+              console.log(`${size} ETH bought at ${price}\n\n`, res);
+              return;
+              loopConditional('gdax', 'ETHUSD');
+            }
+          })
+          .catch(err => {console.log("SOMETHING WENT WRONG BECAUSE: ", err)});
+    };
+
+    pairs[currency].buy();
   });
+};
 
-  console.log("Instance is: ", instance);
-
-  instance.post("/orders")
-    .then(res => {
-      if(side === 'buy'){
-        console.log(`${size} BTC bought at ${price}\n\n`, res);
-        return;
-        loopConditional('gdax', 'BTCUSD');
-      } else {
-        console.log(`${size} ETH bought at ${price}\n\n`, res);
-        return;
-        loopConditional('gdax', 'ETHUSD');
-      }
-    })
-    .catch(err => {console.log("SOMETHING WENT WRONG BECAUSE: ", err)});
-
-  //OLD WAY WORKS JUST FINE
-
-  // config = {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
-  //     "CB-ACCESS-SIGN": buyGdaxRequest.signature,
-  //     "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
-  //     "CB-ACCESS-TIMESTAMP": buyGdaxRequest.timestampeh,
-  //   }
-  // };
-
-  //console.log("Config is: ", config);
-
-  // axios.post('https://api.gdax.com/orders', axiosBod, config)
-  //   .then(res => {
-  //     if(side === 'buy'){
-  //       console.log(`${size} BTC bought at ${price}\n\n`, res);
-  //       return;
-  //       loopConditional('gdax', 'BTCUSD');
-  //     } else {
-  //       console.log(`${size} ETH bought at ${price}\n\n`, res);
-  //       return;
-  //       loopConditional('gdax', 'ETHUSD');
-  //     }
-  //   })
-  //   .catch(err => console.log("SOMETHING WENT WRONG: ", err));
-}
 
 //works
 withdraw = (exchange, amount, currency, address) => {
@@ -160,34 +171,10 @@ withdraw = (exchange, amount, currency, address) => {
       loopConditional(exchange, currency.toUpperCase() + 'USD');
     })
     .catch(err => {console.log("SOMETHING WENT WRONG BECAUSE: ", err)});
-
-
-  //OLD WAY WORKS JUST FINE
-
-  // config = {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
-  //     "CB-ACCESS-SIGN": withdrawGdaxRequest.signature,
-  //     "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
-  //     "CB-ACCESS-TIMESTAMP": withdrawGdaxRequest.timestampeh,
-  //   }
-  // };
-
-  //console.log("Config is: ", config);
-
-  // axios.post('https://api.gdax.com/withdrawals/crypto', axiosBod, config)
-  //   .then(res => {
-  //     console.log(`${amount} ${currency} GOT INTO ${exchange} WALLET AT ${address}\n\n`, res);
-  //     return;
-  //     loopConditional(exchange, currency.toUpperCase() + 'USD');
-  //   })
-  //   .catch(err => console.log("SOMETHING WENT WRONG: ", err));
 };
 
 //works
 getGdaxAccountInfo = (currency) => {
-  //OLD AXIOS WAY DIDN'T WORK SO I DID THIS NEW SETUP FOR ALL OF THEM
   var timestamp = (Date.now()/1000).toString();
   let accountsGdaxRequest = signGdaxRequest(timestamp, "GET", "/accounts", "");
 
@@ -226,6 +213,83 @@ module.exports = {
   withdraw,
   getGdaxAccountInfo,
 };
+
+
+
+
+
+//works
+// buy = (size, price, side) => {
+//   //currency pair is ETH-BTC
+//   let axiosBod = {
+//     "size": size,
+//     "price": price,
+//     "side": side,
+//     "product_id": "ETH-BTC"
+//   };
+
+//   let body = JSON.stringify(axiosBod);
+//   var timestamp = (Date.now()/1000).toString();
+//   let buyGdaxRequest = signGdaxRequest(timestamp, "POST", "/orders", body);
+
+//   var instance = axios.create({
+//     headers: {
+//       "Content-Type": "application/json",
+//       "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
+//       "CB-ACCESS-SIGN": buyGdaxRequest.signature,
+//       "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
+//       "CB-ACCESS-TIMESTAMP": buyGdaxRequest.timestampeh,
+//     },
+//     baseURL: apiURI,
+//     data: axiosBod
+//   });
+
+//   console.log("Instance is: ", instance);
+
+//   instance.post("/orders")
+//     .then(res => {
+//       if(side === 'buy'){
+//         console.log(`${size} BTC bought at ${price}\n\n`, res);
+//         return;
+//         loopConditional('gdax', 'BTCUSD');
+//       } else {
+//         console.log(`${size} ETH bought at ${price}\n\n`, res);
+//         return;
+//         loopConditional('gdax', 'ETHUSD');
+//       }
+//     })
+//     .catch(err => {console.log("SOMETHING WENT WRONG BECAUSE: ", err)});
+
+  //OLD WAY WORKS JUST FINE
+
+  // config = {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
+  //     "CB-ACCESS-SIGN": buyGdaxRequest.signature,
+  //     "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
+  //     "CB-ACCESS-TIMESTAMP": buyGdaxRequest.timestampeh,
+  //   }
+  // };
+
+  //console.log("Config is: ", config);
+
+  // axios.post('https://api.gdax.com/orders', axiosBod, config)
+  //   .then(res => {
+  //     if(side === 'buy'){
+  //       console.log(`${size} BTC bought at ${price}\n\n`, res);
+  //       return;
+  //       loopConditional('gdax', 'BTCUSD');
+  //     } else {
+  //       console.log(`${size} ETH bought at ${price}\n\n`, res);
+  //       return;
+  //       loopConditional('gdax', 'ETHUSD');
+  //     }
+  //   })
+  //   .catch(err => console.log("SOMETHING WENT WRONG: ", err));
+//}
+
+
 
 
 

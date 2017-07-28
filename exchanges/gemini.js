@@ -53,6 +53,7 @@ signRequest = request => {
   return { base, signature };
 };
 
+//works
 requestBalances = () => {
   let balanceRequest = signRequest({
     request: "/v1/balances",
@@ -72,6 +73,7 @@ requestBalances = () => {
   return axios.post("https://api.gemini.com/v1/balances", "", config)
 };
 
+//works
 buyEthOnGemini = () => {
   console.log("\n\n\n\n\n\n\n\nBUY ETH GEMINI: ", (cryptoSocket.Exchanges.gemini.ETHBTC - (0.10 / cryptoSocket.Exchanges.gemini.BTCUSD)).toFixed(5).toString());
   requestBalances()
@@ -108,6 +110,7 @@ buyEthOnGemini = () => {
     });
 }
 
+//works
 buyBtcOnGemini = (price) => {
   requestBalances()
     .then(balanceArray => {
@@ -144,6 +147,7 @@ buyBtcOnGemini = (price) => {
     .catch(err => console.log(err));
 };
 
+//just whitelisted my addresses I'll test it out
 withdrawEthOnGemini = () => {
   console.log("\n\n\n\n\n\n\n\nWITHDRAW ETH GEMINI");
   let withdrawRequest = signRequest({
