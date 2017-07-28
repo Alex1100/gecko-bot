@@ -2,46 +2,51 @@ require("dotenv").load();
 const axios = require("axios");
 let cryptoSocket = require("crypto-socket");
 let flag = true;
-// cryptoSocket.start("gemini");
-// cryptoSocket.start("gdax");
-// cryptoSocket.start("bitfinex");
-// cryptoSocket.start("poloniex");
-// cryptoSocket.start("bittrex");
-// cryptoSocket.start("cex");
+cryptoSocket.start("gemini");
+cryptoSocket.start("gdax");
+cryptoSocket.start("bitfinex");
+cryptoSocket.start("poloniex");
+cryptoSocket.start("bittrex");
+cryptoSocket.start("cex");
+
+//GDAX
 let buyOnGdax = require('./exchanges/gdax').buyOnGdax;
 let withdrawFromGdax = require('./exchanges/gdax').withdrawFromGdax;
+let getGdaxAccountInfo = require('./exchanges/gdax').getAccountInfo;
+
+//POLONIEX
 let buyEthOnPoloniex = require('./exchanges/poloniex').buyEthOnPoloniex;
 let buyBtcOnPoloniex = require('./exchanges/poloniex').buyBtcOnPoloniex;
 let withdrawEthOnPoloniex = require('./exchanges/poloniex').withdrawEthOnPoloniex;
 let withdrawBtcOnPoloniex = require('./exchanges/poloniex').withdrawBtcOnPoloniex;
+let returnBalancesPoloniex = require('./exchanges/poloniex').returnBalancesPoloniex;
+let returnPoloAddresses = require('./exchanges/poloniex').returnPoloAddresses;
+let createNewPoloniexCurrencyAddress = require('./exchanges/poloniex').createNewPoloniexCurrencyAddress;
+
+//GEMINI
 let buyEthOnGemni = require('./exchanges/gemini').buyEthOnGemni;
 let buyBtcOnGemini = require('./exchanges/gemini').buyBtcOnGemini;
 let withdrawEthOnGemini = require('./exchanges/gemini').withdrawEthOnGemini;
 let withdrawBtcOnGemini = require('./exchanges/gemini').withdrawBtcOnGemini;
+let requestBalancesOnGemini = require('./exchanges/gemini').requestBalances;
+let signRequestOnGemini = require('./exchanges/gemini').signRequest;
+
+//BITFINEX
 let buyEthOnBitfinex = require('./exchanges/bitfinex').buyEthOnBitfinex;
 let buyBtcOnBitfinex = require('./exchanges/bitfinex').buyBtcOnBitfinex;
 let withdrawEthOnBitfinex = require('./exchanges/bitfinex').withdrawEthOnBitfinex;
 let withdrawBtcOnBitfinex = require('./exchanges/bitfinex').withdrawBtcOnBitfinex;
+
+//BITTREX
 let buyEthOnBittrex = require('./exchanges/bittrex').buyEthOnBittrex;
 let buyBtcOnBittrex = require('./exchanges/bittrex').buyBtcOnBittrex;
 let withdrawEthOnBittrex = require('./exchanges/bittrex').withdrawEthOnBittrex;
 let withdrawBtcOnBittrex = require('./exchanges/bittrex').withdrawBtcOnBittrex;
-let buyEthOnCex = require('./exchanges/cex').buyEthOnCex;
-let buyBtcOnCex = require('./exchanges/cex').buyBtcOnCex;
-let withdrawEthOnCex = require('./exchanges/cex').withdrawEthOnCex;
-let withdrawBtcOnCex = require('./exchanges/cex').withdrawBtcOnCex;
-let requestBalancesOnGemini = require('./exchanges/gemini').requestBalances;
-let signRequestOnGemini = require('./exchanges/gemini').signRequest;
-let returnBalancesPoloniex = require('./exchanges/poloniex').returnBalancesPoloniex;
-let returnPoloAddresses = require('./exchanges/poloniex').returnPoloAddresses;
-let createNewCurrencyAddress = require('./exchanges/poloniex').createNewCurrencyAddress;
 let requestBalancesBittrex = require('./exchanges/bittrex').requestBalancesBittrex;
 let getDepositAddressBittrex = require('./exchanges/bittrex').getDepositAddressBittrex;
-let getFundingInfo = require('./exchanges/gdax').getFundingInfo;
-let getAccountInfo = require('./exchanges/gdax').getAccountInfo;
-let getAccountsTwo = require('./exchanges/gdax').getAccountsTwo;
 
-getAccountsTwo('ETH');
+
+//getAccountInfo('ETH');
 
 //buyOnGdax("0.01", "0.07543", "sell");
 //getAccountInfo('ETH');

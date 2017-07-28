@@ -149,7 +149,7 @@ returnPoloAddresses = () => {
   })
 }
 
-createNewCurrencyAddress = (currency) => {
+createNewPoloniexCurrencyAddress = (currency) => {
   //ETH or BTC for currency example
   poloniex.generateNewAddress(currency.toUpperCase()).then(address => {
     console.log(address);
@@ -164,5 +164,5 @@ module.exports = {
   withdrawBtcOnPoloniex,
   returnBalancesPoloniex,
   returnPoloAddresses,
-  createNewCurrencyAddress
+  createNewPoloniexCurrencyAddress
 };
