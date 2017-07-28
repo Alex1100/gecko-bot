@@ -1,8 +1,8 @@
 //DAVES CODE
-require("dotenv").load();
-const Poloniex = require("poloniex.js");
-const axios = require("axios");
-const poloniex = new Poloniex(process.env.POLO_PUB, process.env.POLO_PRIV);
+//require("dotenv").load();
+//const Poloniex = require("poloniex.js");
+//const axios = require("axios");
+//const poloniex = new Poloniex(process.env.POLO_PUB, process.env.POLO_PRIV);
 
 module.exports.btcAddress = "1Mq2vRnyWnsL2DMKbeDsYbbv3npKHCxiVK";
 module.exports.ethAddress = "0xc9d1d6bdfc14837ab576e24a7fcba6e624768583";
@@ -126,7 +126,7 @@ poloniexFeeInfo = () => {
   poloniex.returnFeeInfo();
 }
 
-buyEthOnPoloniex = () => {
+buyOnPoloniex = () => {
   console.log("BUY ETH ON POLONIEX");
   poloniexFeeInfo().then(fee => {
     console.log(fee);
@@ -142,7 +142,7 @@ buyBtcOnPoloniex = () => {
   })
 };
 
-withdrawEthOnPoloniex = (amount, address) => {
+withdrawFromPoloniex = (amount, address) => {
   console.log("WITHDRAW ETH POLONIEX");
   poloniex.withdraw('ETH', amount, address).then(res => {
     console.log(`SUCCESSFULLY WITHDREW ${amount} ETH from POLONIEX to ${address}`);

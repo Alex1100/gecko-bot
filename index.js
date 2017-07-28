@@ -2,41 +2,18 @@ require("dotenv").load();
 const axios = require("axios");
 let cryptoSocket = require("crypto-socket");
 let flag = true;
-cryptoSocket.start("gemini");
-cryptoSocket.start("gdax");
-cryptoSocket.start("bitfinex");
-cryptoSocket.start("poloniex");
-cryptoSocket.start("bittrex");
+// cryptoSocket.start("gemini");
+// cryptoSocket.start("gdax");
+// cryptoSocket.start("bitfinex");
+// cryptoSocket.start("poloniex");
+// cryptoSocket.start("bittrex");
+let bitfinex = require('./exchanges/bitfinex');
+let bittrex = require('./exchanges/bittrex');
+let gdax = require('./exchanges/gdax');
+let gemini = require('./exchanges/gemini');
+let poloniex = require('./exchanges/poloniex');
 
-//GDAX
-let buyOnGdax = require('./exchanges/gdax').buyOnGdax;
-let withdrawFromGdax = require('./exchanges/gdax').withdrawFromGdax;
-let getGdaxAccountInfo = require('./exchanges/gdax').getGdaxAccountInfo;
-
-//POLONIEX
-let buyOnPoloniex = require('./exchanges/poloniex').buyOnPoloniex;
-let withdrawFromPoloniex = require('./exchanges/poloniex').withdrawFromPoloniex;
-let returnBalancesPoloniex = require('./exchanges/poloniex').returnBalancesPoloniex;
-let returnPoloAddresses = require('./exchanges/poloniex').returnPoloAddresses;
-let createNewPoloniexCurrencyAddress = require('./exchanges/poloniex').createNewPoloniexCurrencyAddress;
-
-//GEMINI
-let buyOnGemni = require('./exchanges/gemini').buyOnGemni;
-let withdrawFromGemini = require('./exchanges/gemini').withdrawFromGemini;
-let requestBalancesOnGemini = require('./exchanges/gemini').requestBalances;
-let signRequestOnGemini = require('./exchanges/gemini').signRequest;
-
-//BITFINEX
-let buyOnBitfinex = require('./exchanges/bitfinex').buyOnBitfinex;
-let withdrawFromBitfinex = require('./exchanges/bitfinex').withdrawFromBitfinex;
-let requestBalancesOnBitfinex = require('./exchanges/bitfinex').requestBalancesOnBitfinex;
-
-//BITTREX
-let buyOnBittrex = require('./exchanges/bittrex').buyOnBittrex;
-let withdrawFromBittrex = require('./exchanges/bittrex').withdrawFromBittrex;
-let requestBalancesOnBittrex = require('./exchanges/bittrex').requestBalancesOnBittrex;
-let getDepositAddressBittrex = require('./exchanges/bittrex').getDepositAddressBittrex;
-
+bitfinex.requestBalances();
 
 
 //DAVE's NEW CHECKARB FUNCTION

@@ -1,10 +1,18 @@
 require("dotenv").load();
 const btoa = require("btoa");
 const createHmac = require("create-hmac");
+var crypto = require('crypto');
 const n = require("nonce")();
 const axios = require("axios");
 let loopConditional = require('../index').loopConditional;
 let cryptoSocket = require("crypto-socket");
+//v2 once out of beta will deprecate v1
+let apiURI = `https://api.bitfinex.com/v1`;
+
+var Bitfinex = require('bitfinex');
+
+var bitfinex = new Bitfinex(process.env.BITFINEX_API_KEY, process.env.BITFINEX_API_KEY_SECRET);
+
 
 const API_KEYS = {
   poloniex: {
@@ -41,34 +49,74 @@ const API_KEYS = {
   }
 };
 
+signBitfinexRequest = (uri, nonce, body) => {
+  let payload = new Buffer(JSON.stringify({
+    request: uri,
+    nonce: nonce
+  })).toString('base64');
+  let signature = crypto.createHmac('sha384', process.env.BITFINEX_API_KEY_SECRET).update(payload).digest('hex');
+  return { payload, nonce, signature };
+}
 
-buyEthOnBitfinex = () => {
-  console.log("BUY ETH ON BITFINEX");
-  flag = true;
-  loopConditional();
-};
 
-buyBtcOnBitfinex = () => {
-  console.log("BUY BTC ON BITFINEX");
-  flag = true;
-  loopConditional();
-};
+withdraw = () => {
+  return new Promise((resolve, reject) => {
+    bitfinex.withdraw(withdraw_type, wallet, amount, address, (err, data) => {
+      if (err) {
+        console.log("SOMETHING WENT WRONG BECAUSE: ", err);
+        reject(err);
+      } else {
+        console.log("DATA IS: ", data);
+        resolve(data);
+      }
+    })
+  })
+}
 
-withdrawEthOnBitfinex = () => {
-  console.log("WITHDRAW ETH BITFINEX");
-  flag = true;
-  loopConditional();
-};
+buy = () => {
+  currency = currency.toUpperCase();
+  requestBalances().then(balancesObj => {
+    const pairs = {
+      ETH: {
+        buy: () =>
+          bitfinex.new_order('ethbtc', price, 'sell', 'false', 'true', 1, (err, data) => {
+              if (err) {
+                console.log(err);
+              } else {
+                console.log(data);
+              }
+            })
+      },
+      BTC: {
+        buy: () => poloniex.sell('ethbtc', price, 'buy', 'false', 'true', 1, (err, data) => {
+              if (err) {
+                console.log(err);
+              } else {
+                console.log(data);
+              }
+            })
+      }
+    };
+    pairs[currency].buy();
+  });
+}
 
-withdrawBtcOnBitfinex = () => {
-  console.log("WITHDRAW BTC BITFINEX");
-  flag = true;
-  loopConditional();
-};
+requestBalances = () => {
+  return new Promise((resolve, reject) => {
+    bitfinex.wallet_balances((err, data) => {
+      if (err) {
+        console.log("SOMETHING WENT WRONG BECAUSE: ", err);
+        reject(err);
+      } else {
+        console.log("DATA IS: ", data);
+        resolve(data);
+      }
+    })
+  });
+}
 
 module.exports = {
-  buyEthOnBitfinex,
-  buyBtcOnBitfinex,
-  withdrawEthOnBitfinex,
-  withdrawBtcOnBitfinex
+  buy,
+  withdraw,
+  requestBalances
 };
