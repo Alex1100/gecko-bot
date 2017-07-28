@@ -9,6 +9,42 @@ let loopConditional = require('./../index').loopConditional;
 const gdaxAdd = process.env.GDAX_ETH_DEPOSIT_ADDRESS;
 var cryptoSocket = require("crypto-socket");
 
+const API_KEYS = {
+  poloniex: {
+    api_key: process.env.POLONIEX_API_KEY,
+    secret: process.env.POLONIEX_SECRET,
+    ETH: process.env.POLONIEX_ETH_ADDRESS,
+    BTC: process.POLONIEX_BTC_ADDRESS
+  },
+  gemini: {
+    api_key: process.env.gemPub,
+    secret: process.env.gemPriv,
+    client_order_id: process.env.GEMINI_CLIENT_ORDER_ID,
+    ETH: process.env.GEMINI_ETH_DEPOSIT_ADDRESS,
+    BTC: process.env.GEMINI_BTC_DEPOSIT_ADDRESS
+  },
+  gdax: {
+    api_key: process.env.GDAX_API_KEY,
+    secret: process.env.GDAX_API_KEY_SECRET,
+    passphrase: process.env.GDAX_API_KEY_PASSPHRASE,
+    ETH: process.env.GDAX_ETH_DEPOSIT_ADDRESS,
+    BTC: process.env.GDAX_BTC_DEPOSIT_ADDRESS
+  },
+  bittrex: {
+    api_key: process.env.BITTREX_API_KEY,
+    secret: process.env.BITTREX_API_KEY_SECRET,
+    ETH: process.env.BITTREX_ETH_WALLET_ADDRESS,
+    BTC: process.env.BITTREX_BTC_WALLET_ADDRESS
+  },
+  bitfinex: {
+    api_key: process.env.BITFINEX_API_KEY,
+    secret: process.env.BITFINEX_API_KEY_SECRET,
+    ETH: process.env.BITFINEX_ETH_EXCHANGE_WALLET_ADDRESS,
+    BTC: process.env.BITFINEX_BTC_EXCHANGE_WALLET_ADDRESS
+  }
+};
+
+
 signRequest = request => {
   let base = btoa(JSON.stringify(request));
   let hmac = createHmac("sha384", gemPriv);
@@ -152,7 +188,7 @@ module.exports = {
 
 
 
-//BITCOIN ON GEMINI BUY FUNCTION (comment out until gem keys come through)
+// BITCOIN ON GEMINI BUY FUNCTION (comment out until gem keys come through)
 // buyBtcOnGemini = () => {
 //     console.log("PRICE SHOULD BE", cryptoSocket.Exchanges.gemini.ETHBTC - (0.10 / cryptoSocket.Exchanges.gemini.BTCUSD));
 //     var order = {
