@@ -186,7 +186,7 @@ withdrawFromGdax = (exchange, amount, currency, address) => {
 };
 
 //works
-getAccountInfo = (currency) => {
+getGdaxAccountInfo = (currency) => {
   //OLD AXIOS WAY DIDN'T WORK SO I DID THIS NEW SETUP FOR ALL OF THEM
   var timestamp = (Date.now()/1000).toString();
   let accountsGdaxRequest = signGdaxRequest(timestamp, "GET", "/accounts", "");
@@ -224,7 +224,7 @@ getAccountInfo = (currency) => {
 module.exports = {
   buyOnGdax,
   withdrawFromGdax,
-  getAccountInfo,
+  getGdaxAccountInfo,
 };
 
 
