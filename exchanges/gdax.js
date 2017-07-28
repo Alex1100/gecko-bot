@@ -12,7 +12,7 @@ var client = new Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': pr
 let loopConditional = require('../index').loopConditional;
 var apiURI = 'https://api.gdax.com';
 var cryptoSocket = require("crypto-socket");
-var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, Buffer(process.env.GDAX_API_KEY_SECRET, 'base64'), process.env.GDAX_API_KEY_PASSPHRASE, apiURI);
+// var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, Buffer(process.env.GDAX_API_KEY_SECRET, 'base64'), process.env.GDAX_API_KEY_PASSPHRASE, apiURI);
 
 
 const API_KEYS = {
@@ -76,18 +76,33 @@ buyOnGdax = (size, price, side) => {
   var timestamp = (Date.now()/1000).toString();
   let buyGdaxRequest = signGdaxRequest(timestamp, "POST", "/orders", body);
 
-  config = {
+  // config = {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
+  //     "CB-ACCESS-SIGN": buyGdaxRequest.signature,
+  //     "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
+  //     "CB-ACCESS-TIMESTAMP": buyGdaxRequest.timestampeh,
+  //   }
+  // };
+
+  //console.log("Config is: ", config);
+
+  var instance = axios.create({
     headers: {
       "Content-Type": "application/json",
       "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
       "CB-ACCESS-SIGN": buyGdaxRequest.signature,
       "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
       "CB-ACCESS-TIMESTAMP": buyGdaxRequest.timestampeh,
-    }
-  };
+    },
+    baseURL: apiURI,
+    data: axiosBod
+  });
 
-  console.log("Config is: ", config);
-  axios.post('https://api.gdax.com/orders', axiosBod, config)
+  console.log("Instance is: ", instance);
+
+  instance.post("/orders")
     .then(res => {
       if(side === 'buy'){
         console.log(`${size} BTC bought at ${price}\n\n`, res);
@@ -99,7 +114,21 @@ buyOnGdax = (size, price, side) => {
         loopConditional('gdax', 'ETHUSD');
       }
     })
-    .catch(err => console.log("SOMETHING WENT WRONG: ", err));
+    .catch(err => {console.log("SOMETHING WENT WRONG BECAUSE: ", err)});
+
+  // axios.post('https://api.gdax.com/orders', axiosBod, config)
+  //   .then(res => {
+  //     if(side === 'buy'){
+  //       console.log(`${size} BTC bought at ${price}\n\n`, res);
+  //       return;
+  //       loopConditional('gdax', 'BTCUSD');
+  //     } else {
+  //       console.log(`${size} ETH bought at ${price}\n\n`, res);
+  //       return;
+  //       loopConditional('gdax', 'ETHUSD');
+  //     }
+  //   })
+  //   .catch(err => console.log("SOMETHING WENT WRONG: ", err));
 }
 
 //works
@@ -114,25 +143,49 @@ withdrawFromGdax = (exchange, amount, currency, address) => {
   var timestamp = (Date.now()/1000).toString();
   let withdrawGdaxRequest = signGdaxRequest(timestamp, "POST", "/withdrawals/crypto", body);
 
-  config = {
+  // config = {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
+  //     "CB-ACCESS-SIGN": withdrawGdaxRequest.signature,
+  //     "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
+  //     "CB-ACCESS-TIMESTAMP": withdrawGdaxRequest.timestampeh,
+  //   }
+  // };
+
+  //console.log("Config is: ", config);
+
+
+  var instance = axios.create({
     headers: {
       "Content-Type": "application/json",
       "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
-      "CB-ACCESS-SIGN": withdrawGdaxRequest.signature,
+      "CB-ACCESS-SIGN": buyGdaxRequest.signature,
       "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
-      "CB-ACCESS-TIMESTAMP": withdrawGdaxRequest.timestampeh,
-    }
-  };
+      "CB-ACCESS-TIMESTAMP": buyGdaxRequest.timestampeh,
+    },
+    baseURL: apiURI,
+    data: axiosBod
+  });
 
-  console.log("Config is: ", config);
+  console.log("Instance is: ", instance);
 
-  axios.post('https://api.gdax.com/withdrawals/crypto', axiosBod, config)
+
+  instance.post("/withdrawals/crypto")
     .then(res => {
       console.log(`${amount} ${currency} GOT INTO ${exchange} WALLET AT ${address}\n\n`, res);
       return;
       loopConditional(exchange, currency.toUpperCase() + 'USD');
     })
-    .catch(err => console.log("SOMETHING WENT WRONG: ", err));
+    .catch(err => {console.log("SOMETHING WENT WRONG BECAUSE: ", err)});
+
+  // axios.post('https://api.gdax.com/withdrawals/crypto', axiosBod, config)
+  //   .then(res => {
+  //     console.log(`${amount} ${currency} GOT INTO ${exchange} WALLET AT ${address}\n\n`, res);
+  //     return;
+  //     loopConditional(exchange, currency.toUpperCase() + 'USD');
+  //   })
+  //   .catch(err => console.log("SOMETHING WENT WRONG: ", err));
 };
 
 //works
