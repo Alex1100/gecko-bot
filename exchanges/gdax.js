@@ -6,14 +6,9 @@ const crypto = require('crypto');
 const createHmac = require("create-hmac");
 const n = require("nonce")();
 const axios = require("axios");
-var Gdax = require('gdax');
-var Client = require('coinbase').Client;
-var client = new Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_KEY_SECRET});
 let loopConditional = require('../index').loopConditional;
 var apiURI = 'https://api.gdax.com';
 var cryptoSocket = require("crypto-socket");
-// var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, Buffer(process.env.GDAX_API_KEY_SECRET, 'base64'), process.env.GDAX_API_KEY_PASSPHRASE, apiURI);
-
 
 const API_KEYS = {
   poloniex: {
@@ -72,21 +67,8 @@ buyOnGdax = (size, price, side) => {
   };
 
   let body = JSON.stringify(axiosBod);
-
   var timestamp = (Date.now()/1000).toString();
   let buyGdaxRequest = signGdaxRequest(timestamp, "POST", "/orders", body);
-
-  // config = {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
-  //     "CB-ACCESS-SIGN": buyGdaxRequest.signature,
-  //     "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
-  //     "CB-ACCESS-TIMESTAMP": buyGdaxRequest.timestampeh,
-  //   }
-  // };
-
-  //console.log("Config is: ", config);
 
   var instance = axios.create({
     headers: {
@@ -116,6 +98,20 @@ buyOnGdax = (size, price, side) => {
     })
     .catch(err => {console.log("SOMETHING WENT WRONG BECAUSE: ", err)});
 
+  //OLD WAY WORKS JUST FINE
+
+  // config = {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
+  //     "CB-ACCESS-SIGN": buyGdaxRequest.signature,
+  //     "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
+  //     "CB-ACCESS-TIMESTAMP": buyGdaxRequest.timestampeh,
+  //   }
+  // };
+
+  //console.log("Config is: ", config);
+
   // axios.post('https://api.gdax.com/orders', axiosBod, config)
   //   .then(res => {
   //     if(side === 'buy'){
@@ -138,23 +134,10 @@ withdrawFromGdax = (exchange, amount, currency, address) => {
     "currency": currency,
     "crypto_address": address,
   };
-  var body = JSON.stringify(axiosBod);
 
+  var body = JSON.stringify(axiosBod);
   var timestamp = (Date.now()/1000).toString();
   let withdrawGdaxRequest = signGdaxRequest(timestamp, "POST", "/withdrawals/crypto", body);
-
-  // config = {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
-  //     "CB-ACCESS-SIGN": withdrawGdaxRequest.signature,
-  //     "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
-  //     "CB-ACCESS-TIMESTAMP": withdrawGdaxRequest.timestampeh,
-  //   }
-  // };
-
-  //console.log("Config is: ", config);
-
 
   var instance = axios.create({
     headers: {
@@ -170,7 +153,6 @@ withdrawFromGdax = (exchange, amount, currency, address) => {
 
   console.log("Instance is: ", instance);
 
-
   instance.post("/withdrawals/crypto")
     .then(res => {
       console.log(`${amount} ${currency} GOT INTO ${exchange} WALLET AT ${address}\n\n`, res);
@@ -178,6 +160,21 @@ withdrawFromGdax = (exchange, amount, currency, address) => {
       loopConditional(exchange, currency.toUpperCase() + 'USD');
     })
     .catch(err => {console.log("SOMETHING WENT WRONG BECAUSE: ", err)});
+
+
+  //OLD WAY WORKS JUST FINE
+
+  // config = {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
+  //     "CB-ACCESS-SIGN": withdrawGdaxRequest.signature,
+  //     "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
+  //     "CB-ACCESS-TIMESTAMP": withdrawGdaxRequest.timestampeh,
+  //   }
+  // };
+
+  //console.log("Config is: ", config);
 
   // axios.post('https://api.gdax.com/withdrawals/crypto', axiosBod, config)
   //   .then(res => {
@@ -190,6 +187,7 @@ withdrawFromGdax = (exchange, amount, currency, address) => {
 
 //works
 getAccountInfo = (currency) => {
+  //OLD AXIOS WAY DIDN'T WORK SO I DID THIS NEW SETUP FOR ALL OF THEM
   var timestamp = (Date.now()/1000).toString();
   let accountsGdaxRequest = signGdaxRequest(timestamp, "GET", "/accounts", "");
 
@@ -204,7 +202,6 @@ getAccountInfo = (currency) => {
     baseURL: apiURI
   });
 
-  //console.log("Config is: ", config);
   console.log("Instance is: ", instance);
 
   instance.get('/accounts')
@@ -233,6 +230,12 @@ module.exports = {
 
 
 //CODE GRAVEYARD ALL WORKS BUT NOT NEEDED... YET..
+
+// var Gdax = require('gdax');
+// var Client = require('coinbase').Client;
+// var client = new Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_KEY_SECRET});
+// var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, Buffer(process.env.GDAX_API_KEY_SECRET, 'base64'), process.env.GDAX_API_KEY_PASSPHRASE, apiURI);
+
 // withdrawEthToCoinbase = () => {
 //   //Dave use this to find account id's for each wallet on coinbase then comment it out or remove it lol
 //   client.getAccounts({}, function(err, accounts) {
