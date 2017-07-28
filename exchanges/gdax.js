@@ -174,7 +174,6 @@ getAccountInfo = (currency) => {
 module.exports = {
   buyOnGdax,
   withdrawFromGdax,
-  getFundingInfo,
   getAccountInfo,
 };
 
