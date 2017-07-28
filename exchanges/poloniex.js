@@ -1,9 +1,10 @@
 //DAVES CODE
 require("dotenv").load();
-const Poloniex = require("poloniex.js");
+//const Poloniex = require("poloniex.js");
 const axios = require("axios");
-const poloniex = new Poloniex(process.env.POLO_PUB, process.env.POLO_PRIV);
-
+//const poloniex = new Poloniex(process.env.POLO_PUB, process.env.POLO_PRIV);
+const Poloniex = require('poloniex-api-node');
+let poloniex = new Poloniex(process.env.POLONIEX_API_KEY, process.env.POLONIEX_SECRET, { socketTimeout: 15000 });
 let btcAddress = process.env.POLONIEX_BTC_ADDRESS;
 let ethAddress = process.env.POLONIEX_ETH_ADDRESS;
 
@@ -11,8 +12,10 @@ requestBalances = () => {
   return new Promise((resolve, reject) => {
     poloniex.returnBalances((err, data) => {
       if (err) {
+        console.log("err: ", err)
         reject(err);
       } else {
+        console.log("DATA IS: ", data);
         resolve(data);
       }
     });

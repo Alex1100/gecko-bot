@@ -14,6 +14,8 @@ let gemini = require('./exchanges/gemini');
 let poloniex = require('./exchanges/poloniex');
 
 
+poloniex.requestBalances();
+
 //DAVE's NEW CHECKARB FUNCTION
 checkArbitrage = (exchange, currency) => {
   let largestSpread = -Infinity;

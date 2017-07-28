@@ -63,7 +63,7 @@ buy = (currency) => {
   requestBalances().then(balancesObj => {
     const pairs = {
       ETH: {
-        buy: () =>
+        buy: () => {
           let axiosBod = {
             "size": size,
             "price": price,
@@ -96,8 +96,10 @@ buy = (currency) => {
                 loopConditional('gdax', 'BTCUSD');
             })
             .catch(err => {console.log("SOMETHING WENT WRONG BECAUSE: ", err)});
+          }
       },
       BTC: {
+        buy: () => {
         let axiosBod = {
           "size": size,
           "price": price,
@@ -128,12 +130,13 @@ buy = (currency) => {
               console.log(`${size} ETH bought at ${price}\n\n`, res);
               return;
               loopConditional('gdax', 'ETHUSD');
-            }
           })
           .catch(err => {console.log("SOMETHING WENT WRONG BECAUSE: ", err)});
-    };
+        }
+    }
+  };
 
-    pairs[currency].buy();
+  pairs[currency].buy();
   });
 };
 
