@@ -57,7 +57,7 @@ signGdaxRequest = (timestamp, method, reqPath, reqBody) => {
 }
 
 //works
-buyOnGdax = (size, price, side) => {
+buy = (size, price, side) => {
   //currency pair is ETH-BTC
   let axiosBod = {
     "size": size,
@@ -128,7 +128,7 @@ buyOnGdax = (size, price, side) => {
 }
 
 //works
-withdrawFromGdax = (exchange, amount, currency, address) => {
+withdraw = (exchange, amount, currency, address) => {
   var axiosBod = {
     "amount": amount,
     "currency": currency,
@@ -222,8 +222,8 @@ getGdaxAccountInfo = (currency) => {
 
 
 module.exports = {
-  buyOnGdax,
-  withdrawFromGdax,
+  buy,
+  withdraw,
   getGdaxAccountInfo,
 };
 

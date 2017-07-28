@@ -14,35 +14,576 @@ let withdrawFromGdax = require('./exchanges/gdax').withdrawFromGdax;
 let getGdaxAccountInfo = require('./exchanges/gdax').getGdaxAccountInfo;
 
 //POLONIEX
-let buyEthOnPoloniex = require('./exchanges/poloniex').buyEthOnPoloniex;
-let buyBtcOnPoloniex = require('./exchanges/poloniex').buyBtcOnPoloniex;
-let withdrawEthOnPoloniex = require('./exchanges/poloniex').withdrawEthOnPoloniex;
-let withdrawBtcOnPoloniex = require('./exchanges/poloniex').withdrawBtcOnPoloniex;
+let buyOnPoloniex = require('./exchanges/poloniex').buyOnPoloniex;
+let withdrawFromPoloniex = require('./exchanges/poloniex').withdrawFromPoloniex;
 let returnBalancesPoloniex = require('./exchanges/poloniex').returnBalancesPoloniex;
 let returnPoloAddresses = require('./exchanges/poloniex').returnPoloAddresses;
 let createNewPoloniexCurrencyAddress = require('./exchanges/poloniex').createNewPoloniexCurrencyAddress;
 
 //GEMINI
-let buyEthOnGemni = require('./exchanges/gemini').buyEthOnGemni;
-let buyBtcOnGemini = require('./exchanges/gemini').buyBtcOnGemini;
-let withdrawEthOnGemini = require('./exchanges/gemini').withdrawEthOnGemini;
-let withdrawBtcOnGemini = require('./exchanges/gemini').withdrawBtcOnGemini;
+let buyOnGemni = require('./exchanges/gemini').buyOnGemni;
+let withdrawFromGemini = require('./exchanges/gemini').withdrawFromGemini;
 let requestBalancesOnGemini = require('./exchanges/gemini').requestBalances;
 let signRequestOnGemini = require('./exchanges/gemini').signRequest;
 
 //BITFINEX
-let buyEthOnBitfinex = require('./exchanges/bitfinex').buyEthOnBitfinex;
-let buyBtcOnBitfinex = require('./exchanges/bitfinex').buyBtcOnBitfinex;
-let withdrawEthOnBitfinex = require('./exchanges/bitfinex').withdrawEthOnBitfinex;
-let withdrawBtcOnBitfinex = require('./exchanges/bitfinex').withdrawBtcOnBitfinex;
+let buyOnBitfinex = require('./exchanges/bitfinex').buyOnBitfinex;
+let withdrawFromBitfinex = require('./exchanges/bitfinex').withdrawFromBitfinex;
+let requestBalancesOnBitfinex = require('./exchanges/bitfinex').requestBalancesOnBitfinex;
 
 //BITTREX
-let buyEthOnBittrex = require('./exchanges/bittrex').buyEthOnBittrex;
-let buyBtcOnBittrex = require('./exchanges/bittrex').buyBtcOnBittrex;
-let withdrawEthOnBittrex = require('./exchanges/bittrex').withdrawEthOnBittrex;
-let withdrawBtcOnBittrex = require('./exchanges/bittrex').withdrawBtcOnBittrex;
-let requestBalancesBittrex = require('./exchanges/bittrex').requestBalancesBittrex;
+let buyOnBittrex = require('./exchanges/bittrex').buyOnBittrex;
+let withdrawFromBittrex = require('./exchanges/bittrex').withdrawFromBittrex;
+let requestBalancesOnBittrex = require('./exchanges/bittrex').requestBalancesOnBittrex;
 let getDepositAddressBittrex = require('./exchanges/bittrex').getDepositAddressBittrex;
+
+
+
+//DAVE's NEW CHECKARB FUNCTION
+checkArbitrage = (exchange, currency) => {
+  let largestSpread = -Infinity;
+  let spreadCurrency;
+  let trades = {
+    gdax,
+    gemini,
+    poloniex,
+    bitfinex,
+    bittrex
+  };
+
+  if (exchange === "gdax") {
+    //BTC
+    let gdaxVsGeminiBtc = cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD;
+    let gdaxVsPoloniexBtc = cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD;
+    let gdaxVsBitfinexBtc = cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD;
+    let gdaxVsBittrexBtc = cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD;
+    let geminiVsGdaxBtc = cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD;
+    let poloniexVsGdaxBtc = cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD;
+    let bitfinexVsGdaxBtc = cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD;
+    let bittrexVsGdaxBtc = cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD;
+
+    //ETH
+    let gdaxVsGeminiEth = cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD;
+    let gdaxVsPoloniexEth = cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD;
+    let gdaxVsBitfinexEth = cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD;
+    let gdaxVsBittrexEth = cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD;
+    let geminiVsGdaxEth = cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD;
+    let poloniexVsGdaxEth = cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD;
+    let bitfinexVsGdaxEth = cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD;
+    let bittrexVsGdaxEth = cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD;
+
+    if (gdaxVsGeminiBtc > largestSpread) {
+      largestSpread = gdaxVsGeminiBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (gdaxVsPoloniexBtc > largestSpread) {
+      largestSpread = gdaxVsPoloniexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (gdaxVsBitfinexBtc > largestSpread) {
+      largestSpread = gdaxVsBitfinexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (gdaxVsBittrexBtc > largestSpread) {
+      largestSpread = gdaxVsBittrexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (geminiVsGdaxBtc > largestSpread) {
+      largestSpread = geminiVsGdaxBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (poloniexVsGdaxBtc > largestSpread) {
+      largestSpread = poloniexVsGdaxBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bitfinexVsGdaxBtc > largestSpread) {
+      largestSpread = bitfinexVsGdaxBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bittrexVsGdaxBtc > largestSpread) {
+      largestSpread = bittrexVsGdaxBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (gdaxVsGeminiEth > largestSpread) {
+      largestSpread = gdaxVsGeminiEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (gdaxVsPoloniexEth > largestSpread) {
+      largestSpread = gdaxVsPoloniexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (gdaxVsBitfinexEth > largestSpread) {
+      largestSpread = gdaxVsBitfinexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (gdaxVsBittrexEth > largestSpread) {
+      largestSpread = gdaxVsBittrexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (geminiVsGdaxEth > largestSpread) {
+      largestSpread = geminiVsGdaxEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (poloniexVsGdaxEth > largestSpread) {
+      largestSpread = poloniexVsGdaxEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (bitfinexVsGdaxEth > largestSpread) {
+      largestSpread = bitfinexVsGdaxEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (bittrexVsGdaxEth > largestSpread) {
+      largestSpread = bittrexVsGdaxEth;
+      spreadCurrency = "ETH";
+    }
+  }
+
+  if (exchange === "gemini") {
+    //BTC
+    let geminiVsGdaxBtc = cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD;
+    let geminiVsPoloniexBtc = cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD;
+    let geminiVsBitfinexBtc = cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD;
+    let geminiVsBittrexBtc = cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD;
+    let gdaxVsGeminiBtc = cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD;
+    let poloniexVsGeminiBtc = cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD;
+    let bitfinexVsGeminiBtc = cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD;
+    let bittrexVsGeminiBtc = cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD;
+
+    //ETH
+    let geminiVsGdaxEth = cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD;
+    let geminiVsPoloniexEth = cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD;
+    let geminiVsBitfinexEth = cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD;
+    let geminiVsBittrexEth = cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD;
+    let gdaxVsGeminiEth = cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD;
+    let poloniexVsGeminiEth = cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD;
+    let bitfinexVsGeminiEth = cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD;
+    let bittrexVsGeminiEth = cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD;
+
+    if (geminiVsGdaxBtc > largestSpread) {
+      largestSpread = geminiVsGdaxBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (geminiVsPoloniexBtc > largestSpread) {
+      largestSpread = geminiVsPoloniexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (geminiVsBitfinexBtc > largestSpread) {
+      largestSpread = geminiVsBitfinexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (geminiVsBittrexBtc > largestSpread) {
+      largestSpread = geminiVsBittrexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (gdaxVsGeminiBtc > largestSpread) {
+      largestSpread = gdaxVsGeminiBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (poloniexVsGeminiBtc > largestSpread) {
+      largestSpread = poloniexVsGeminiBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bitfinexVsGeminiBtc > largestSpread) {
+      largestSpread = bitfinexVsGeminiBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bittrexVsGeminiBtc > largestSpread) {
+      largestSpread = bittrexVsGeminiBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (geminiVsGdaxEth > largestSpread) {
+      largestSpread = geminiVsGdaxEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (geminiVsPoloniexEth > largestSpread) {
+      largestSpread = geminiVsPoloniexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (geminiVsBitfinexEth > largestSpread) {
+      largestSpread = geminiVsBitfinexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (geminiVsBittrexEth > largestSpread) {
+      largestSpread = geminiVsBittrexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (gdaxVsGeminiEth > largestSpread) {
+      largestSpread = gdaxVsGeminiEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (poloniexVsGeminiEth > largestSpread) {
+      largestSpread = poloniexVsGeminiEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (bitfinexVsGeminiEth > largestSpread) {
+      largestSpread = bitfinexVsGeminiEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (bittrexVsGeminiEth > largestSpread) {
+      largestSpread = bittrexVsGeminiEth;
+      spreadCurrency = "ETH";
+    }
+  }
+
+  if (exchange === 'poloniex') {
+    //BTC
+    let poloniexVsGdaxBtc = cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD;
+    let poloniexVsGeminiBtc = cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD;
+    let poloniexVsBitfinexBtc = cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD;
+    let poloniexVsBittrexBtc = cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD;
+    let gdaxVsPoloniexBtc = cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD;
+    let geminiVsPoloniexBtc = cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD;
+    let bitfinexVsPoloniexBtc = cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD;
+    let bittrexVsPoloniexBtc = cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD;
+
+    //ETH
+    let poloniexVsGdaxEth = cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD;
+    let poloniexVsGeminiEth = cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD;
+    let poloniexVsBitfinexEth = cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD;
+    let poloniexVsBittrexEth = cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD;
+    let gdaxVsPoloniexEth = cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD;
+    let geminiVsPoloniexEth = cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD;
+    let bitfinexVsPoloniexEth = cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD;
+    let bittrexVsPoloniexEth = cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD;
+
+    if (poloniexVsGdaxBtc > largestSpread) {
+      largestSpread = poloniexVsGdaxBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (poloniexVsGeminiBtc > largestSpread) {
+      spreadCurrency = "BTC";
+    }
+
+    if (poloniexVsBitfinexBtc > largestSpread) {
+      largestSpread = poloniexVsBitfinexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (poloniexVsBittrexBtc > largestSpread) {
+      largestSpread = poloniexVsBittrexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (gdaxVsPoloniexBtc > largestSpread) {
+      largestSpread = gdaxVsPoloniexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (geminiVsPoloniexBtc > largestSpread) {
+      largestSpread = geminiVsPoloniexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bitfinexVsPoloniexBtc > largestSpread) {
+      largestSpread = bitfinexVsPoloniexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bittrexVsPoloniexBtc > largestSpread) {
+      largestSpread = bittrexVsPoloniexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (poloniexVsGdaxEth > largestSpread) {
+      largestSpread = poloniexVsGdaxEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (poloniexVsGeminiEth > largestSpread) {
+      largestSpread = poloniexVsGeminiEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (poloniexVsBitfinexEth > largestSpread) {
+      largestSpread = poloniexVsBitfinexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (poloniexVsBittrexEth > largestSpread) {
+      largestSpread = poloniexVsBittrexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (gdaxVsPoloniexEth > largestSpread) {
+      largestSpread = gdaxVsPoloniexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (geminiVsPoloniexEth > largestSpread) {
+      largestSpread = geminiVsPoloniexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if(bitfinexVsPoloniexEth > largestSpread) {
+      largestSpread = bitfinexVsPoloniexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if(bittrexVsPoloniexEth > largestSpread) {
+      largestSpread = bittrexVsPoloniexEth;
+      spreadCurrency = "ETH";
+    }
+  }
+
+  if (exchange === 'bitfinex') {
+    //BTC
+    let bitfinexVsGdaxBtc = cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD;
+    let bitfinexVsGeminiBtc = cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD;
+    let bitfinexVsPoloniexBtc = cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD;
+    let bitfinexVsBittrexBtc = cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD;
+    let gdaxVsBitfinexBtc = cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD;
+    let geminiVsBitfinexBtc = cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD;
+    let poloniexVsBitfinexBtc = cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD;
+    let bittrexVsBitfinexBtc = cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD;
+
+    //ETH
+    let bitfinexVsGdaxEth = cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD;
+    let bitfinexVsGeminiEth = cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD;
+    let bitfinexVsPoloniexEth = cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD;
+    let bitfinexVsBittrexEth = cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD;
+    let gdaxVsBitfinexEth = cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD;
+    let geminiVsBitfinexEth = cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD;
+    let poloniexVsBitfinexEth = cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD;
+    let bittrexVsBitfinexEth = cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD;
+
+    if (bitfinexVsGdaxBtc > largestSpread) {
+      largestSpread = bitfinexVsGdaxBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bitfinexVsGeminiBtc > largestSpread) {
+      largestSpread = bitfinexVsGeminiBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bitfinexVsPoloniexBtc > largestSpread) {
+      largestSpread = bitfinexVsPoloniexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bitfinexVsBittrexBtc > largestSpread) {
+      largestSpread = bitfinexVsBittrexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (gdaxVsBitfinexBtc > largestSpread) {
+      largestSpread = gdaxVsBitfinexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (geminiVsBitfinexBtc > largestSpread) {
+      largestSpread = geminiVsBitfinexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (poloniexVsBitfinexBtc > largestSpread) {
+      largestSpread = poloniexVsBitfinexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bittrexVsBitfinexBtc > largestSpread) {
+      largestSpread = bittrexVsBitfinexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bitfinexVsGdaxEth > largestSpread) {
+      largestSpread = bitfinexVsGdaxEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (bitfinexVsGeminiEth > largestSpread) {
+      largestSpread = bitfinexVsGeminiEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (bitfinexVsPoloniexEth > largestSpread) {
+      largestSpread = bitfinexVsPoloniexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (bitfinexVsBittrexEth > largestSpread) {
+      largestSpread = bitfinexVsBittrexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (gdaxVsBitfinexEth > largestSpread) {
+      largestSpread = gdaxVsBitfinexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (geminiVsBitfinexEth > largestSpread) {
+      largestSpread = geminiVsBitfinexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (poloniexVsBitfinexEth > largestSpread) {
+      largestSpread = poloniexVsBitfinexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (bittrexVsBitfinexEth > largestSpread) {
+      largestSpread = bittrexVsBitfinexEth;
+      spreadCurrency = "ETH";
+    }
+  }
+
+  if (exchange === 'bittrex') {
+    //BTC
+    let bittrexVsGdaxBtc = cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD;
+    let bittrexVsGeminiBtc = cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD;
+    let bittrexVsPoloniexBtc = cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD;
+    let bittrexVsBitfinexBtc = cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD;
+    let gdaxVsBittrexBtc = cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD;
+    let geminiVsBittrexBtc = cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD;
+    let poloniexVsBittrexBtc = cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD;
+    let bitfinexVsBittrexBtc = cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD;
+
+    //ETH
+    let bittrexVsGdaxEth = cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD;
+    let bittrexVsGeminiEth = cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD;
+    let bittrexVsPoloniexEth = cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD;
+    let bittrexVsBitfinexEth = cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD;
+    let gdaxVsBittrexEth = cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD;
+    let geminiVsBittrexEth = cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD;
+    let poloniexVsBittrexEth = cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD;
+    let bitfinexVsBittrexEth = cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD;
+
+    if (bittrexVsGdaxBtc > largestSpread) {
+      largestSpread = bittrexVsGdaxBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bittrexVsGeminiBtc > largestSpread) {
+      largestSpread = bittrexVsGeminiBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bittrexVsPoloniexBtc > largestSpread) {
+      largestSpread = bittrexVsPoloniexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bittrexVsBitfinexBtc > largestSpread) {
+      largestSpread = bittrexVsBitfinexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (gdaxVsBittrexBtc > largestSpread) {
+      largestSpread = gdaxVsBittrexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (geminiVsBittrexBtc > largestSpread) {
+      largestSpread = geminiVsBittrexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (poloniexVsBittrexBtc > largestSpread) {
+      largestSpread = poloniexVsBittrexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bitfinexVsBittrexBtc > largestSpread) {
+      largestSpread = bitfinexVsBittrexBtc;
+      spreadCurrency = "BTC";
+    }
+
+    if (bittrexVsGdaxEth > largestSpread) {
+      largestSpread = bittrexVsGdaxEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (bittrexVsGeminiEth > largestSpread) {
+      largestSpread = bittrexVsGeminiEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (bittrexVsPoloniexEth > largestSpread) {
+      largestSpread = bittrexVsPoloniexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (bittrexVsBitfinexEth > largestSpread) {
+      largestSpread = bittrexVsBitfinexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (gdaxVsBittrexEth > largestSpread) {
+      largestSpread = gdaxVsBittrexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (geminiVsBittrexEth > largestSpread) {
+      largestSpread = geminiVsBittrexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (poloniexVsBittrexEth > largestSpread) {
+      largestSpread = poloniexVsBittrexEth;
+      spreadCurrency = "ETH";
+    }
+
+    if (bitfinexVsBittrexEth > largestSpread) {
+      largestSpread = bitfinexVsBittrexEth;
+      spreadCurrency = "ETH";
+    }
+  }
+
+  if (largestSpread) {
+    flag = false;
+    if (currency === spreadCurrency) {
+      setTimeout(trades[exchange].withdraw(spreadCurrency), 0);
+    } else if (currency === "BTC") {
+      // Price to buy ETH with all BTC is 1 ETH converted to BTC + 10 cents in BTC
+      let price = (cryptoSocket.Exchanges.gemini.ETHBTC + (0.10 / cryptoSocket.Exchanges.gemini.BTCUSD)).toFixed(5);
+      setTimeout(() => trades[exchange].buy("eth", price), 0);
+    } else if (currency === "ETH") {
+      // Price to sell all ETH for BTC is 1 ETH converted to BTC - 10 cents in BTC
+      let price = (cryptoSocket.Exchanges.gemini.ETHBTC - (0.10 / cryptoSocket.Exchanges.gemini.BTCUSD)).toFixed(5);
+      setTimeout(() => {() => trades[exchange].buy("btc" ,price)}, 0);
+    }
+  }
+};
+
+
+//ALEX TO DO LIST//
+
+//1. need to make withdraw to take out all available
+//2. need to work at refactoring bittrex and bitfinex
+//3. need to test out poloniex with dave's and my code
+//4. test performance of overall functions, especially checkArb function!!!
+
 
 
 //getAccountInfo('ETH');
@@ -180,7 +721,7 @@ checkArbitrage = (exchange, currency) => {
     }
   }
 
-  setTimeout(() => {loopConditional('gdax', 'ETHUSD')}, 0.00001);
+  setTimeout(() => {loopConditional('gdax', 'ETHUSD')}, 0);
 }
 
 
