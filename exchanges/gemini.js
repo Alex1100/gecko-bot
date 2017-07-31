@@ -65,8 +65,8 @@ async function buy(exchange, currency) {
     amount = btcAmount;
   }
 
-  lcCurr = currency.toLowerCase();
-  upCurr = currency.toUpperCase();
+  let lcCurr = currency.toLowerCase();
+  let upCurr = currency.toUpperCase();
 
   let order = signRequest({
         request: "/v1/order/new",
