@@ -49,14 +49,14 @@ async function buy(exchange, currency, rate){
     console.log("INSUFFICIENT FUNDS...");
     return;
   } else if (currency === 'ETH' && ethAmount !== 0) {
-    pairs[currency].buy();
+    pairs[currency].buy(exchange, currency, rate);
   }
 
   if (currency === 'BTC' && btcAmount === 0) {
     console.log("INSUFFICIENT FUNDS...");
     return;
   } else if (currency === 'BTC' && btcAmount !== 0) {
-    pairs[currency].buy();
+    pairs[currency].buy(exchange, currency, rate);
   }
 };
 

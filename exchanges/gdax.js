@@ -6,9 +6,9 @@ const crypto = require('crypto');
 const createHmac = require("create-hmac");
 const n = require("nonce")();
 const axios = require("axios");
-let loopConditional = require('../index');
 var apiURI = 'https://api.gdax.com';
 var cryptoSocket = require("crypto-socket");
+let loopConditional = require('../index');
 
 //works
 signGdaxRequest = (timestamp, method, reqPath, reqBody) => {
@@ -28,7 +28,7 @@ async function buy(exchange, currency) {
   //GDAX FEES ARE:
   //Maker: 0%
   //Taker 0.3%
-  currency = currency.toUpperCase();
+  let upCurr = currency.toUpperCase();
   let amount = await requestBalances();
   let ethAmount = amount.ETH;
   let btcAmount = amount.BTC;
@@ -121,6 +121,7 @@ async function withdraw(exchange, currency) {
   let etcAmount = total.ETH;
   let btcAmount = total.BTC;
   let address = exchange.toUpperCase() + '_' + currency.toUpperCase() + '_DEPOSIT_ADDRESS';
+  let upCurr = currency.toUpperCase();
 
   var axiosBod = {
     "amount": currency === 'ETH' ? etcAmount : btcAmount,
@@ -149,7 +150,6 @@ async function withdraw(exchange, currency) {
   instance.post("/withdrawals/crypto")
     .then(res => {
       console.log(`${axiosBod['amount']} ${currency} GOT INTO ${exchange} WALLET AT ${axiosBod['address']}\n\n`, res);
-      return;
       loopConditional.loopConditional(exchange, upCurr + 'USD');
     })
     .catch(err => {
@@ -162,6 +162,7 @@ async function withdraw(exchange, currency) {
 getGdaxAccountInfo = (exchange, currency) => {
   var timestamp = (Date.now()/1000).toString();
   let accountsGdaxRequest = signGdaxRequest(timestamp, "GET", "/accounts", "");
+  let upCurr = currency.toUpperCase();
 
   var instance = axios.create({
     headers: {
