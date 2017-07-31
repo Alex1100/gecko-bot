@@ -4,10 +4,10 @@ const createHmac = require("create-hmac");
 var crypto = require('crypto');
 const n = require("nonce")();
 const axios = require("axios");
-let loopConditional = require('../index');
 let cryptoSocket = require("crypto-socket");
 var Bitfinex = require('bitfinex');
 var bitfinex = new Bitfinex(process.env.BITFINEX_API_KEY, process.env.BITFINEX_API_KEY_SECRET);
+let loopConditional = require('../index');
 
 //works between bitfinex and another exchange
 async function withdraw(exchange, currency){
@@ -31,6 +31,7 @@ async function withdraw(exchange, currency){
   amount = amount[`${currency}`]
   let address = exchange.toUpperCase() + '_' + currency.toUpperCase() + '_DEPOSIT_ADDRESS';
   let type;
+  let upCurr = currency.toUpperCase();
 
   return new Promise((resolve, reject) => {
     if (currency === 'ETH'){
@@ -45,9 +46,11 @@ async function withdraw(exchange, currency){
       if (err) {
         console.log("SOMETHING WENT WRONG BECAUSE: ", err);
         reject(err);
+        loopConditional.loopConditional(exchange, upCurr + 'USD');
       } else {
         console.log("DATA IS: ", data);
         resolve(data);
+        loopConditional.loopConditional(exchange, upCurr + 'USD');
       }
     })
   })
@@ -76,7 +79,7 @@ buy = (currency) => {
 
 
   //also the minmum amount of BTC per transaction is 0.1 and for All Other currencies is 0.01
-  currency = currency.toUpperCase();
+  let upCurr = currency.toUpperCase();
   requestBalances().then(balancesObj => {
     const pairs = {
       ETH: {
@@ -84,8 +87,10 @@ buy = (currency) => {
           bitfinex.new_order('ethbtc', 0.1, cryptoSocket.bitfinex.ETHBTC, 'buy', (err, data) => {
               if (err) {
                 console.log(err);
+                loopConditional.loopConditional(exchange, upCurr + 'USD');
               } else {
                 console.log(data);
+                loopConditional.loopConditional(exchange, upCurr + 'USD');
               }
             })
       },
@@ -93,13 +98,15 @@ buy = (currency) => {
         buy: () => bitfinex.new_order('ethbtc', 0.1, cryptoSocket.bitfinex.ETHBTC, 'sell', (err, data) => {
               if (err) {
                 console.log(err);
+                loopConditional.loopConditional(exchange, upCurr + 'USD');
               } else {
                 console.log(data);
+                loopConditional.loopConditional(exchange, upCurr + 'USD');
               }
             })
       }
     };
-    pairs[currency].buy();
+    pairs[upCurr].buy();
   });
 }
 
