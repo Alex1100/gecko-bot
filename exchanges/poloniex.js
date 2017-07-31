@@ -59,7 +59,7 @@ async function buy(exchange, currency) {
           })
     }
   };
-  pairs[currency].buy();
+  pairs[currency].buy(exchange, currency);
 };
 
 async function withdraw(exchange, currency) {
