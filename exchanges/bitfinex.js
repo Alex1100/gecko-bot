@@ -30,6 +30,7 @@ async function withdraw(exchange, currency){
   let amount = await requestBalances();
   amount = amount[`${currency}`]
   let address = exchange.toUpperCase() + '_' + currency.toUpperCase() + '_DEPOSIT_ADDRESS';
+  let type;
 
   return new Promise((resolve, reject) => {
     if (currency === 'ETH'){

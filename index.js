@@ -14,7 +14,7 @@ let gemini = require('./exchanges/gemini');
 let poloniex = require('./exchanges/poloniex');
 
 //price of 1 ethereum in bitcoins
-setTimeout(() => {console.log((cryptoSocket.Exchanges.gemini.ETHBTC - (0.10 / cryptoSocket.Exchanges.gemini.BTCUSD)).toFixed(5).toString())}, 150000);
+setTimeout(() => {console.log((cryptoSocket.Exchanges.gemini.ETHBTC - (0.10 * cryptoSocket.Exchanges.gemini.ETHUSD)).toFixed(5).toString())}, 150000);
 // let spreadTracker = {
 //   bittrex: 0,
 //   bitfinex: 0,
@@ -664,7 +664,7 @@ module.exports.loopConditional = function (exchange, currency){
 //4. test performance of overall functions, especially checkArb function!!!
 
 
-//setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 200);
+setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 200);
 
 //setTimeout(() => {setInterval(() => {console.log(trackSpreads())}, 200)}, 140000);
 
