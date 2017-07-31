@@ -5,45 +5,8 @@ const btoa = require("btoa");
 const createHmac = require("create-hmac");
 const n = require("nonce")();
 const axios = require("axios");
-let loopConditional = require('./../index').loopConditional;
-const gdaxAdd = process.env.GDAX_ETH_DEPOSIT_ADDRESS;
 var cryptoSocket = require("crypto-socket");
-
-const API_KEYS = {
-  poloniex: {
-    api_key: process.env.POLONIEX_API_KEY,
-    secret: process.env.POLONIEX_SECRET,
-    ETH: process.env.POLONIEX_ETH_ADDRESS,
-    BTC: process.POLONIEX_BTC_ADDRESS
-  },
-  gemini: {
-    api_key: process.env.gemPub,
-    secret: process.env.gemPriv,
-    client_order_id: process.env.GEMINI_CLIENT_ORDER_ID,
-    ETH: process.env.GEMINI_ETH_DEPOSIT_ADDRESS,
-    BTC: process.env.GEMINI_BTC_DEPOSIT_ADDRESS
-  },
-  gdax: {
-    api_key: process.env.GDAX_API_KEY,
-    secret: process.env.GDAX_API_KEY_SECRET,
-    passphrase: process.env.GDAX_API_KEY_PASSPHRASE,
-    ETH: process.env.GDAX_ETH_DEPOSIT_ADDRESS,
-    BTC: process.env.GDAX_BTC_DEPOSIT_ADDRESS
-  },
-  bittrex: {
-    api_key: process.env.BITTREX_API_KEY,
-    secret: process.env.BITTREX_API_KEY_SECRET,
-    ETH: process.env.BITTREX_ETH_WALLET_ADDRESS,
-    BTC: process.env.BITTREX_BTC_WALLET_ADDRESS
-  },
-  bitfinex: {
-    api_key: process.env.BITFINEX_API_KEY,
-    secret: process.env.BITFINEX_API_KEY_SECRET,
-    ETH: process.env.BITFINEX_ETH_EXCHANGE_WALLET_ADDRESS,
-    BTC: process.env.BITFINEX_BTC_EXCHANGE_WALLET_ADDRESS
-  }
-};
-
+var loopConditional = require('../index');
 
 signRequest = request => {
   let base = btoa(JSON.stringify(request));
@@ -70,91 +33,161 @@ requestBalances = () => {
     }
   };
 
-  return axios.post("https://api.gemini.com/v1/balances", "", config)
+  axios.post("https://api.gemini.com/v1/balances", "", config)
+    .then(data => {
+      console.log("DATA IS: ", data)
+      return data;
+    })
 };
 
-//works
-buyEthOnGemini = () => {
-  console.log("\n\n\n\n\n\n\n\nBUY ETH GEMINI: ", (cryptoSocket.Exchanges.gemini.ETHBTC - (0.10 / cryptoSocket.Exchanges.gemini.BTCUSD)).toFixed(5).toString());
-  requestBalances()
-    .then(balanceArray => {
-      let order = signRequest({
+async function buy(exchange, currency) {
+  // Fees are
+  // Maker: 0.25%
+  // Taker: 0.25%
+  let total = await requestBalances();
+  let ethAmount = total.ETH;
+  let btcAmount = total.BTC;
+  let currAmount;
+  let side;
+  let price;
+  let amount;
+  console.log({eth: ethAmount, btc: btcAmount});
+
+  if (currency === 'ETH') {
+    currAmount = ethAmount.toString();
+    side = "buy";
+    price = 0.00231.toString();
+    amount = ethAmount;
+  } else if (currency === 'BTC') {
+    currAmount = btcAmount.toString();
+    side = "sell";
+    price = (cryptoSocket.Exchanges.gemini.ETHBTC - (0.10 / cryptoSocket.Exchanges.gemini.BTCUSD)).toFixed(4).toString();
+    amount = btcAmount;
+  }
+
+  lcCurr = currency.toLowerCase();
+  upCurr = currency.toUpperCase();
+
+  let order = signRequest({
         request: "/v1/order/new",
         nonce: n(),
         client_order_id: process.env.GEMINI_CLIENT_ORDER_ID,
         symbol: "ethbtc",
-        amount: 0.0294.toString(),
-        price: 0.00231.toString(),
-        side: "buy",
+        amount: amount,
+        price: price,
+        side: side,
         type: "exchange limit"
       });
 
-      let config = {
-        headers: {
-          "Content-Type": "text/plain",
-          "Content-Length": 0,
-          "X-GEMINI-APIKEY": gemPub,
-          "X-GEMINI-PAYLOAD": order.base,
-          "X-GEMINI-SIGNATURE": order.signature
-        }
-      };
-
-      axios
-        .post("https://api.gemini.com/v1/order/new", "", config)
-        .then(res => {
-          console.log(res);
-          flag = true;
-          loopConditional();
-        })
-        .catch(err => console.log(err))
-    });
+  axios
+    .post("https://api.gemini.com/v1/order/new", "", config)
+    .then(res => {
+      console.log(res);
+      loopConditional.loopConditional(exchange, upCurr + 'USD');
+    })
+    .catch(err => {
+      console.log(err);
+      loopConditional.loopConditional(exchange, upCurr + 'USD');
+    })
 }
 
 //works
-buyBtcOnGemini = (price) => {
-  requestBalances()
-    .then(balanceArray => {
-      let order = signRequest({
-        request: "/v1/order/new",
-        nonce: n(),
-        client_order_id: process.env.GEMINI_CLIENT_ORDER_ID,
-        symbol: "ethbtc",
-        amount: balanceArray.data[2].available,
-        price: (cryptoSocket.Exchanges.gemini.ETHBTC - (0.10 / cryptoSocket.Exchanges.gemini.BTCUSD)).toFixed(4).toString(),
-        side: "sell",
-        type: "exchange limit"
-      });
+// buyEthOnGemini = () => {
 
-      let config = {
-        headers: {
-          "Content-Type": "text/plain",
-          "Content-Length": 0,
-          "X-GEMINI-APIKEY": gemPub,
-          "X-GEMINI-PAYLOAD": order.base,
-          "X-GEMINI-SIGNATURE": order.signature
-        }
-      };
 
-      axios
-        .post("https://api.gemini.com/v1/order/new", "", config)
-        .then(res => {
-          console.log(res);
-          flag = true;
-          loopConditional();
-        })
-        .catch(err => console.log(err))
-    })
-    .catch(err => console.log(err));
-};
+//   console.log("\n\n\n\n\n\n\n\nBUY ETH GEMINI: ", (cryptoSocket.Exchanges.gemini.ETHBTC - (0.10 / cryptoSocket.Exchanges.gemini.BTCUSD)).toFixed(5).toString());
+//   requestBalances()
+//     .then(balanceArray => {
+//       let order = signRequest({
+//         request: "/v1/order/new",
+//         nonce: n(),
+//         client_order_id: process.env.GEMINI_CLIENT_ORDER_ID,
+//         symbol: "ethbtc",
+//         amount: 0.0294.toString(),
+//         price: 0.00231.toString(),
+//         side: "buy",
+//         type: "exchange limit"
+//       });
 
-//just whitelisted my addresses I'll test it out
-withdrawEthOnGemini = () => {
-  console.log("\n\n\n\n\n\n\n\nWITHDRAW ETH GEMINI");
+//       let config = {
+//         headers: {
+//           "Content-Type": "text/plain",
+//           "Content-Length": 0,
+//           "X-GEMINI-APIKEY": gemPub,
+//           "X-GEMINI-PAYLOAD": order.base,
+//           "X-GEMINI-SIGNATURE": order.signature
+//         }
+//       };
+
+//       axios
+//         .post("https://api.gemini.com/v1/order/new", "", config)
+//         .then(res => {
+//           console.log(res);
+//           flag = true;
+//           loopConditional();
+//         })
+//         .catch(err => console.log(err))
+//     });
+// }
+
+//works
+// buyBtcOnGemini = (price) => {
+//   requestBalances()
+//     .then(balanceArray => {
+//       let order = signRequest({
+//         request: "/v1/order/new",
+//         nonce: n(),
+//         client_order_id: process.env.GEMINI_CLIENT_ORDER_ID,
+//         symbol: "ethbtc",
+//         amount: balanceArray.data[2].available,
+//         price: (cryptoSocket.Exchanges.gemini.ETHBTC - (0.10 / cryptoSocket.Exchanges.gemini.BTCUSD)).toFixed(4).toString(),
+//         side: "sell",
+//         type: "exchange limit"
+//       });
+
+//       let config = {
+//         headers: {
+//           "Content-Type": "text/plain",
+//           "Content-Length": 0,
+//           "X-GEMINI-APIKEY": gemPub,
+//           "X-GEMINI-PAYLOAD": order.base,
+//           "X-GEMINI-SIGNATURE": order.signature
+//         }
+//       };
+
+//       axios
+//         .post("https://api.gemini.com/v1/order/new", "", config)
+//         .then(res => {
+//           console.log(res);
+//           flag = true;
+//           loopConditional();
+//         })
+//         .catch(err => console.log(err))
+//     })
+//     .catch(err => console.log(err));
+// };
+
+async function withdraw(exchange, currency) {
+  let amount = await requestBalances();
+  let ethAmount = amount.ETH;
+  let btcAmount = amount.BTC;
+  let currAmount;
+  let address = exchange.toUpperCase() + '_' + currency.toUpperCase() + '_DEPOSIT_ADDRESS';
+
+  console.log({eth: ethAmount, btc: btcAmount})
+  if (currency === 'ETH') {
+    currAmount = ethAmount.toString();
+  } else if (currency === 'BTC') {
+    currAmount = btcAmount.toString();
+  }
+
+  lcCurr = currency.toLowerCase();
+  upCurr = currency.toUpperCase();
   let withdrawRequest = signRequest({
-    request: "/v1/withdraw/eth",
+    request: `/v1/withdraw/${lcCurr}`,
     nonce: n(),
-    address: gdaxAdd,
-    amount: "0.01"
+    address: process.env.address,
+    amount: currAmount
   });
 
   let config = {
@@ -168,23 +201,23 @@ withdrawEthOnGemini = () => {
   };
 
   console.log("Config is: ", config);
-
   axios
-    .post("https://api.gemini.com/v1/withdraw/eth", "", config)
+    .post(`https://api.gemini.com/v1/withdraw/${lcCurr}`, "", config)
     .then(res => {
       console.log(res);
-      loopConditional('gdax', 'ETHUSD');
+      loopConditional.loopConditional(exchange, upCurr + 'USD');
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log(err);
+      loopConditional.loopConditional(exchange, upCurr + 'USD');
+    })
 };
 
 
 module.exports = {
-  signRequest,
   requestBalances,
-  buyEthOnGemini,
-  buyBtcOnGemini,
-  withdrawEthOnGemini,
+  buy,
+  withdraw
 };
 
 

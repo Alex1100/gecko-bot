@@ -1,3 +1,4 @@
+
 //DAVES CODE
 require("dotenv").load();
 //const Poloniex = require("poloniex.js");
@@ -7,6 +8,7 @@ const Poloniex = require('poloniex-api-node');
 let poloniex = new Poloniex(process.env.POLONIEX_API_KEY, process.env.POLONIEX_SECRET, { socketTimeout: 15000 });
 let btcAddress = process.env.POLONIEX_BTC_ADDRESS;
 let ethAddress = process.env.POLONIEX_ETH_ADDRESS;
+var loopConditional = require('../index');
 
 requestBalances = () => {
   return new Promise((resolve, reject) => {
@@ -22,52 +24,62 @@ requestBalances = () => {
   });
 };
 
-buy = (currency, price) => {
-  currency = currency.toUpperCase();
-  module.exports.requestBalances().then(balancesObj => {
-    const pairs = {
-      ETH: {
-        buy: () =>
-          poloniex.buy("BTC", currency, price, balancesObj.BTC / price, (err, data) => {
-              if (err) {
-                console.log(err);
-              } else {
-                console.log(data);
-              }
-            })
-      },
-      BTC: {
-        buy: () =>
-          poloniex.sell(currency, "ETH", price, balancesObj.ETH, (err, data) => {
-              if (err) {
-                console.log(err);
-              } else {
-                console.log(data);
-              }
-            })
-      }
-    };
-    pairs[currency].buy();
-  });
+async function buy(exchange, currency) {
+  //POLONIEX FEES ARE:
+  //MAKER: 0.15% per Trade
+  //Taker: 0.25% per Trade
+  let amount = await requestBalances();
+  let ethAmount = amount.ETH;
+  let btcAmount = amount.BTC;
+  let upCurr = currency.toUpperCase();
+  let price; //figure this out Alex... You can do it bud... fuck... me....
+  const pairs = {
+    ETH: {
+      buy: (exchange, currency) =>
+        poloniex.buy("BTC", upCurr, price, balancesObj.BTC / price, (err, data) => {
+            if (err) {
+              console.log(err);
+              loopConditional.loopConditional(exchange, upCurr + 'USD');
+            } else {
+              console.log(data);
+              loopConditional.loopConditional(exchange, upCurr + 'USD');
+            }
+          })
+    },
+    BTC: {
+      buy: (exchange, currency) =>
+        poloniex.sell(currency, "ETH", price, balancesObj.ETH, (err, data) => {
+            if (err) {
+              console.log(err);
+              loopConditional.loopConditional(exchange, upCurr + 'USD');
+            } else {
+              console.log(data);
+              loopConditional.loopConditional(exchange, upCurr + 'USD');
+            }
+          })
+    }
+  };
+  pairs[currency].buy();
 };
 
-withdraw = (currency, exchange) => {
-  currency = currency.toUpperCase();
-  module.exports.requestBalances().then(balancesObj => {
-    poloniex.withdraw(
-      currency,
-      balancesObj[currency],
-      exchange[currency.toLowerCase() + "Address"],
-      (err, data) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(data);
-        }
+async function withdraw(exchange, currency) {
+  let amount = await requestBalances();
+  let ethAmount = amount.ETH;
+  let btcAmount = amount.BTC;
+  let upCurr = currency.toUpperCase();
+  let address = exchange.toUpperCase() + '_' + currency.toUpperCase() + '_DEPOSIT_ADDRESS';
+  poloniex.withdraw(upCurr, balancesObj[upCurr], process.env.address, (err, data) => {
+      if (err) {
+        console.log(err);
+        loopConditional.loopConditional(exchange, upCurr + 'USD');
+      } else {
+        console.log(data);
+        loopConditional.loopConditional(exchange, upCurr + 'USD');
       }
-    );
-  });
+    }
+  );
 };
+
 
 module.exports = {
   btcAddress,
@@ -76,7 +88,6 @@ module.exports = {
   buy,
   withdraw
 }
-
 
 
 

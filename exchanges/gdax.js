@@ -6,44 +6,9 @@ const crypto = require('crypto');
 const createHmac = require("create-hmac");
 const n = require("nonce")();
 const axios = require("axios");
-let loopConditional = require('../index').loopConditional;
+let loopConditional = require('../index');
 var apiURI = 'https://api.gdax.com';
 var cryptoSocket = require("crypto-socket");
-
-const API_KEYS = {
-  poloniex: {
-    api_key: process.env.POLONIEX_API_KEY,
-    secret: process.env.POLONIEX_SECRET,
-    ETH: process.env.POLONIEX_ETH_ADDRESS,
-    BTC: process.POLONIEX_BTC_ADDRESS
-  },
-  gemini: {
-    api_key: process.env.gemPub,
-    secret: process.env.gemPriv,
-    client_order_id: process.env.GEMINI_CLIENT_ORDER_ID,
-    ETH: process.env.GEMINI_ETH_DEPOSIT_ADDRESS,
-    BTC: process.env.GEMINI_BTC_DEPOSIT_ADDRESS
-  },
-  gdax: {
-    api_key: process.env.GDAX_API_KEY,
-    secret: process.env.GDAX_API_KEY_SECRET,
-    passphrase: process.env.GDAX_API_KEY_PASSPHRASE,
-    ETH: process.env.GDAX_ETH_DEPOSIT_ADDRESS,
-    BTC: process.env.GDAX_BTC_DEPOSIT_ADDRESS
-  },
-  bittrex: {
-    api_key: process.env.BITTREX_API_KEY,
-    secret: process.env.BITTREX_API_KEY_SECRET,
-    ETH: process.env.BITTREX_ETH_WALLET_ADDRESS,
-    BTC: process.env.BITTREX_BTC_WALLET_ADDRESS
-  },
-  bitfinex: {
-    api_key: process.env.BITFINEX_API_KEY,
-    secret: process.env.BITFINEX_API_KEY_SECRET,
-    ETH: process.env.BITFINEX_ETH_EXCHANGE_WALLET_ADDRESS,
-    BTC: process.env.BITFINEX_BTC_EXCHANGE_WALLET_ADDRESS
-  }
-};
 
 //works
 signGdaxRequest = (timestamp, method, reqPath, reqBody) => {
@@ -58,52 +23,22 @@ signGdaxRequest = (timestamp, method, reqPath, reqBody) => {
 
 //works but test it out the inner functions work, I just used your setup to
 //keep the function signature consistent
-buy = (currency) => {
+async function buy(exchange, currency) {
+
+  //GDAX FEES ARE:
+  //Maker: 0%
+  //Taker 0.3%
   currency = currency.toUpperCase();
-  requestBalances().then(balancesObj => {
-    const pairs = {
-      ETH: {
-        buy: () => {
-          let axiosBod = {
-            "size": size,
-            "price": price,
-            "side": 'buy',
-            "product_id": "ETH-BTC"
-          };
-
-          let body = JSON.stringify(axiosBod);
-          var timestamp = (Date.now()/1000).toString();
-          let buyGdaxRequest = signGdaxRequest(timestamp, "POST", "/orders", body);
-
-          var instance = axios.create({
-            headers: {
-              "Content-Type": "application/json",
-              "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
-              "CB-ACCESS-SIGN": buyGdaxRequest.signature,
-              "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
-              "CB-ACCESS-TIMESTAMP": buyGdaxRequest.timestampeh,
-            },
-            baseURL: apiURI,
-            data: axiosBod
-          });
-
-          console.log("Instance is: ", instance);
-
-          instance.post("/orders")
-            .then(res => {
-                console.log(`${size} BTC bought at ${price}\n\n`, res);
-                return;
-                loopConditional('gdax', 'BTCUSD');
-            })
-            .catch(err => {console.log("SOMETHING WENT WRONG BECAUSE: ", err)});
-          }
-      },
-      BTC: {
-        buy: () => {
+  let amount = await requestBalances();
+  let ethAmount = amount.ETH;
+  let btcAmount = amount.BTC;
+  const pairs = {
+    ETH: {
+      buy: (exchange, currency) => {
         let axiosBod = {
-          "size": size,
+          "size": ethAmount,
           "price": price,
-          "side": 'sell',
+          "side": 'buy',
           "product_id": "ETH-BTC"
         };
 
@@ -127,26 +62,70 @@ buy = (currency) => {
 
         instance.post("/orders")
           .then(res => {
-              console.log(`${size} ETH bought at ${price}\n\n`, res);
-              return;
-              loopConditional('gdax', 'ETHUSD');
+            console.log(`${ethAmount} BTC bought at ${price}\n\n`, res);
+            loopConditional.loopConditional(exchange, upCurr + 'USD');
           })
-          .catch(err => {console.log("SOMETHING WENT WRONG BECAUSE: ", err)});
+          .catch(err => {
+            console.log("SOMETHING WENT WRONG BECAUSE: ", err);
+            loopConditional.loopConditional(exchange, upCurr + 'USD');
+          });
         }
-    }
-  };
+    },
+    BTC: {
+      buy: (exchange, currency) => {
+      let axiosBod = {
+        "size": btcAmount,
+        "price": price,
+        "side": 'sell',
+        "product_id": "ETH-BTC"
+      };
 
-  pairs[currency].buy();
-  });
+      let body = JSON.stringify(axiosBod);
+      var timestamp = (Date.now()/1000).toString();
+      let buyGdaxRequest = signGdaxRequest(timestamp, "POST", "/orders", body);
+
+      var instance = axios.create({
+        headers: {
+          "Content-Type": "application/json",
+          "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
+          "CB-ACCESS-SIGN": buyGdaxRequest.signature,
+          "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
+          "CB-ACCESS-TIMESTAMP": buyGdaxRequest.timestampeh,
+        },
+        baseURL: apiURI,
+        data: axiosBod
+      });
+
+      console.log("Instance is: ", instance);
+
+      instance.post("/orders")
+        .then(res => {
+            console.log(`${btcAmount} ETH bought at ${price}\n\n`, res);
+            loopConditional.loopConditional(exchange, upCurr + 'USD');
+        })
+        .catch(err => {
+          console.log("SOMETHING WENT WRONG BECAUSE: ", err);
+          loopConditional.loopConditional(exchange, upCurr + 'USD');
+        });
+      }
+  }
+};
+
+pairs[currency].buy(exchange, currency);
 };
 
 
 //works
-withdraw = (exchange, amount, currency, address) => {
+async function withdraw(exchange, currency) {
+  let total = await requestBalances();
+  let etcAmount = total.ETH;
+  let btcAmount = total.BTC;
+  let address = exchange.toUpperCase() + '_' + currency.toUpperCase() + '_DEPOSIT_ADDRESS';
+
   var axiosBod = {
-    "amount": amount,
+    "amount": currency === 'ETH' ? etcAmount : btcAmount,
     "currency": currency,
-    "crypto_address": address,
+    "crypto_address": process.env.address
   };
 
   var body = JSON.stringify(axiosBod);
@@ -157,9 +136,9 @@ withdraw = (exchange, amount, currency, address) => {
     headers: {
       "Content-Type": "application/json",
       "CB-ACCESS-KEY": process.env.GDAX_API_KEY,
-      "CB-ACCESS-SIGN": buyGdaxRequest.signature,
+      "CB-ACCESS-SIGN": withdrawGdaxRequest.signature,
       "CB-ACCESS-PASSPHRASE": process.env.GDAX_API_KEY_PASSPHRASE,
-      "CB-ACCESS-TIMESTAMP": buyGdaxRequest.timestampeh,
+      "CB-ACCESS-TIMESTAMP": withdrawGdaxRequest.timestampeh,
     },
     baseURL: apiURI,
     data: axiosBod
@@ -169,15 +148,18 @@ withdraw = (exchange, amount, currency, address) => {
 
   instance.post("/withdrawals/crypto")
     .then(res => {
-      console.log(`${amount} ${currency} GOT INTO ${exchange} WALLET AT ${address}\n\n`, res);
+      console.log(`${axiosBod['amount']} ${currency} GOT INTO ${exchange} WALLET AT ${axiosBod['address']}\n\n`, res);
       return;
-      loopConditional(exchange, currency.toUpperCase() + 'USD');
+      loopConditional.loopConditional(exchange, upCurr + 'USD');
     })
-    .catch(err => {console.log("SOMETHING WENT WRONG BECAUSE: ", err)});
+    .catch(err => {
+      console.log("SOMETHING WENT WRONG BECAUSE: ", err);
+      loopConditional.loopConditional(exchange, upCurr + 'USD');
+    });
 };
 
 //works
-getGdaxAccountInfo = (currency) => {
+getGdaxAccountInfo = (exchange, currency) => {
   var timestamp = (Date.now()/1000).toString();
   let accountsGdaxRequest = signGdaxRequest(timestamp, "GET", "/accounts", "");
 
@@ -206,6 +188,7 @@ getGdaxAccountInfo = (currency) => {
     })
     .catch(err => {
       console.log(err => console.log("SOMETHING WENT WRONG: ", err));
+      loopConditional.loopConditional(exchange, upCurr + 'USD');
     })
 }
 
@@ -216,9 +199,6 @@ module.exports = {
   withdraw,
   getGdaxAccountInfo,
 };
-
-
-
 
 
 //works
