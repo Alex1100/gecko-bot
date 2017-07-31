@@ -181,8 +181,9 @@ async function withdraw(exchange, currency) {
     currAmount = btcAmount.toString();
   }
 
-  lcCurr = currency.toLowerCase();
-  upCurr = currency.toUpperCase();
+  let lcCurr = currency.toLowerCase();
+  let upCurr = currency.toUpperCase();
+
   let withdrawRequest = signRequest({
     request: `/v1/withdraw/${lcCurr}`,
     nonce: n(),
