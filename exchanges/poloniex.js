@@ -36,27 +36,79 @@ async function buy(exchange, currency) {
   const pairs = {
     ETH: {
       buy: (exchange, currency) =>
-        poloniex.buy("BTC", upCurr, price, balancesObj.BTC / price, (err, data) => {
-            if (err) {
-              console.log(err);
-              loopConditional.loopConditional(exchange, upCurr + 'USD');
-            } else {
-              console.log(data);
-              loopConditional.loopConditional(exchange, upCurr + 'USD');
-            }
-          })
+        poloniex.buy("BTC", upCurr, price, ethAmount / price, (err, data) => {
+          if (err) {
+            console.log(err);
+            loopConditional.loopConditional(exchange, upCurr + 'USD');
+          } else {
+            console.log(data);
+            let statusCounter = 0;
+            setInterval(() => {
+              poloniex.returnOrderTrades(data.orderNumber, (error, info) => {
+                if(err){
+                  console.log(err);
+                  loopConditional.loopConditional(exchange, upCurr + 'USD');
+                } else {
+                  console.log("THE RESULT OF ALL ORDER TRADES ARE: ", info);
+                  let result = info.reduce((a, b) => a.total + b.total, 0);
+                  if(result === (ethAmount / price)){
+                    console.log("GOT THE ORDER DONE IN TIME!!");
+                    loopConditional.loopConditional(exchange, upCurr + 'USD');
+                  } else if(result !== (ethAmount / price)){
+                    statusCounter++;
+                  } else if(statusCounter === 9){
+                    poloniex.cancelOrder(data.orderNumber, (hah, status) => {
+                      if(hah){
+                        console.log(hah);
+                      } else {
+                        console.log(`CANCELLED THE ORDER ${data.orderNumber}`);
+                        loopConditional.loopConditional(exchange, upCurr + 'USD');
+                      }
+                    })
+                  }
+                }
+              });
+            }, 60000);
+          }
+        });
     },
     BTC: {
       buy: (exchange, currency) =>
-        poloniex.sell(currency, "ETH", price, balancesObj.ETH, (err, data) => {
-            if (err) {
-              console.log(err);
-              loopConditional.loopConditional(exchange, upCurr + 'USD');
-            } else {
-              console.log(data);
-              loopConditional.loopConditional(exchange, upCurr + 'USD');
-            }
-          })
+        poloniex.sell(currency, "ETH", price, ethAmount, (err, data) => {
+          if (err) {
+            console.log(err);
+            loopConditional.loopConditional(exchange, upCurr + 'USD');
+          } else {
+            console.log(data);
+            let statusCounter = 0;
+            setInterval(() => {
+              poloniex.returnOrderTrades(data.orderNumber, (error, info) => {
+                if(err){
+                  console.log(err);
+                  loopConditional.loopConditional(exchange, upCurr + 'USD');
+                } else {
+                  console.log("THE RESULT OF ALL ORDER TRADES ARE: ", info);
+                  let result = info.reduce((a, b) => a.total + b.total, 0);
+                  if(result === (ethAmount / price)){
+                    console.log("GOT THE ORDER DONE IN TIME!!");
+                    loopConditional.loopConditional(exchange, upCurr + 'USD');
+                  } else if(result !== (ethAmount / price)){
+                    statusCounter++;
+                  } else if(statusCounter === 9){
+                    poloniex.cancelOrder(data.orderNumber, (hah, status) => {
+                      if(hah){
+                        console.log(hah);
+                      } else {
+                        console.log(`CANCELLED THE ORDER ${data.orderNumber}`);
+                        loopConditional.loopConditional(exchange, upCurr + 'USD');
+                      }
+                    })
+                  }
+                }
+              });
+            }, 60000);
+          }
+        })
     }
   };
   pairs[currency].buy(exchange, currency);

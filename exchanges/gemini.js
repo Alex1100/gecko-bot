@@ -79,11 +79,52 @@ async function buy(exchange, currency) {
         type: "exchange limit"
       });
 
-  axios
-    .post("https://api.gemini.com/v1/order/new", "", config)
+
+
+  axios.post("https://api.gemini.com/v1/order/new", "", order)
     .then(res => {
       console.log(res);
-      loopConditional.loopConditional(exchange, upCurr + 'USD');
+      let orderStatus = signRequest({
+        request: "/v1/order/status",
+        nonce: n(),
+        order_id: res.order_id
+      });
+
+      let cancelOrder = signRequest({
+        request: "/v1/order/cancel",
+        nonce: n(),
+        order_id: res.order_id
+      });
+
+      let orderCounter = 0;
+
+
+      setInterval(() => {
+        axios.post("https://api.gemini.com/v1/order/status", "", orderStatus)
+          .then((stat) => {
+            console.log("THE STATUS OF THE PREVIOUSLY EXECUTED ORDER IS: ", stat.is_live);
+            console.log("THE REMAINING AMOUNT LEFT TO BE EXECUTED IS: ", stat.remaining_amount);
+            if(stat.remaining_amount === 0){
+              loopConditional.loopConditional(exchange, upCurr + 'USD');
+            } else if(orderCounter === 9) {
+              axios.post("https://api.gemini.com/v1/order/cancel", "", cancelOrder)
+                .then((cancelled) => {
+                  console.log(`ORDER ${res.order_id} HAS BEEN CANCELLED`);
+                  loopConditional.loopConditional(exchange, upCurr + 'USD');
+                })
+                .catch((err) => {
+                  console.log(`COULD NOT CANCEL ORDER ${res.order_id} BECAUSE ${err}`);
+                  loopConditional.loopConditional(exchange, upCurr + 'USD');
+                });
+            } else {
+              orderCounter++;
+            }
+          })
+          .catch(err => {
+            console.log("COULDN'T GET THE ORDER'S STATUS: ", err);
+            loopConditional.loopConditional(exchange, upCurr + 'USD');
+        });
+      }, 60000);
     })
     .catch(err => {
       console.log(err);

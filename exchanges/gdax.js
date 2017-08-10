@@ -39,7 +39,9 @@ async function buy(exchange, currency) {
           "size": ethAmount,
           "price": price,
           "side": 'buy',
-          "product_id": "ETH-BTC"
+          "product_id": "ETH-BTC",
+          "time_in_force": "GTT",
+          "cancel_after": 10
         };
 
         let body = JSON.stringify(axiosBod);
@@ -63,6 +65,7 @@ async function buy(exchange, currency) {
         instance.post("/orders")
           .then(res => {
             console.log(`${ethAmount} BTC bought at ${price}\n\n`, res);
+            //need to put this in different scope...
             loopConditional.loopConditional(exchange, upCurr + 'USD');
           })
           .catch(err => {
@@ -77,7 +80,9 @@ async function buy(exchange, currency) {
         "size": btcAmount,
         "price": price,
         "side": 'sell',
-        "product_id": "ETH-BTC"
+        "product_id": "ETH-BTC",
+        "time_in_force": "GTT",
+        "cancel_after": 10
       };
 
       let body = JSON.stringify(axiosBod);
