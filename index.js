@@ -7,21 +7,27 @@ cryptoSocket.start("gdax");
 cryptoSocket.start("bitfinex");
 cryptoSocket.start("poloniex");
 cryptoSocket.start("bittrex");
-cryptoSocket.start("okcoin");
 let bitfinex = require('./exchanges/bitfinex');
 let bittrex = require('./exchanges/bittrex');
 let gdax = require('./exchanges/gdax');
 let gemini = require('./exchanges/gemini');
 let poloniex = require('./exchanges/poloniex');
 let livecoin = require('./exchanges/livecoin');
+let cCex = require('./exchanges/cCcex');
 //price of 1 ethereum in bitcoins
 //setTimeout(() => {console.log((cryptoSocket.Exchanges.gemini.ETHBTC - (0.10 * cryptoSocket.Exchanges.gemini.ETHUSD)).toFixed(5).toString())}, 150000);
 cryptoSocket.Exchanges.livecoin = {};
+cryptoSocket.Exchanges.cCex = {};
 cryptoSocket.Exchanges.livecoin.BTCUSD = '';
 cryptoSocket.Exchanges.livecoin.ETHUSD = '';
 cryptoSocket.Exchanges.livecoin.LTCUSD = '';
 cryptoSocket.Exchanges.livecoin.LTCBTC = '';
 cryptoSocket.Exchanges.livecoin.ETHBTC = '';
+cryptoSocket.Exchanges.cCex.BTCUSD = '';
+cryptoSocket.Exchanges.cCex.ETHUSD = '';
+cryptoSocket.Exchanges.cCex.LTCUSD = '';
+cryptoSocket.Exchanges.cCex.LTCBTC = '';
+cryptoSocket.Exchanges.cCex.ETHBTC = '';
 
 setTimeout(() => {
   setInterval(() => {
@@ -36,6 +42,16 @@ setTimeout(() => {
         }
       })
       .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
+
+      axios.get("https://c-cex.com/t/prices.json")
+        .then(data => {
+          cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice)
+          cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice)
+          cryptoSocket.Exchanges.cCex.LTCUSD = parseFloat(data.data['ltc-usd'].lastprice)
+          cryptoSocket.Exchanges.cCex.ETHBTC = parseFloat(data.data['eth-btc'].lastprice)
+          cryptoSocket.Exchanges.cCex.LTCBTC = parseFloat(data.data['ltc-btc'].lastprice)
+        })
+        .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
   }, 1100)
 }, 0);
 
@@ -47,7 +63,8 @@ let spreadTracker = {
   gdax: 0,
   gemini: 0,
   poloniex: 0,
-  livecoin: 0
+  livecoin: 0,
+  ccex: 0
 }
 
 //count number of times when spread is equal to 80 cents or more
@@ -136,7 +153,8 @@ let trackSpreads = () => {
     bittrex: spreadTracker.bittrex,
     bitfinex: spreadTracker.bitfinex,
     gdax: spreadTracker.gdax,
-    livecoin: spreadTracker.livecoin
+    livecoin: spreadTracker.livecoin,
+    cCex: spreadTracker.ccex
   };
 }
 
@@ -730,9 +748,9 @@ module.exports.loopConditional = function (exchange, currency){
 //4. test performance of overall functions, especially checkArb function!!!
 
 
-//setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
+setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
 
-setTimeout(() => {setInterval(() => {console.log(trackSpreads())}, 30000)}, 140000);
+//setTimeout(() => {setInterval(() => {console.log(trackSpreads())}, 30000)}, 140000);
 
 //setTimeout(() => {console.log(checkArbitrage()}, 140000);
 
