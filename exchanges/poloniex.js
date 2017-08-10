@@ -44,7 +44,7 @@ async function buy(exchange, currency) {
             console.log(data);
             loopConditional.loopConditional(exchange, upCurr + 'USD');
           }
-        });
+        })
     },
     BTC: {
       buy: (exchange) =>
