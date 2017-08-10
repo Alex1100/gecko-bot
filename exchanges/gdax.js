@@ -24,8 +24,6 @@ signGdaxRequest = (timestamp, method, reqPath, reqBody) => {
 //works but test it out the inner functions work, I just used your setup to
 //keep the function signature consistent
 async function buy(exchange, currency) {
-
-  //GDAX FEES ARE:
   //Maker: 0%
   //Taker 0.3%
   let upCurr = currency.toUpperCase();
