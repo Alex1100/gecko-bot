@@ -208,13 +208,13 @@ checkArbitrage = (exchange, currency) => {
   if (exchange === "gdax") {
     //BTC
     let gdaxVsGeminiBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.BTCUSD - (parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    let gdaxVsPoloniexBtc = (cryptoSocket.Exchanges.gdax.BTCUSD - (cryptoSocket.Exchanges.gdax.BTCUSD * .003)) - (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * 0.001));
-    let gdaxVsBitfinexBtc = (cryptoSocket.Exchanges.gdax.BTCUSD - (cryptoSocket.Exchanges.gdax.BTCUSD * .003)) - (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * 0.0004));
-    let gdaxVsBittrexBtc = (cryptoSocket.Exchanges.gdax.BTCUSD - (cryptoSocket.Exchanges.gdax.BTCUSD * .003)) - (cryptoSocket.Exchanges.bittrex.BTCUSD - (ryptoSocket.Exchanges.bittrex.BTCUSD * 0.001));
-    let geminiVsGdaxBtc = (cryptoSocket.Exchanges.gemini.BTCUSD - (cryptoSocket.Exchanges.gemini.BTCUSD * .0025)) - (cryptoSocket.Exchanges.gdax.BTCUSD);
-    let poloniexVsGdaxBtc = (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.gdax.BTCUSD);
-    let bitfinexVsGdaxBtc = (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * .002)) - (cryptoSocket.Exchanges.gdax.BTCUSD);
-    let bittrexVsGdaxBtc = (cryptoSocket.Exchanges.bittrex.BTCUSD - (cryptoSocket.Exchanges.bittrex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.gdax.BTCUSD);
+    let gdaxVsPoloniexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
+    let gdaxVsBitfinexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bitfinex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD * .0004).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
+    let gdaxVsBittrexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
+    let geminiVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD - parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
+    let poloniexVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD - parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
+    let bitfinexVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD * .002).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
+    let bittrexVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
 
     //ETH
     let gdaxVsGeminiEth = (cryptoSocket.Exchanges.gdax.ETHUSD - (cryptoSocket.Exchanges.gdax.ETHUSD * .003)) - (cryptoSocket.Exchanges.gemini.ETHUSD - (cryptoSocket.Exchanges.gemini.ETHUSD * .01));
@@ -309,11 +309,11 @@ checkArbitrage = (exchange, currency) => {
 
   if (exchange === "gemini") {
     //BTC
-    let geminiVsGdaxBtc = (cryptoSocket.Exchanges.gemini.BTCUSD - (cryptoSocket.Exchanges.gemini.BTCUSD * .0025)) - (cryptoSocket.Exchanges.gdax.BTCUSD);
+    let geminiVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD - parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let geminiVsPoloniexBtc = (cryptoSocket.Exchanges.gemini.BTCUSD - (cryptoSocket.Exchanges.gemini.BTCUSD * .0025)) - (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * .001));
     let geminiVsBitfinexBtc = (cryptoSocket.Exchanges.gemini.BTCUSD - (cryptoSocket.Exchanges.gemini.BTCUSD * .0025)) - (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * .0004));
     let geminiVsBittrexBtc = (cryptoSocket.Exchanges.gemini.BTCUSD - (cryptoSocket.Exchanges.gemini.BTCUSD * .0025)) - (cryptoSocket.Exchanges.bittrex.BTCUSD - (cryptoSocket.Exchanges.bittrex.BTCUSD * .001));
-    let gdaxVsGeminiBtc = (cryptoSocket.Exchanges.gdax.BTCUSD - (cryptoSocket.Exchanges.gdax.BTCUSD * .003)) - (cryptoSocket.Exchanges.gemini.BTCUSD - (cryptoSocket.Exchanges.gemini.BTCUSD * .01));
+    let gdaxVsGeminiBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.BTCUSD - (parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let poloniexVsGeminiBtc = (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.gemini.BTCUSD - (cryptoSocket.Exchanges.gemini.BTCUSD * .01));
     let bitfinexVsGeminiBtc = (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * .002)) - (cryptoSocket.Exchanges.gemini.BTCUSD - (cryptoSocket.Exchanges.gemini.BTCUSD * .01));
     let bittrexVsGeminiBtc = (cryptoSocket.Exchanges.bittrex.BTCUSD - (cryptoSocket.Exchanges.bittrex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.gemini.BTCUSD - (cryptoSocket.Exchanges.gemini.BTCUSD * .01));
@@ -411,11 +411,11 @@ checkArbitrage = (exchange, currency) => {
 
   if (exchange === 'poloniex') {
     //BTC
-    let poloniexVsGdaxBtc = (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.gdax.BTCUSD);
+    let poloniexVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD - parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let poloniexVsGeminiBtc = (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.gemini.BTCUSD - (cryptoSocket.Exchanges.gemini.BTCUSD * .01));
     let poloniexVsBitfinexBtc = (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * .0004));
     let poloniexVsBittrexBtc = (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.bittrex.BTCUSD - (cryptoSocket.Exchanges.bittrex.BTCUSD * .001));
-    let gdaxVsPoloniexBtc = (cryptoSocket.Exchanges.gdax.BTCUSD - (cryptoSocket.Exchanges.gdax.BTCUSD * .003)) - (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * .001));
+    let gdaxVsPoloniexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let geminiVsPoloniexBtc = (cryptoSocket.Exchanges.gemini.BTCUSD - (cryptoSocket.Exchanges.gemini.BTCUSD * .0025)) - (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * .001));
     let bitfinexVsPoloniexBtc = (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * .002)) - (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * .001));
     let bittrexVsPoloniexBtc = (cryptoSocket.Exchanges.bittrex.BTCUSD - (cryptoSocket.Exchanges.bittrex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * .001));
@@ -512,11 +512,11 @@ checkArbitrage = (exchange, currency) => {
 
   if (exchange === 'bitfinex') {
     //BTC
-    let bitfinexVsGdaxBtc = (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * .002)) - (cryptoSocket.Exchanges.gdax.BTCUSD);
+    let bitfinexVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD * .002).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let bitfinexVsGeminiBtc = (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * .002)) - (cryptoSocket.Exchanges.gemini.BTCUSD - (cryptoSocket.Exchanges.gemini.BTCUSD * .01));
     let bitfinexVsPoloniexBtc = (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * .002)) - (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * .001));
     let bitfinexVsBittrexBtc = (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * .002)) - (cryptoSocket.Exchanges.bittrex.BTCUSD - (cryptoSocket.Exchanges.bittrex.BTCUSD * .001));
-    let gdaxVsBitfinexBtc = (cryptoSocket.Exchanges.gdax.BTCUSD - (cryptoSocket.Exchanges.gdax.BTCUSD * .003)) - (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * .0004));
+    let gdaxVsBitfinexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bitfinex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD * .0004).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let geminiVsBitfinexBtc = (cryptoSocket.Exchanges.gemini.BTCUSD - (cryptoSocket.Exchanges.gemini.BTCUSD * .0025)) - (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * .0004));
     let poloniexVsBitfinexBtc = (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * .0004));
     let bittrexVsBitfinexBtc = (cryptoSocket.Exchanges.bittrex.BTCUSD - (cryptoSocket.Exchanges.bittrex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * .0004));
@@ -614,11 +614,11 @@ checkArbitrage = (exchange, currency) => {
 
   if (exchange === 'bittrex') {
     //BTC
-    let bittrexVsGdaxBtc = (cryptoSocket.Exchanges.bittrex.BTCUSD - (cryptoSocket.Exchanges.bittrex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.gdax.BTCUSD);
+    let bittrexVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let bittrexVsGeminiBtc = (cryptoSocket.Exchanges.bittrex.BTCUSD - (cryptoSocket.Exchanges.bittrex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.gemini.BTCUSD - (cryptoSocket.Exchanges.gemini.BTCUSD * .01));
     let bittrexVsPoloniexBtc = (cryptoSocket.Exchanges.bittrex.BTCUSD - (cryptoSocket.Exchanges.bittrex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * .001));
     let bittrexVsBitfinexBtc = (cryptoSocket.Exchanges.bittrex.BTCUSD - (cryptoSocket.Exchanges.bittrex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * .0004));
-    let gdaxVsBittrexBtc = (cryptoSocket.Exchanges.gdax.BTCUSD - (cryptoSocket.Exchanges.gdax.BTCUSD * .003)) - (cryptoSocket.Exchanges.bittrex.BTCUSD - (cryptoSocket.Exchanges.bittrex.BTCUSD * .001));
+    let gdaxVsBittrexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let geminiVsBittrexBtc = (cryptoSocket.Exchanges.gemini.BTCUSD - (cryptoSocket.Exchanges.gemini.BTCUSD * .0025)) - (cryptoSocket.Exchanges.bittrex.BTCUSD - (cryptoSocket.Exchanges.bittrex.BTCUSD * .001));
     let poloniexVsBittrexBtc = (cryptoSocket.Exchanges.poloniex.BTCUSD - (cryptoSocket.Exchanges.poloniex.BTCUSD * .0025)) - (cryptoSocket.Exchanges.bittrex.BTCUSD - (cryptoSocket.Exchanges.bittrex.BTCUSD * .001));
     let bitfinexVsBittrexBtc = (cryptoSocket.Exchanges.bitfinex.BTCUSD - (cryptoSocket.Exchanges.bitfinex.BTCUSD * .002)) - (cryptoSocket.Exchanges.bittrex.BTCUSD - (cryptoSocket.Exchanges.bittrex.BTCUSD * .001));
