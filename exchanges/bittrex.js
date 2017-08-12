@@ -14,8 +14,8 @@ let loopConditional = require('../index');
 
 //need to place a cancel order for orders that stay in the books longer than a certain time
 async function buy(exchange, currency, rate){
-  let ethAmount = await requestBalance('ETH');
-  let btcAmount = await requestBalance('BTC');
+  let ethAmount = await requestBalance(exchange, 'ETH');
+  let btcAmount = await requestBalance(exchange, 'BTC');
   let upCurr = currency.toUpperCase();
   console.log("btc = ", ethAmount);
   console.log("eth = ", btcAmount);
@@ -86,7 +86,7 @@ async function withdraw(exchange, currency){
 };
 
 
-requestBalance = (currency) => {
+requestBalances = (exchange, currency) => {
   let curr = currency.toUpperCase();
   return new Promise((resolve, reject) => {
     bittrex.getbalance({currency: curr}, (data, err) => {
@@ -122,8 +122,7 @@ getBtcDepositAddress = () => {
 module.exports = {
   buy,
   withdraw,
-  requestBalances,
-  requestBalance
+  requestBalances
 };
 
 

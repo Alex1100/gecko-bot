@@ -111,7 +111,7 @@ buy = (currency) => {
 }
 
 //works
-requestBalances = (currency) => {
+requestBalances = (exchange, currency) => {
   return new Promise((resolve, reject) => {
     bitfinex.wallet_balances((err, data) => {
       if (err) {

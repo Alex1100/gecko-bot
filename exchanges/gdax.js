@@ -162,7 +162,7 @@ async function withdraw(exchange, currency) {
 };
 
 //works
-getGdaxAccountInfo = (exchange, currency) => {
+requestBalances = (exchange, currency) => {
   var timestamp = (Date.now()/1000).toString();
   let accountsGdaxRequest = signGdaxRequest(timestamp, "GET", "/accounts", "");
   let upCurr = currency.toUpperCase();
@@ -201,7 +201,7 @@ getGdaxAccountInfo = (exchange, currency) => {
 module.exports = {
   buy,
   withdraw,
-  getGdaxAccountInfo,
+  requestBalances
 };
 
 

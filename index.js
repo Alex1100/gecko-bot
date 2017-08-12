@@ -16,10 +16,10 @@ let livecoin = require('./exchanges/livecoin');
 let cCex = require('./exchanges/cCex');
 
 //NEED TO FIX LTC CALCULATIONS
-setTimeout(() => {console.log(parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD).toFixed(2)))}, 120000);
-setTimeout(() => {console.log(parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD).toFixed(2)))}, 121000);
-setTimeout(() => {console.log(parseFloat((cryptoSocket.Exchanges.bitfinex.LTCUSD).toFixed(2)))}, 122000);
-setTimeout(() => {console.log(parseFloat(cryptoSocket.Exchanges.bittrex.BTCUSD * cryptoSocket.Exchanges.bittrex.LTCBTC).toFixed(2))}, 123000);
+// setTimeout(() => {console.log(parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD).toFixed(2)))}, 120000);
+// setTimeout(() => {console.log(parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD).toFixed(2)))}, 121000);
+// setTimeout(() => {console.log(parseFloat((cryptoSocket.Exchanges.bitfinex.LTCUSD).toFixed(2)))}, 122000);
+// setTimeout(() => {console.log(parseFloat(cryptoSocket.Exchanges.bittrex.BTCUSD * cryptoSocket.Exchanges.bittrex.LTCBTC).toFixed(2))}, 123000);
 
 cryptoSocket.Exchanges.livecoin = {};
 cryptoSocket.Exchanges.cCex = {};
@@ -34,31 +34,31 @@ cryptoSocket.Exchanges.cCex.LTCUSD = '';
 cryptoSocket.Exchanges.cCex.LTCBTC = '';
 cryptoSocket.Exchanges.cCex.ETHBTC = '';
 
-// setImmediate(() => {
-//   setInterval(() => {
-//     axios.get('https://api.livecoin.net/exchange/ticker')
-//       .then(data => {
-//         if(data.data){
-//           cryptoSocket.Exchanges.livecoin.BTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BTC/USD')[0].last);
-//           cryptoSocket.Exchanges.livecoin.ETHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/USD')[0].last);
-//           cryptoSocket.Exchanges.livecoin.LTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/USD')[0].last);
-//           cryptoSocket.Exchanges.livecoin.LTCBTC = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/BTC')[0].last);
-//           cryptoSocket.Exchanges.livecoin.ETHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/BTC')[0].last);
-//         }
-//       })
-//       .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
+setImmediate(() => {
+  setInterval(() => {
+    axios.get('https://api.livecoin.net/exchange/ticker')
+      .then(data => {
+        if(data.data){
+          cryptoSocket.Exchanges.livecoin.BTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BTC/USD')[0].last);
+          cryptoSocket.Exchanges.livecoin.ETHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/USD')[0].last);
+          cryptoSocket.Exchanges.livecoin.LTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/USD')[0].last);
+          cryptoSocket.Exchanges.livecoin.LTCBTC = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/BTC')[0].last);
+          cryptoSocket.Exchanges.livecoin.ETHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/BTC')[0].last);
+        }
+      })
+      .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
 
-//       axios.get("https://c-cex.com/t/prices.json")
-//         .then(data => {
-//           cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice)
-//           cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice)
-//           cryptoSocket.Exchanges.cCex.LTCUSD = parseFloat(data.data['ltc-usd'].lastprice)
-//           cryptoSocket.Exchanges.cCex.ETHBTC = parseFloat(data.data['eth-btc'].lastprice)
-//           cryptoSocket.Exchanges.cCex.LTCBTC = parseFloat(data.data['ltc-btc'].lastprice)
-//         })
-//         .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
-//   }, 1100)
-// });
+      axios.get("https://c-cex.com/t/prices.json")
+        .then(data => {
+          cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice)
+          cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice)
+          cryptoSocket.Exchanges.cCex.LTCUSD = parseFloat(data.data['ltc-usd'].lastprice)
+          cryptoSocket.Exchanges.cCex.ETHBTC = parseFloat(data.data['eth-btc'].lastprice)
+          cryptoSocket.Exchanges.cCex.LTCBTC = parseFloat(data.data['ltc-btc'].lastprice)
+        })
+        .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
+  }, 1100)
+});
 
 
 
@@ -194,9 +194,15 @@ let trackSpreads = () => {
   };
 }
 
-checkArbitrage = (exchange, currency) => {
+let functionCounter = {
+  count: 0
+}
+
+checkArbitrage = (exchange, currency, needToWithdraw) => {
+  functionCounter.count++;
   let largestSpread = 5;
   let spreadCurrency;
+  let sufficientFunds = needToWithdraw;
   let trades = {
     gdax,
     gemini,
@@ -1191,6 +1197,41 @@ checkArbitrage = (exchange, currency) => {
 
     flag = false;
     setImmediate(() => {loopConditional(tradingAt, spreadCurrency + 'USD')});
+    //if withdraw
+      //need to take into account for each exchanges withdraw function and their
+      //unique function paramters
+    //else if spreadCurrency === 'BTC'
+      //trade BTC functions for each exchange
+    //else if spreadCurency === 'ETH'
+      //trade ETH functions for each exchange
+    //else if spreadCurrency === 'LTC'
+      //trade LTC functions for each exchange
+
+      // if (withdrawFrom === 'gdax' && !sufficientFunds) {
+      //   gdax.withdraw();
+      // } else if (withdrawFrom === 'gemini' && !sufficientFunds) {
+      //   gemini.withdraw();
+      // } else if (withdrawFrom === 'poloniex' && !sufficientFunds) {
+      //   poloniex.withdraw();
+      // } else if (withdrawFrom === 'bitfinex' && !sufficientFunds) {
+      //   bitfinex.withdraw();
+      // } else if (withdrawFrom === 'bittrex' && !sufficientFunds) {
+      //   bittrex.withdraw();
+      // } else if (withdrawFrom === 'gdax' && sufficientFunds && tradingAt === exchange) {
+
+      // } else if (withdrawFrom === 'gemini' && sufficientFunds && tradingAt === exchange) {
+
+      // } else if (withdrawFrom === 'poloniex' && sufficientFunds && tradingAt === exchange) {
+
+      // } else if (withdrawFrom === 'bitfinex' && sufficientFunds && tradingAt === exchange) {
+
+      // } else if (withdrawFrom === 'bittrex' && sufficientFunds && tradingAt === exchange) {
+
+      // } else {
+      //   // error handle or just reinitiate checkArbitrage Function
+      //   // loopConditional(exchange, currency);
+      // }
+
     // if (currency === spreadCurrency) {
     //   //there are some catch 22's here we need to work out the kinks bruh
     //   setTimeout(trades[exchange].withdraw(spreadCurrency), 0);
@@ -1210,6 +1251,7 @@ checkArbitrage = (exchange, currency) => {
 
 
 loopConditional = (exchange, currency) => {
+  functionCounter.count = 0;
   flag = true;
   console.log(exchange);
   while (flag) {
@@ -1218,6 +1260,7 @@ loopConditional = (exchange, currency) => {
 };
 
 module.exports.loopConditional = function (exchange, currency){
+    functionCounter.count = 0;
     flag = true;
     console.log(exchange);
     while (flag) {
@@ -1254,11 +1297,12 @@ module.exports.loopConditional = function (exchange, currency){
 //4. test performance of overall functions, especially checkArb function!!!
 
 
-//setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
+setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
 
 //setTimeout(() => {setInterval(() => {console.log(trackSpreads())}, 30000)}, 140000);
 
-//setTimeout(() => {console.log(loopConditional('gdax', 'ETHUSD'))}, 140000);
+//setTimeout(() => {console.log(loopConditional('gdax', 'ETHUSD'))}, 200000);
+//setTimeout(() => {console.log(`CHECK ARB FUNCTION FIRED OFF ${functionCounter.count} TIMES IN ONE SECOND!`)}, 201000)
 
 //checkArbitrage = (exchange, currency) => {
   //let gdaxEthToGemini = cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD;

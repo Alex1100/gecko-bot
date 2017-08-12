@@ -1,5 +1,3 @@
-
-//DAVES CODE
 require("dotenv").load();
 //const Poloniex = require("poloniex.js");
 const axios = require("axios");
@@ -9,8 +7,18 @@ let poloniex = new Poloniex(process.env.POLONIEX_API_KEY, process.env.POLONIEX_S
 let btcAddress = process.env.POLONIEX_BTC_ADDRESS;
 let ethAddress = process.env.POLONIEX_ETH_ADDRESS;
 var loopConditional = require('../index');
+let bitfinex = require('./bitfinex');
+let bittrex = require('./bittrex');
+let gdax = require('./gdax');
+let gemini = require('./gemini');
+let stategy = {
+  "bitfinex": bitfinex,
+  "bittrex": bittrex,
+  "gdax": gdax,
+  "gemini": gemini
+};
 
-requestBalances = () => {
+requestBalances = (exchange, currency) => {
   return new Promise((resolve, reject) => {
     poloniex.returnBalances((err, data) => {
       if (err) {
@@ -24,18 +32,18 @@ requestBalances = () => {
   });
 };
 
-async function buy(exchange, currency) {
+async function buy(exchange, currency, price) {
   //POLONIEX FEES ARE:
   //MAKER: 0.15% per Trade
   //Taker: 0.25% per Trade
-  let amount = await requestBalances();
+  let amount = await requestBalances(exchange, currency);
   let ethAmount = amount.ETH;
   let btcAmount = amount.BTC;
   let upCurr = currency.toUpperCase();
-  let price; //figure this out Alex... You can do it bud... fuck... me....
+
   const pairs = {
     ETH: {
-      buy: (exchange) =>
+      buy: () =>
         poloniex.buy("ETH_BTC", price, ethAmount / price, 1, 0, 0, (err, data) => {
           if (err) {
             console.log(err);
@@ -47,7 +55,7 @@ async function buy(exchange, currency) {
         })
     },
     BTC: {
-      buy: (exchange) =>
+      buy: () =>
         poloniex.sell("ETH_BTC", price, ethAmount, 1, 0, 0, (err, data) => {
           if (err) {
             console.log(err);
@@ -62,28 +70,32 @@ async function buy(exchange, currency) {
   pairs[upCurr].buy(exchange);
 };
 
-async function withdraw(exchange, currency) {
-  let amount = await requestBalances();
+async function withdraw(exchange, currency, targetExchange) {
+  //need to fix this function...
+  let amount = await requestBalances(exchange, currency);
   let ethAmount = amount.ETH;
   let btcAmount = amount.BTC;
   let upCurr = currency.toUpperCase();
-  let address = exchange.toUpperCase() + '_' + currency.toUpperCase() + '_DEPOSIT_ADDRESS';
+  let address = targetExchange.toUpperCase() + '_' + upCurr + '_DEPOSIT_ADDRESS';
+  let currentStrategy = strategy[targetExchange];
   poloniex.withdraw(upCurr, balancesObj[upCurr], process.env.address, (err, data) => {
       if (err) {
         console.log(err);
         loopConditional.loopConditional(exchange, upCurr + 'USD');
       } else {
         console.log(data);
-        loopConditional.loopConditional(exchange, upCurr + 'USD');
+        while(setTimeout(() => {currentStrategy.requestBalances(targetExchange, currency) <= 0.5}, 20000)){
+          console.log(`STILL WAITING FOR FUNDS TO TRANSFER FROM POLONIEX TO ${targetExchange}`)
+        }
+        if(currentStrategy.requestBalances(targetExchange, currency) > 0.5){
+          currentStrategy.buy();
+        }
       }
-    }
-  );
+    });
 };
 
 
 module.exports = {
-  btcAddress,
-  ethAddress,
   requestBalances,
   buy,
   withdraw

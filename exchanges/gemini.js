@@ -17,7 +17,7 @@ signRequest = request => {
 };
 
 //works
-requestBalances = () => {
+requestBalances = (exchange, currency) => {
   let balanceRequest = signRequest({
     request: "/v1/balances",
     nonce: n()
@@ -44,7 +44,7 @@ async function buy(exchange, currency) {
   // Fees are
   // Maker: 0.25%
   // Taker: 0.25%
-  let total = await requestBalances();
+  let total = await requestBalances(exchange, currency);
   let ethAmount = total.ETH;
   let btcAmount = total.BTC;
   let currAmount;
@@ -209,7 +209,7 @@ async function buy(exchange, currency) {
 // };
 
 async function withdraw(exchange, currency) {
-  let amount = await requestBalances();
+  let amount = await requestBalances(exchange, currency);
   let ethAmount = amount.ETH;
   let btcAmount = amount.BTC;
   let currAmount;
