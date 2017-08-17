@@ -2,10 +2,10 @@ require("dotenv").load();
 const axios = require("axios");
 let cryptoSocket = require("crypto-socket");
 let flag = true;
-cryptoSocket.start("gemini");
-cryptoSocket.start("gdax");
-cryptoSocket.start("bitfinex");
-cryptoSocket.start("poloniex");
+// cryptoSocket.start("gemini");
+// cryptoSocket.start("gdax");
+// cryptoSocket.start("bitfinex");
+// cryptoSocket.start("poloniex");
 cryptoSocket.start("bittrex");
 let bitfinex = require('./exchanges/bitfinex');
 let bittrex = require('./exchanges/bittrex');
@@ -14,192 +14,306 @@ let gemini = require('./exchanges/gemini');
 let poloniex = require('./exchanges/poloniex');
 let livecoin = require('./exchanges/livecoin');
 let cCex = require('./exchanges/cCex');
+let SMA = require('technicalindicators').SMA;
+let EMA = require('technicalindicators').EMA;
+let RSI = require('technicalindicators').RSI;
+let MACD = require('technicalindicators').MACD;
+let BB = require('technicalindicators').BollingerBands;
+let ATR = require('technicalindicators').ATR;
+let WEMA = require('technicalindicators').WEMA;
+let ROC = require('technicalindicators').ROC;
+let KST = require('technicalindicators').KST;
+let Stochastic = require('technicalindicators').Stochastic;
+let WilliamsR = require('technicalindicators').WilliamsR;
+let ADL = require('technicalindicators').ADL;
+let OBV = require('technicalindicators').OBV;
+let TRIX = require('technicalindicators').TRIX;
+let ADX = require('technicalindicators').ADX;
+let CCI = require('technicalindicators').CCI;
+let VWAP = require('technicalindicators').VWAP;
+let ForceIndex = require('technicalindicators').ForceIndex;
 
-//NEED TO FIX LTC CALCULATIONS
-// setTimeout(() => {console.log(parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD).toFixed(2)))}, 120000);
-// setTimeout(() => {console.log(parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD).toFixed(2)))}, 121000);
-// setTimeout(() => {console.log(parseFloat((cryptoSocket.Exchanges.bitfinex.LTCUSD).toFixed(2)))}, 122000);
-// setTimeout(() => {console.log(parseFloat(cryptoSocket.Exchanges.bittrex.BTCUSD * cryptoSocket.Exchanges.bittrex.LTCBTC).toFixed(2))}, 123000);
+//SMA.calculate({period: historicDataLogs['bittrex']['BTCUSD'].length, values: })
 
-cryptoSocket.Exchanges.livecoin = {};
-cryptoSocket.Exchanges.cCex = {};
-cryptoSocket.Exchanges.livecoin.BTCUSD = '';
-cryptoSocket.Exchanges.livecoin.ETHUSD = '';
-cryptoSocket.Exchanges.livecoin.LTCUSD = '';
-cryptoSocket.Exchanges.livecoin.LTCBTC = '';
-cryptoSocket.Exchanges.livecoin.ETHBTC = '';
-cryptoSocket.Exchanges.cCex.BTCUSD = '';
-cryptoSocket.Exchanges.cCex.ETHUSD = '';
-cryptoSocket.Exchanges.cCex.LTCUSD = '';
-cryptoSocket.Exchanges.cCex.LTCBTC = '';
-cryptoSocket.Exchanges.cCex.ETHBTC = '';
 
-setImmediate(() => {
+
+let historicDataLogs = {
+    'bittrex': {
+      'ETHBTC': [],
+      'LTCBTC': [],
+      'BTCUSD': []
+    },
+    'gemini': {
+      'ETHBTC': [],
+      'LTCBTC': [],
+      'BTCUSD': []
+    },
+    'gdax': {
+      'ETHBTC': [],
+      'LTCBTC': [],
+      'BTCUSD': []
+    },
+    'poloniex': {
+      'ETHBTC': [],
+      'LTCBTC': [],
+      'BTCUSD': []
+    }
+};
+
+let hourlyAvgPrices = {
+    'bittrex': {
+      'ETHBTC': [],
+      'LTCBTC': [],
+      'BTCUSD': []
+    },
+    'gemini': {
+      'ETHBTC': [],
+      'LTCBTC': [],
+      'BTCUSD': []
+    },
+    'gdax': {
+      'ETHBTC': [],
+      'LTCBTC': [],
+      'BTCUSD': []
+    },
+    'poloniex': {
+      'ETHBTC': [],
+      'LTCBTC': [],
+      'BTCUSD': []
+    }
+};
+
+
+
+
+//setTimeout(() => {setInterval(() => {console.log(historicDataLogs.bittrex.ETHBTC)}, 500)}, 121000);
+setTimeout(() => {
   setInterval(() => {
-    axios.get('https://api.livecoin.net/exchange/ticker')
-      .then(data => {
-        if(data.data){
-          cryptoSocket.Exchanges.livecoin.BTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BTC/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.ETHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.LTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.LTCBTC = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/BTC')[0].last);
-          cryptoSocket.Exchanges.livecoin.ETHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/BTC')[0].last);
-        }
-      })
-      .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
-
-      axios.get("https://c-cex.com/t/prices.json")
-        .then(data => {
-          cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice)
-          cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice)
-          cryptoSocket.Exchanges.cCex.LTCUSD = parseFloat(data.data['ltc-usd'].lastprice)
-          cryptoSocket.Exchanges.cCex.ETHBTC = parseFloat(data.data['eth-btc'].lastprice)
-          cryptoSocket.Exchanges.cCex.LTCBTC = parseFloat(data.data['ltc-btc'].lastprice)
-        })
-        .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
-  }, 1100)
-});
+    console.log("THERE ARE " + historicDataLogs['bittrex']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE ARRAY!");
+    console.log(historicDataLogs['bittrex']['BTCUSD'][0], historicDataLogs['bittrex']['BTCUSD'][historicDataLogs['bittrex']['BTCUSD'].length - 1]);
+  }, 1000);
+}, 140000);
 
 
 
-let spreadTracker = {
-  bittrex: 0,
-  bitfinex: 0,
-  gdax: 0,
-  gemini: 0,
-  poloniex: 0,
-  livecoin: 0,
-  ccex: 0
-}
+// let values = [286.02, 286.01, 286.02, 286.01, 286, 286.01, 286, 286.01, 286, 285.52, 285.21, 285.01]
+// let period = Math.floor(values.length/3);
+// let a = RSI.calculate({period: period, values: values});
+// console.log("RSI IS: ", a);
+// console.log(a.reduce((acc, el) => acc + el, 0)/a.length);
+// let b = EMA.calculate({period : period, values : values});
+// console.log("EMA IS: ", b);
+// console.log(b.reduce((acc, el) => acc + el, 0)/b.length);
+// let c = SMA.calculate({period : period, values : values})
+// console.log("SMA IS: ", c);
+// console.log(c.reduce((acc, el) => acc + el, 0)/c.length);
 
-//count number of times when spread is equal to 80 cents or more
 
-//
 
-let trackSpreads = () => {
-  if (cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.livecoin.BTCUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.cCex.BTCUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.livecoin.ETHUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.cCex.ETHUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gdax.LTCUSD - cryptoSocket.Exchanges.poloniex.LTCUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gdax.LTCUSD - cryptoSocket.Exchanges.bitfinex.LTCUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gdax.LTCUSD - cryptoSocket.Exchanges.livecoin.LTCUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gdax.LTCUSD - cryptoSocket.Exchanges.cCex.LTCUSD > 5){spreadTracker['gdax']++};
-  if (cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD > 5){spreadTracker['gemini']++};
-  if (cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD > 5){spreadTracker['gemini']++};
-  if (cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD > 5){spreadTracker['gemini']++};
-  if (cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD > 5){spreadTracker['gemini']++};
-  if (cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.livecoin.BTCUSD > 5){spreadTracker['gemini']++};
-  if (cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.cCex.BTCUSD > 5){spreadTracker['gemini']++};
-  if (cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD > 5){spreadTracker['gemini']++};
-  if (cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD > 5){spreadTracker['gemini']++};
-  if (cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD > 5){spreadTracker['gemini']++};
-  if (cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD > 5){spreadTracker['gemini']++};
-  if (cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.livecoin.ETHUSD > 5){spreadTracker['gemini']++};
-  if (cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.cCex.ETHUSD > 5){spreadTracker['gemini']++};
-  if (cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.livecoin.BTCUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.cCex.BTCUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.livecoin.ETHUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.cCex.ETHUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.poloniex.LTCUSD - cryptoSocket.Exchanges.gdax.LTCUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.poloniex.LTCUSD - cryptoSocket.Exchanges.bitfinex.LTCUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.poloniex.LTCUSD - cryptoSocket.Exchanges.livecoin.LTCUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.poloniex.LTCUSD - cryptoSocket.Exchanges.cCex.LTCUSD > 5){spreadTracker['poloniex']++};
-  if (cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.livecoin.BTCUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.cCex.BTCUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.livecoin.ETHUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.cCex.ETHUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bitfinex.LTCUSD - cryptoSocket.Exchanges.poloniex.LTCUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bitfinex.LTCUSD - cryptoSocket.Exchanges.gdax.LTCUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bitfinex.LTCUSD - cryptoSocket.Exchanges.livecoin.LTCUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bitfinex.LTCUSD - cryptoSocket.Exchanges.cCex.LTCUSD > 5){spreadTracker['bitfinex']++};
-  if (cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD > 5){spreadTracker['bittrex']++};
-  if (cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD > 5){spreadTracker['bittrex']++};
-  if (cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD > 5){spreadTracker['bittrex']++};
-  if (cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD > 5){spreadTracker['bittrex']++};
-  if (cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.livecoin.BTCUSD > 5){spreadTracker['bittrex']++};
-  if (cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.cCex.BTCUSD > 5){spreadTracker['bittrex']++};
-  if (cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD > 5){spreadTracker['bittrex']++};
-  if (cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD > 5){spreadTracker['bittrex']++};
-  if (cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD > 5){spreadTracker['bittrex']++};
-  if (cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD > 5){spreadTracker['bittrex']++};
-  if (cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.livecoin.ETHUSD > 5){spreadTracker['bittrex']++};
-  if (cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.cCex.ETHUSD > 5){spreadTracker['bittrex']++};
-  if (cryptoSocket.Exchanges.livecoin.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.livecoin.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.livecoin.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.livecoin.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.livecoin.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.livecoin.BTCUSD - cryptoSocket.Exchanges.cCex.BTCUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.livecoin.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.livecoin.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.livecoin.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.livecoin.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.livecoin.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.livecoin.ETHUSD - cryptoSocket.Exchanges.cCex.ETHUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.livecoin.LTCUSD - cryptoSocket.Exchanges.gdax.LTCUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.livecoin.LTCUSD - cryptoSocket.Exchanges.poloniex.LTCUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.livecoin.LTCUSD - cryptoSocket.Exchanges.bitfinex.LTCUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.livecoin.LTCUSD - cryptoSocket.Exchanges.cCex.LTCUSD > 5){spreadTracker['livecoin']++};
-  if (cryptoSocket.Exchanges.cCex.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD > 5){spreadTracker['ccex']++};
-  if (cryptoSocket.Exchanges.cCex.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD > 5){spreadTracker['ccex']++};
-  if (cryptoSocket.Exchanges.cCex.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD > 5){spreadTracker['ccex']++};
-  if (cryptoSocket.Exchanges.cCex.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD > 5){spreadTracker['ccex']++};
-  if (cryptoSocket.Exchanges.cCex.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD > 5){spreadTracker['ccex']++};
-  if (cryptoSocket.Exchanges.cCex.BTCUSD - cryptoSocket.Exchanges.livecoin.BTCUSD > 5){spreadTracker['ccex']++};
-  if (cryptoSocket.Exchanges.cCex.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD > 5){spreadTracker['ccex']++};
-  if (cryptoSocket.Exchanges.cCex.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD > 5){spreadTracker['ccex']++};
-  if (cryptoSocket.Exchanges.cCex.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD > 5){spreadTracker['ccex']++};
-  if (cryptoSocket.Exchanges.cCex.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD > 5){spreadTracker['ccex']++};
-  if (cryptoSocket.Exchanges.cCex.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD > 5){spreadTracker['ccex']++};
-  if (cryptoSocket.Exchanges.cCex.ETHUSD - cryptoSocket.Exchanges.livecoin.ETHUSD > 5){spreadTracker['ccex']++};
-  if (cryptoSocket.Exchanges.cCex.LTCUSD - cryptoSocket.Exchanges.gdax.LTCUSD > 5){spreadTracker['ccex']++};
-  if (cryptoSocket.Exchanges.cCex.LTCUSD - cryptoSocket.Exchanges.poloniex.LTCUSD > 5){spreadTracker['ccex']++};
-  if (cryptoSocket.Exchanges.cCex.LTCUSD - cryptoSocket.Exchanges.bitfinex.LTCUSD > 5){spreadTracker['ccex']++};
-  if (cryptoSocket.Exchanges.cCex.LTCUSD - cryptoSocket.Exchanges.livecoin.LTCUSD > 5){spreadTracker['ccex']++};
+// cryptoSocket.Exchanges.livecoin = {};
+// cryptoSocket.Exchanges.cCex = {};
+// cryptoSocket.Exchanges.livecoin.BTCUSD = '';
+// cryptoSocket.Exchanges.livecoin.ETHUSD = '';
+// cryptoSocket.Exchanges.livecoin.LTCUSD = '';
+// cryptoSocket.Exchanges.livecoin.LTCBTC = '';
+// cryptoSocket.Exchanges.livecoin.ETHBTC = '';
+// cryptoSocket.Exchanges.cCex.BTCUSD = '';
+// cryptoSocket.Exchanges.cCex.ETHUSD = '';
+// cryptoSocket.Exchanges.cCex.LTCUSD = '';
+// cryptoSocket.Exchanges.cCex.LTCBTC = '';
+// cryptoSocket.Exchanges.cCex.ETHBTC = '';
 
-  return {
-    prices: cryptoSocket.Exchanges,
-    gemini: spreadTracker.gemini,
-    poloniex: spreadTracker.poloniex,
-    bittrex: spreadTracker.bittrex,
-    bitfinex: spreadTracker.bitfinex,
-    gdax: spreadTracker.gdax,
-    livecoin: spreadTracker.livecoin,
-    cCex: spreadTracker.ccex
-  };
-}
 
-let functionCounter = {
-  count: 0
-}
+
+
+
+
+// setImmediate(() => {
+//   setInterval(() => {
+//     axios.get('https://api.livecoin.net/exchange/ticker')
+//       .then(data => {
+//         if(data.data){
+//           cryptoSocket.Exchanges.livecoin.BTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BTC/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.ETHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.LTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.LTCBTC = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/BTC')[0].last);
+//           cryptoSocket.Exchanges.livecoin.ETHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/BTC')[0].last);
+//         }
+//       })
+//       .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
+
+//       axios.get("https://c-cex.com/t/prices.json")
+//         .then(data => {
+//           cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice)
+//           cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice)
+//           cryptoSocket.Exchanges.cCex.LTCUSD = parseFloat(data.data['ltc-usd'].lastprice)
+//           cryptoSocket.Exchanges.cCex.ETHBTC = parseFloat(data.data['eth-btc'].lastprice)
+//           cryptoSocket.Exchanges.cCex.LTCBTC = parseFloat(data.data['ltc-btc'].lastprice)
+//         })
+//         .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
+//   }, 1100)
+// });
+
+
+
+// let spreadTracker = {
+//   bittrex: 0,
+//   bitfinex: 0,
+//   gdax: 0,
+//   gemini: 0,
+//   poloniex: 0,
+//   livecoin: 0,
+//   ccex: 0
+// }
+
+// //count number of times when spread is equal to 80 cents or more
+
+// //
+
+// let trackSpreads = () => {
+//   if (cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.livecoin.BTCUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.cCex.BTCUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gdax.ETHUSD - cryptoSocket.Exchanges.livecoin.ETHUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gdax.BTCUSD - cryptoSocket.Exchanges.cCex.ETHUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gdax.LTCUSD - cryptoSocket.Exchanges.poloniex.LTCUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gdax.LTCUSD - cryptoSocket.Exchanges.bitfinex.LTCUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gdax.LTCUSD - cryptoSocket.Exchanges.livecoin.LTCUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gdax.LTCUSD - cryptoSocket.Exchanges.cCex.LTCUSD > 5){spreadTracker['gdax']++};
+//   if (cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD > 5){spreadTracker['gemini']++};
+//   if (cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD > 5){spreadTracker['gemini']++};
+//   if (cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD > 5){spreadTracker['gemini']++};
+//   if (cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD > 5){spreadTracker['gemini']++};
+//   if (cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.livecoin.BTCUSD > 5){spreadTracker['gemini']++};
+//   if (cryptoSocket.Exchanges.gemini.BTCUSD - cryptoSocket.Exchanges.cCex.BTCUSD > 5){spreadTracker['gemini']++};
+//   if (cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD > 5){spreadTracker['gemini']++};
+//   if (cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD > 5){spreadTracker['gemini']++};
+//   if (cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD > 5){spreadTracker['gemini']++};
+//   if (cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD > 5){spreadTracker['gemini']++};
+//   if (cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.livecoin.ETHUSD > 5){spreadTracker['gemini']++};
+//   if (cryptoSocket.Exchanges.gemini.ETHUSD - cryptoSocket.Exchanges.cCex.ETHUSD > 5){spreadTracker['gemini']++};
+//   if (cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.livecoin.BTCUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.poloniex.BTCUSD - cryptoSocket.Exchanges.cCex.BTCUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.livecoin.ETHUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.poloniex.ETHUSD - cryptoSocket.Exchanges.cCex.ETHUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.poloniex.LTCUSD - cryptoSocket.Exchanges.gdax.LTCUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.poloniex.LTCUSD - cryptoSocket.Exchanges.bitfinex.LTCUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.poloniex.LTCUSD - cryptoSocket.Exchanges.livecoin.LTCUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.poloniex.LTCUSD - cryptoSocket.Exchanges.cCex.LTCUSD > 5){spreadTracker['poloniex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.livecoin.BTCUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.BTCUSD - cryptoSocket.Exchanges.cCex.BTCUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.livecoin.ETHUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.ETHUSD - cryptoSocket.Exchanges.cCex.ETHUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.LTCUSD - cryptoSocket.Exchanges.poloniex.LTCUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.LTCUSD - cryptoSocket.Exchanges.gdax.LTCUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.LTCUSD - cryptoSocket.Exchanges.livecoin.LTCUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bitfinex.LTCUSD - cryptoSocket.Exchanges.cCex.LTCUSD > 5){spreadTracker['bitfinex']++};
+//   if (cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD > 5){spreadTracker['bittrex']++};
+//   if (cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD > 5){spreadTracker['bittrex']++};
+//   if (cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD > 5){spreadTracker['bittrex']++};
+//   if (cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD > 5){spreadTracker['bittrex']++};
+//   if (cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.livecoin.BTCUSD > 5){spreadTracker['bittrex']++};
+//   if (cryptoSocket.Exchanges.bittrex.BTCUSD - cryptoSocket.Exchanges.cCex.BTCUSD > 5){spreadTracker['bittrex']++};
+//   if (cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD > 5){spreadTracker['bittrex']++};
+//   if (cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD > 5){spreadTracker['bittrex']++};
+//   if (cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD > 5){spreadTracker['bittrex']++};
+//   if (cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD > 5){spreadTracker['bittrex']++};
+//   if (cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.livecoin.ETHUSD > 5){spreadTracker['bittrex']++};
+//   if (cryptoSocket.Exchanges.bittrex.ETHUSD - cryptoSocket.Exchanges.cCex.ETHUSD > 5){spreadTracker['bittrex']++};
+//   if (cryptoSocket.Exchanges.livecoin.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.livecoin.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.livecoin.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.livecoin.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.livecoin.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.livecoin.BTCUSD - cryptoSocket.Exchanges.cCex.BTCUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.livecoin.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.livecoin.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.livecoin.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.livecoin.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.livecoin.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.livecoin.ETHUSD - cryptoSocket.Exchanges.cCex.ETHUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.livecoin.LTCUSD - cryptoSocket.Exchanges.gdax.LTCUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.livecoin.LTCUSD - cryptoSocket.Exchanges.poloniex.LTCUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.livecoin.LTCUSD - cryptoSocket.Exchanges.bitfinex.LTCUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.livecoin.LTCUSD - cryptoSocket.Exchanges.cCex.LTCUSD > 5){spreadTracker['livecoin']++};
+//   if (cryptoSocket.Exchanges.cCex.BTCUSD - cryptoSocket.Exchanges.gdax.BTCUSD > 5){spreadTracker['ccex']++};
+//   if (cryptoSocket.Exchanges.cCex.BTCUSD - cryptoSocket.Exchanges.gemini.BTCUSD > 5){spreadTracker['ccex']++};
+//   if (cryptoSocket.Exchanges.cCex.BTCUSD - cryptoSocket.Exchanges.poloniex.BTCUSD > 5){spreadTracker['ccex']++};
+//   if (cryptoSocket.Exchanges.cCex.BTCUSD - cryptoSocket.Exchanges.bitfinex.BTCUSD > 5){spreadTracker['ccex']++};
+//   if (cryptoSocket.Exchanges.cCex.BTCUSD - cryptoSocket.Exchanges.bittrex.BTCUSD > 5){spreadTracker['ccex']++};
+//   if (cryptoSocket.Exchanges.cCex.BTCUSD - cryptoSocket.Exchanges.livecoin.BTCUSD > 5){spreadTracker['ccex']++};
+//   if (cryptoSocket.Exchanges.cCex.ETHUSD - cryptoSocket.Exchanges.gdax.ETHUSD > 5){spreadTracker['ccex']++};
+//   if (cryptoSocket.Exchanges.cCex.ETHUSD - cryptoSocket.Exchanges.gemini.ETHUSD > 5){spreadTracker['ccex']++};
+//   if (cryptoSocket.Exchanges.cCex.ETHUSD - cryptoSocket.Exchanges.poloniex.ETHUSD > 5){spreadTracker['ccex']++};
+//   if (cryptoSocket.Exchanges.cCex.ETHUSD - cryptoSocket.Exchanges.bitfinex.ETHUSD > 5){spreadTracker['ccex']++};
+//   if (cryptoSocket.Exchanges.cCex.ETHUSD - cryptoSocket.Exchanges.bittrex.ETHUSD > 5){spreadTracker['ccex']++};
+//   if (cryptoSocket.Exchanges.cCex.ETHUSD - cryptoSocket.Exchanges.livecoin.ETHUSD > 5){spreadTracker['ccex']++};
+//   if (cryptoSocket.Exchanges.cCex.LTCUSD - cryptoSocket.Exchanges.gdax.LTCUSD > 5){spreadTracker['ccex']++};
+//   if (cryptoSocket.Exchanges.cCex.LTCUSD - cryptoSocket.Exchanges.poloniex.LTCUSD > 5){spreadTracker['ccex']++};
+//   if (cryptoSocket.Exchanges.cCex.LTCUSD - cryptoSocket.Exchanges.bitfinex.LTCUSD > 5){spreadTracker['ccex']++};
+//   if (cryptoSocket.Exchanges.cCex.LTCUSD - cryptoSocket.Exchanges.livecoin.LTCUSD > 5){spreadTracker['ccex']++};
+
+//   return {
+//     prices: cryptoSocket.Exchanges,
+//     gemini: spreadTracker.gemini,
+//     poloniex: spreadTracker.poloniex,
+//     bittrex: spreadTracker.bittrex,
+//     bitfinex: spreadTracker.bitfinex,
+//     gdax: spreadTracker.gdax,
+//     livecoin: spreadTracker.livecoin,
+//     cCex: spreadTracker.ccex
+//   };
+// }
 
 checkArbitrage = (exchange, currency, needToWithdraw) => {
-  functionCounter.count++;
+  if(historicDataLogs['bittrex'].ETHBTC.length > 0 && historicDataLogs['bittrex'].BTCUSD.length > 0 && historicDataLogs['bittrex'].LTCBTC.length > 0){
+    if(cryptoSocket.Exchanges.bittrex.ETHBTC > historicDataLogs['bittrex'].ETHBTC[historicDataLogs['bittrex'].ETHBTC.length - 1] || cryptoSocket.Exchanges.bittrex.ETHBTC < historicDataLogs['bittrex'].ETHBTC[historicDataLogs['bittrex'].ETHBTC.length - 1]){
+      historicDataLogs['bittrex'].ETHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.ETHBTC]);
+    }
+
+    if(cryptoSocket.Exchanges.bittrex.BTCUSD > historicDataLogs['bittrex'].BTCUSD[historicDataLogs['bittrex'].BTCUSD.length - 1] || cryptoSocket.Exchanges.bittrex.BTCUSD < historicDataLogs['bittrex'].BTCUSD[historicDataLogs['bittrex'].BTCUSD.length - 1]){
+      historicDataLogs['bittrex'].BTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.BTCUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.bittrex.LTCBTC > historicDataLogs['bittrex'].LTCBTC[historicDataLogs['bittrex'].LTCBTC.length - 1] || cryptoSocket.Exchanges.bittrex.LTCBTC < historicDataLogs['bittrex'].LTCBTC[historicDataLogs['bittrex'].LTCBTC.length - 1]){
+      historicDataLogs['bittrex'].LTCBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.LTCBTC]);
+    }
+  } else {
+    historicDataLogs['bittrex'].ETHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.ETHBTC]);
+    historicDataLogs['bittrex'].BTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.BTCUSD]);
+    historicDataLogs['bittrex'].LTCBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.LTCBTC]);
+  }
+
+
+  //console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTHE VERY LAST PRICE AND TIME IS: ${historicDataLogs['bittrex'].ETHBTC[historicDataLogs['bittrex'].ETHBTC.length - 1]}`)
+
+  // if(Object.keys(historicDataLog).map(time => time).length > 86400){
+  //   historicDataLogs = {};
+  // }
+
   let largestSpread = 5;
   let spreadCurrency;
   let sufficientFunds = needToWithdraw;
@@ -216,11 +330,25 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
   if (exchange === "gdax") {
     //BTC
+    //bitcoin price at gdax   -> (bitcoin price at gdax / ethereum price at gdax) - (bitcoin price at gdax / ethereum price at gemini)
+    //let gdaxVsGeminiBtc = ((cryptoSocket.Exchanges.gdax.BTCUSD / cryptoSocket.Exchanges.gdax.ETHUSD) ) - cryptoSocket.Exchanges.gdax.BTCUSD / cryptoSocket.Exchanges.gemini.ETHUSD) - (cryptoSocket.Exchanges.gdax.ETHBTC * .003)) - (cryptoSocket.Exchanges.gemini.ETHUSD * .0025))) /* needs to account for ethusd withdrawal fee from gemini */
+    //let gdaxVsGeminiBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.ETHBTC - parseFloat((cryptoSocket.Exchanges.gdax.ETHBTC * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini[currency] - (parseFloat((cryptoSocket.Exchanges.gemini[currency] * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
+    // console.log("THE ARB IS: ", gdaxVsGeminiBtc);
+    // return;
+
+    //FOR BTC
+    //needs to withdraw eth from another exchange e.g. gemini,
+    //then buy BTC with that ETH at gdax (price of BTC * quantity of ETH) - ((price of BTC * quantity of ETH) * .003)
+    //then withdraw that BTC to gemini to gdax .0005
+    //then
+
     let gdaxVsGeminiBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.BTCUSD - (parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsPoloniexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsBitfinexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bitfinex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD * .0004).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsBittrexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    let geminiVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD - parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
+    let geminiVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD - parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gdax.BTCUSD - (parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .0005).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
+
+    //let geminiVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD - parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let poloniexVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD - parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let bitfinexVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD * .002).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let bittrexVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
@@ -1192,7 +1320,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
   }
 
   if (largestSpread) {
-    console.log(`${tradingAt} ${spreadCurrency} ARB OPPORTUNITY OF: $${largestSpread} AND WITHDRAWING FROM ${withdrawFrom}`)
+    //console.log(`${tradingAt} ${spreadCurrency} ARB OPPORTUNITY OF: $${largestSpread} AND WITHDRAWING FROM ${withdrawFrom}`)
     //loopConditonal(exchange, currency);
 
     flag = false;
@@ -1251,18 +1379,16 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
 
 loopConditional = (exchange, currency) => {
-  functionCounter.count = 0;
+  //functionCounter.count = 0;
   flag = true;
-  console.log(exchange);
   while (flag) {
     checkArbitrage(exchange, currency);
   }
 };
 
 module.exports.loopConditional = function (exchange, currency){
-    functionCounter.count = 0;
+    //functionCounter.count = 0;
     flag = true;
-    console.log(exchange);
     while (flag) {
       checkArbitrage(exchange, currency);
     }
@@ -1297,11 +1423,11 @@ module.exports.loopConditional = function (exchange, currency){
 //4. test performance of overall functions, especially checkArb function!!!
 
 
-setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
+//setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
 
 //setTimeout(() => {setInterval(() => {console.log(trackSpreads())}, 30000)}, 140000);
 
-//setTimeout(() => {console.log(loopConditional('gdax', 'ETHUSD'))}, 200000);
+setTimeout(() => {console.log(loopConditional('gdax', 'ETHUSD'))}, 120000);
 //setTimeout(() => {console.log(`CHECK ARB FUNCTION FIRED OFF ${functionCounter.count} TIMES IN ONE SECOND!`)}, 201000)
 
 //checkArbitrage = (exchange, currency) => {

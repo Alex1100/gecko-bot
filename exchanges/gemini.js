@@ -209,6 +209,14 @@ async function buy(exchange, currency) {
 // };
 
 async function withdraw(exchange, currency) {
+  //ALL WITHDRAWL AND DEPOSITS ARE FREE
+
+  //ETH TAKES 10 MINUTES MAX TO LAND
+  //BTC TAKES 2 HOURS MAX TO LAND
+
+  //JUST TESTED AND IT TOOK 11 MINUTES FOR BITCOIN TO LAND IN GEMINI FROM GDAX
+  //JUST TESTED AND IT TOOK 1 HOUR AND 10 MINUTES FOR BITCOIN TO LAND FROM GEMINI TO GDAX
+
   let amount = await requestBalances(exchange, currency);
   let ethAmount = amount.ETH;
   let btcAmount = amount.BTC;

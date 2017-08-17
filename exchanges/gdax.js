@@ -120,6 +120,10 @@ pairs[currency].buy(exchange, currency);
 
 //works
 async function withdraw(exchange, currency) {
+  //WITHDRAW AND DEPOSITS ARE FREE
+  //DEPOSIT FROM GEMINI FOR BITCOIN TOOK 1 HOUR AND 2 MINUTES
+  //WITHDRAW FROM GDAX TO GEMINI BITCOIN TOOK 12 MINUTES
+
   let total = await requestBalances();
   let etcAmount = total.ETH;
   let btcAmount = total.BTC;
@@ -204,6 +208,16 @@ module.exports = {
   requestBalances
 };
 
+    // .then(res => {
+    //   console.log(res.data);
+    //   let a = await res;
+    //   resolve(a.map(a => a));
+    // })
+    // .catch(err => {
+    //   console.log(err => console.log("SOMETHING WENT WRONG: ", err));
+    //   reject(err);
+    //   loopConditional.loopConditional(exchange, upCurr + 'USD');
+    // })
 
 //works
 // buy = (size, price, side) => {

@@ -118,11 +118,20 @@ getBtcDepositAddress = () => {
   });
 }
 
+getLtcDepositAddress = () => {
+  bittrex.getdepositaddress({ currency : 'LTC' }, function( data ) {
+    console.log( data );
+    //loopConditional.loopConditional(exchange, upCurr + 'USD');
+  });
+}
+
 
 module.exports = {
   buy,
   withdraw,
-  requestBalances
+  requestBalances,
+  getLtcDepositAddress,
+  bittrex
 };
 
 
