@@ -1,4 +1,7 @@
 require("dotenv").load();
+require('./database/database');
+let mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 const axios = require("axios");
 let cryptoSocket = require("crypto-socket");
 let flag = true;
@@ -32,10 +35,63 @@ let CCI = require('technicalindicators').CCI;
 let VWAP = require('technicalindicators').VWAP;
 let ForceIndex = require('technicalindicators').ForceIndex;
 
+let bittrexBTCUSDNumberToCountFromDB = 0;
+let bittrexBTCUSDNumberToInsertLogsToDB = 1;
+let bittrexETHBTCNumberToCountFromDB = 0;
+let bittrexETHBTCNumberToInsertLogsToDB = 1;
+let bittrexLTCETHNumberToCountFromDB = 0;
+let bittrexLTCETHNumberToInsertLogsToDB = 1;
+let gdaxBTCUSDNumberToCountFromDB = 0;
+let gdaxBTCUSDNumberToInsertLogsToDB = 1;
+let gdaxETHBTCNumberToCountFromDB = 0;
+let gdaxETHBTCNumberToInsertLogsToDB = 1;
+let gdaxLTCBTCNumberToCountFromDB = 0;
+let gdaxLTCBTCNumberToInsertLogsToDB = 1;
+let gdaxETHUSDNumberToCountFromDB = 0;
+let gdaxETHUSDNumberToInsertLogsToDB = 1;
+let gdaxLTCUSDNumberToCountFromDB = 0;
+let gdaxLTCUSDNumberToInsertLogsToDB = 1;
+let geminiETHBTCNumberToCountFromDB = 0;
+let geminiETHBTCNumberToInsertLogsToDB = 1;
+let geminiETHUSDNumberToCountFromDB = 0;
+let geminiETHUSDNumberToInsertLogsToDB = 1;
+let geminiBTCUSDNumberToCountFromDB = 0;
+let geminiBTCUSDNumberToInsertLogsToDB = 1;
+let poloniexETHUSDNumberToCountFromDB = 0;
+let poloniexETHUSDNumberToInsertLogsToDB = 1;
+let poloniexBTCUSDNumberToCountFromDB = 0;
+let poloniexBTCUSDNumberToInsertLogsToDB = 1;
+let poloniexLTCUSDNumberToCountFromDB = 0;
+let poloniexLTCUSDNumberToInsertLogsToDB = 1;
+let poloniexETHBTCNumberToCountFromDB = 0;
+let poloniexETHBTCNumberToInsertLogsToDB = 1;
+let poloniexLTCBTCNumberToCountFromDB = 0;
+let poloniexLTCBTCNumberToInsertLogsToDB = 1;
+
+let bittrexBTCUSDModel = require('./database/models/bittrexBTCUSD');
+let bittrexETHBTCModel = require('./database/models/bittrexETHBTC');
+let bittrexLTCETHModel = require('./database/models/bittrexLTCETH');
+let gdaxBTCUSDModel = require('./database/models/gdaxBTCUSD');
+let gdaxETHBTCModel = require('./database/models/gdaxETHBTC');
+let gdaxLTCBTCModel = require('./database/models/gdaxLTCBTC');
+let gdaxETHUSDModel = require('./database/models/gdaxETHUSD');
+let gdaxLTCUSDModel = require('./database/models/gdaxLTCUSD');
+let geminiETHBTCModel = require('./database/models/geminiETHBTC');
+let geminiETHUSDModel = require('./database/models/geminiETHUSD');
+let geminiBTCUSDModel = require('./database/models/geminiBTCUSD');
+let poloniexETHBTCModel = require('./database/models/poloniexETHBTC');
+let poloniexBTCUSDModel = require('./database/models/poloniexBTCUSD');
+let poloniexETHUSDModel = require('./database/models/poloniexETHUSD');
+let poloniexLTCBTCModel = require('./database/models/poloniexLTCBTC');
+let poloniexLTCUSDModel = require('./database/models/poloniexLTCUSD');
+
 //console.log("MACD OF 14 IS: ", MACD.calculate({ values: [1, 2, 3, 8, 5, 6, 2, 8, 8, 10, 8, 4, 13, 14, 16, 20, 30, 23, 17, 11, 14, 13, 15, 17, 21, 24, 26, 28, 22, 23, 28, 32, 35, 36, 35, 32, 37, 36, 40], fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }));
 // console.log("MACD V@ IS: ", MACD.calculate({values: [127.75,129.02,132.75,145.40,148.98,137.52,147.38,139.05,137.23,149.30,162.45,178.95,200.35,221.90,243.23,243.52,286.42,280.27],
 
 //SMA.calculate({period: historicDataLogs['bittrex']['BTCUSD'].length, values: })
+
+
+
 
 let historicDataLogs = {
     'bittrex': {
@@ -92,30 +148,43 @@ let hourlyAvgPrices = {
 };
 
 
-
-
-setTimeout(() => {setInterval(() => {console.log(historicDataLogs.bittrex.ETHBTC)}, 500)}, 121000);
-setTimeout(() => {
-  setInterval(() => {
-    console.log("THERE ARE " + historicDataLogs['bittrex']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE BITTREX BTCUSD ARRAY!");
-    console.log(historicDataLogs['bittrex']['BTCUSD'][0], historicDataLogs['bittrex']['BTCUSD'][historicDataLogs['bittrex']['BTCUSD'].length - 1]);
-    console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['gdax']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE gdax BTCUSD ARRAY!");
-    console.log(historicDataLogs['gdax']['BTCUSD'][0], historicDataLogs['gdax']['BTCUSD'][historicDataLogs['gdax']['BTCUSD'].length - 1]);
-    console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['poloniex']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE poloniex BTCUSD ARRAY!");
-    console.log(historicDataLogs['poloniex']['BTCUSD'][0], historicDataLogs['poloniex']['BTCUSD'][historicDataLogs['poloniex']['BTCUSD'].length - 1]);
-    console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['gemini']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE gemini BTCUSD ARRAY!");
-    console.log(historicDataLogs['gemini']['BTCUSD'][0], historicDataLogs['gemini']['BTCUSD'][historicDataLogs['gemini']['BTCUSD'].length - 1]);
-    console.log("\n\n")
-
-    let bittrexValues = historicDataLogs['bittrex']['BTCUSD'].map(a => a[1]);
-    console.log("\n\nBITTREX VALUES ARE: ", bittrexValues);
-
-    //console.log(SMA.calculate(period: historicDataLogs['bittrex']['BTCUSD'].length, values: )
-  }, 10000);
-}, 140000);
+//setTimeout(() => {setInterval(() => {console.log(historicDataLogs.bittrex.ETHBTC)}, 500)}, 121000);
+// setTimeout(() => {
+//   setInterval(() => {
+//     console.log("THERE ARE " + historicDataLogs['bittrex']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE BITTREX BTCUSD ARRAY!");
+//     console.log("\n\n");
+//     console.log("THERE ARE " + historicDataLogs['bittrex']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE BITTREX ETHBTC ARRAY!");
+//     console.log("\n\n");
+//     console.log("THERE ARE " + historicDataLogs['bittrex']['LTCETH'].length + " NUMBER OF ENTRIES IN THE BITTREX LTCETH ARRAY!");
+//     console.log("\n\n");
+//     console.log("THERE ARE " + historicDataLogs['gdax']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE GDAX BTCUSD ARRAY!");
+//     console.log("\n\n");
+//     console.log("THERE ARE " + historicDataLogs['gdax']['ETHUSD'].length + " NUMBER OF ENTRIES IN THE GDAX ETHUSD ARRAY!");
+//     console.log("\n\n");
+//     console.log("THERE ARE " + historicDataLogs['gdax']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE GDAX ETHBTC ARRAY!");
+//     console.log("\n\n");
+//     console.log("THERE ARE " + historicDataLogs['gdax']['LTCBTC'].length + " NUMBER OF ENTRIES IN THE GDAX LTCBTC ARRAY!");
+//     console.log("\n\n");
+//     console.log("THERE ARE " + historicDataLogs['gdax']['LTCUSD'].length + " NUMBER OF ENTRIES IN THE GDAX LTCUSD ARRAY!");
+//     console.log("\n\n");
+//     console.log("THERE ARE " + historicDataLogs['poloniex']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE POLONIEX BTCUSD ARRAY!");
+//     console.log("\n\n");
+//     console.log("THERE ARE " + historicDataLogs['poloniex']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE POLONIEX ETHBTC ARRAY!");
+//     console.log("\n\n");
+//     console.log("THERE ARE " + historicDataLogs['poloniex']['LTCBTC'].length + " NUMBER OF ENTRIES IN THE POLONIEX LTCBTC ARRAY!");
+//     console.log("\n\n");
+//     console.log("THERE ARE " + historicDataLogs['poloniex']['ETHUSD'].length + " NUMBER OF ENTRIES IN THE POLONIEX ETHUSD ARRAY!");
+//     console.log("\n\n");
+//     console.log("THERE ARE " + historicDataLogs['poloniex']['LTCUSD'].length + " NUMBER OF ENTRIES IN THE POLONIEX LTCUSD ARRAY!");
+//     console.log("\n\n");
+//     console.log("THERE ARE " + historicDataLogs['gemini']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE GEMINI BTCUSD ARRAY!");
+//     console.log("\n\n");
+//     console.log("THERE ARE " + historicDataLogs['gemini']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE GEMINI ETHBTC ARRAY!");
+//     console.log("\n\n");
+//     console.log("THERE ARE " + historicDataLogs['gemini']['ETHUSD'].length + " NUMBER OF ENTRIES IN THE GEMINI ETHUSD ARRAY!");
+//     console.log("\n\n");
+//   }, 10000);
+// }, 140000);
 
 
 
@@ -133,52 +202,288 @@ setTimeout(() => {
 
 
 
-cryptoSocket.Exchanges.livecoin = {};
-cryptoSocket.Exchanges.cCex = {};
-cryptoSocket.Exchanges.livecoin.BTCUSD = '';
-cryptoSocket.Exchanges.livecoin.ETHUSD = '';
-cryptoSocket.Exchanges.livecoin.LTCUSD = '';
-cryptoSocket.Exchanges.livecoin.LTCBTC = '';
-cryptoSocket.Exchanges.livecoin.ETHBTC = '';
-cryptoSocket.Exchanges.cCex.BTCUSD = '';
-cryptoSocket.Exchanges.cCex.ETHUSD = '';
-cryptoSocket.Exchanges.cCex.LTCUSD = '';
-cryptoSocket.Exchanges.cCex.LTCBTC = '';
-cryptoSocket.Exchanges.cCex.ETHBTC = '';
+// cryptoSocket.Exchanges.livecoin = {};
+// cryptoSocket.Exchanges.cCex = {};
+// cryptoSocket.Exchanges.livecoin.BTCUSD = '';
+// cryptoSocket.Exchanges.livecoin.ETHUSD = '';
+// cryptoSocket.Exchanges.livecoin.LTCUSD = '';
+// cryptoSocket.Exchanges.livecoin.LTCBTC = '';
+// cryptoSocket.Exchanges.livecoin.ETHBTC = '';
+// cryptoSocket.Exchanges.cCex.BTCUSD = '';
+// cryptoSocket.Exchanges.cCex.ETHUSD = '';
+// cryptoSocket.Exchanges.cCex.LTCUSD = '';
+// cryptoSocket.Exchanges.cCex.LTCBTC = '';
+// cryptoSocket.Exchanges.cCex.ETHBTC = '';
 
 
 
 
 
 
-setImmediate(() => {
-  setInterval(() => {
-    axios.get('https://api.livecoin.net/exchange/ticker')
-      .then(data => {
-        if(data.data){
-          cryptoSocket.Exchanges.livecoin.BTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BTC/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.ETHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.LTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.LTCBTC = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/BTC')[0].last);
-          cryptoSocket.Exchanges.livecoin.ETHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/BTC')[0].last);
-        }
-      })
-      .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
+// setImmediate(() => {
+//   setInterval(() => {
+//     axios.get('https://api.livecoin.net/exchange/ticker')
+//       .then(data => {
+//         if(data.data){
+//           cryptoSocket.Exchanges.livecoin.BTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BTC/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.ETHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.LTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.LTCBTC = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/BTC')[0].last);
+//           cryptoSocket.Exchanges.livecoin.ETHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/BTC')[0].last);
+//         }
+//       })
+//       .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
 
-      axios.get("https://c-cex.com/t/prices.json")
-        .then(data => {
-          cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice)
-          cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice)
-          cryptoSocket.Exchanges.cCex.LTCUSD = parseFloat(data.data['ltc-usd'].lastprice)
-          cryptoSocket.Exchanges.cCex.ETHBTC = parseFloat(data.data['eth-btc'].lastprice)
-          cryptoSocket.Exchanges.cCex.LTCBTC = parseFloat(data.data['ltc-btc'].lastprice)
-        })
-        .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
-  }, 1500)
-});
+//       axios.get("https://c-cex.com/t/prices.json")
+//         .then(data => {
+//           cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice)
+//           cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice)
+//           cryptoSocket.Exchanges.cCex.LTCUSD = parseFloat(data.data['ltc-usd'].lastprice)
+//           cryptoSocket.Exchanges.cCex.ETHBTC = parseFloat(data.data['eth-btc'].lastprice)
+//           cryptoSocket.Exchanges.cCex.LTCBTC = parseFloat(data.data['ltc-btc'].lastprice)
+//         })
+//         .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
+//   }, 1500)
+// });
 
 
 checkArbitrage = (exchange, currency, needToWithdraw) => {
+  if(needToWithdraw === false && historicDataLogs['bittrex'].BTCUSD.length > bittrexBTCUSDNumberToInsertLogsToDB){
+    let bittrexBTCUSDArray = historicDataLogs['bittrex'].BTCUSD.slice(bittrexBTCUSDNumberToCountFromDB, bittrexBTCUSDNumberToInsertLogsToDB);
+    let bittrexBTCUSDData = [];
+    bittrexBTCUSDArray.forEach((spotPrice, i) => {
+      bittrexBTCUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    bittrexBTCUSDModel.insertMany(bittrexBTCUSDData);
+
+    bittrexBTCUSDNumberToCountFromDB = bittrexBTCUSDNumberToCountFromDB + 1000;
+    bittrexBTCUSDNumberToInsertLogsToDB = bittrexBTCUSDNumberToInsertLogsToDB + 1000;
+    console.log("BITTREX BTCUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['bittrex'].ETHBTC.length > bittrexETHBTCNumberToInsertLogsToDB){
+    let bittrexETHBTCArray = historicDataLogs['bittrex'].ETHBTC.slice(bittrexETHBTCNumberToCountFromDB, bittrexETHBTCNumberToInsertLogsToDB);
+    let bittrexETHBTCData = [];
+
+    bittrexETHBTCArray.forEach((spotPrice, i) => {
+      bittrexETHBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    bittrexETHBTCModel.insertMany(bittrexETHBTCData);
+
+    bittrexETHBTCNumberToCountFromDB = bittrexETHBTCNumberToCountFromDB + 1000;
+    bittrexETHBTCNumberToInsertLogsToDB = bittrexETHBTCNumberToInsertLogsToDB + 1000;
+    console.log("BITTREX ETHBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['bittrex'].LTCETH.length > bittrexLTCETHNumberToInsertLogsToDB){
+    let bittrexLTCETHArray = historicDataLogs['bittrex'].LTCETH.slice(bittrexLTCETHNumberToCountFromDB, bittrexLTCETHNumberToInsertLogsToDB);
+    let bittrexLTCETHData = [];
+    bittrexLTCETHArray.forEach((spotPrice, i) => {
+      bittrexLTCETHData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    bittrexLTCETHModel.insertMany(bittrexLTCETHData);
+
+    bittrexLTCETHNumberToCountFromDB = bittrexLTCETHNumberToCountFromDB + 1000;
+    bittrexLTCETHNumberToInsertLogsToDB = bittrexLTCETHNumberToInsertLogsToDB + 1000;
+  }
+
+  if(needToWithdraw === false && historicDataLogs['gdax'].BTCUSD.length > gdaxBTCUSDNumberToInsertLogsToDB){
+    let gdaxBTCUSDArray = historicDataLogs['gdax'].BTCUSD.slice(gdaxBTCUSDNumberToCountFromDB, gdaxBTCUSDNumberToInsertLogsToDB);
+    let gdaxBTCUSDData = [];
+    gdaxBTCUSDArray.forEach((spotPrice, i) => {
+      gdaxBTCUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    gdaxBTCUSDModel.insertMany(gdaxBTCUSDData);
+
+    gdaxBTCUSDNumberToCountFromDB = gdaxBTCUSDNumberToCountFromDB + 1000;
+    gdaxBTCUSDNumberToInsertLogsToDB = gdaxBTCUSDNumberToInsertLogsToDB + 1000;
+    console.log("GDAX BTCUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['gdax'].ETHBTC.length > gdaxETHBTCNumberToInsertLogsToDB){
+    let gdaxETHBTCArray = historicDataLogs['gdax'].ETHBTC.slice(gdaxETHBTCNumberToCountFromDB, gdaxETHBTCNumberToInsertLogsToDB);
+    let gdaxETHBTCData = [];
+
+    gdaxETHBTCArray.forEach((spotPrice, i) => {
+      gdaxETHBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    gdaxETHBTCModel.insertMany(gdaxETHBTCData);
+
+    gdaxETHBTCNumberToCountFromDB = gdaxETHBTCNumberToCountFromDB + 1000;
+    gdaxETHBTCNumberToInsertLogsToDB = gdaxETHBTCNumberToInsertLogsToDB + 1000;
+    console.log("GDAX ETHBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['gdax'].LTCBTC.length > gdaxLTCBTCNumberToInsertLogsToDB){
+    let gdaxLTCBTCArray = historicDataLogs['gdax'].LTCBTC.slice(gdaxLTCBTCNumberToCountFromDB, gdaxLTCBTCNumberToInsertLogsToDB);
+    let gdaxLTCBTCData = [];
+
+    gdaxLTCBTCArray.forEach((spotPrice, i) => {
+      gdaxLTCBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    gdaxLTCBTCModel.insertMany(gdaxLTCBTCData);
+
+    gdaxLTCBTCNumberToCountFromDB = gdaxLTCBTCNumberToCountFromDB + 1000;
+    gdaxLTCBTCNumberToInsertLogsToDB = gdaxLTCBTCNumberToInsertLogsToDB + 1000;
+    console.log("GDAX LTCBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['gdax'].ETHUSD.length > gdaxETHUSDNumberToInsertLogsToDB){
+    let gdaxETHUSDArray = historicDataLogs['gdax'].ETHUSD.slice(gdaxETHUSDNumberToCountFromDB, gdaxETHUSDNumberToInsertLogsToDB);
+    let gdaxETHUSDData = [];
+
+    gdaxETHUSDArray.forEach((spotPrice, i) => {
+      gdaxETHUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    gdaxETHUSDModel.insertMany(gdaxETHUSDData);
+
+    gdaxETHUSDNumberToCountFromDB = gdaxETHUSDNumberToCountFromDB + 1000;
+    gdaxETHUSDNumberToInsertLogsToDB = gdaxETHUSDNumberToInsertLogsToDB + 1000;
+    console.log("GDAX ETHUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['gdax'].LTCUSD.length > gdaxLTCUSDNumberToInsertLogsToDB){
+    let gdaxLTCUSDArray = historicDataLogs['gdax'].LTCUSD.slice(gdaxLTCUSDNumberToCountFromDB, gdaxLTCUSDNumberToInsertLogsToDB);
+    let gdaxLTCUSDData = [];
+
+    gdaxLTCUSDArray.forEach((spotPrice, i) => {
+      gdaxLTCUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    gdaxLTCUSDModel.insertMany(gdaxLTCUSDData);
+
+    gdaxLTCUSDNumberToCountFromDB = gdaxLTCUSDNumberToCountFromDB + 1000;
+    gdaxLTCUSDNumberToInsertLogsToDB = gdaxLTCUSDNumberToInsertLogsToDB + 1000;
+    console.log("GDAX LTCUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['gemini'].ETHBTC.length > geminiETHBTCNumberToInsertLogsToDB){
+    let geminiETHBTCArray = historicDataLogs['gemini'].ETHBTC.slice(geminiETHBTCNumberToCountFromDB, geminiETHBTCNumberToInsertLogsToDB);
+    let geminiETHBTCData = [];
+
+    geminiETHBTCArray.forEach((spotPrice, i) => {
+      geminiETHBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    geminiETHBTCModel.insertMany(geminiETHBTCData);
+
+    geminiETHBTCNumberToCountFromDB = geminiETHBTCNumberToCountFromDB + 1000;
+    geminiETHBTCNumberToInsertLogsToDB = geminiETHBTCNumberToInsertLogsToDB + 1000;
+    console.log("GEMINI ETHBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['gemini'].ETHUSD.length > geminiETHUSDNumberToInsertLogsToDB){
+    let geminiETHUSDArray = historicDataLogs['gemini'].ETHUSD.slice(geminiETHUSDNumberToCountFromDB, geminiETHUSDNumberToInsertLogsToDB);
+    let geminiETHUSDData = [];
+
+    geminiETHUSDArray.forEach((spotPrice, i) => {
+      geminiETHUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    geminiETHUSDModel.insertMany(geminiETHUSDData);
+
+    geminiETHUSDNumberToCountFromDB = geminiETHUSDNumberToCountFromDB + 1000;
+    geminiETHUSDNumberToInsertLogsToDB = geminiETHUSDNumberToInsertLogsToDB + 1000;
+    console.log("GEMINI ETHUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['gemini'].BTCUSD.length > geminiBTCUSDNumberToInsertLogsToDB){
+    let geminiBTCUSDArray = historicDataLogs['gemini'].BTCUSD.slice(geminiBTCUSDNumberToCountFromDB, geminiBTCUSDNumberToInsertLogsToDB);
+    let geminiBTCUSDData = [];
+
+    geminiBTCUSDArray.forEach((spotPrice, i) => {
+      geminiBTCUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    geminiBTCUSDModel.insertMany(geminiBTCUSDData);
+
+    geminiBTCUSDNumberToCountFromDB = geminiBTCUSDNumberToCountFromDB + 1000;
+    geminiBTCUSDNumberToInsertLogsToDB = geminiBTCUSDNumberToInsertLogsToDB + 1000;
+    console.log("GEMINI BTCUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['poloniex'].ETHBTC.length > poloniexETHBTCNumberToInsertLogsToDB){
+    let poloniexETHBTCArray = historicDataLogs['poloniex'].ETHBTC.slice(poloniexETHBTCNumberToCountFromDB, poloniexETHBTCNumberToInsertLogsToDB);
+    let poloniexETHBTCData = [];
+
+    poloniexETHBTCArray.forEach((spotPrice, i) => {
+      poloniexETHBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    poloniexETHBTCModel.insertMany(poloniexETHBTCData);
+
+    poloniexETHBTCNumberToCountFromDB = poloniexETHBTCNumberToCountFromDB + 1000;
+    poloniexETHBTCNumberToInsertLogsToDB = poloniexETHBTCNumberToInsertLogsToDB + 1000;
+    console.log("POLONIEX ETHBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['poloniex'].BTCUSD.length > poloniexBTCUSDNumberToInsertLogsToDB){
+    let poloniexBTCUSDArray = historicDataLogs['poloniex'].BTCUSD.slice(poloniexBTCUSDNumberToCountFromDB, poloniexBTCUSDNumberToInsertLogsToDB);
+    let poloniexBTCUSDData = [];
+
+    poloniexBTCUSDArray.forEach((spotPrice, i) => {
+      poloniexBTCUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    poloniexBTCUSDModel.insertMany(poloniexBTCUSDData);
+
+    poloniexBTCUSDNumberToCountFromDB = poloniexBTCUSDNumberToCountFromDB + 1000;
+    poloniexBTCUSDNumberToInsertLogsToDB = poloniexBTCUSDNumberToInsertLogsToDB + 1000;
+    console.log("POLONIEX BTCUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['poloniex'].ETHUSD.length > poloniexETHUSDNumberToInsertLogsToDB){
+    let poloniexETHUSDArray = historicDataLogs['poloniex'].ETHUSD.slice(poloniexETHUSDNumberToCountFromDB, poloniexETHUSDNumberToInsertLogsToDB);
+    let poloniexETHUSDData = [];
+
+    poloniexETHUSDArray.forEach((spotPrice, i) => {
+      poloniexETHUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    poloniexETHUSDModel.insertMany(poloniexETHUSDData);
+
+    poloniexETHUSDNumberToCountFromDB = poloniexETHUSDNumberToCountFromDB + 1000;
+    poloniexETHUSDNumberToInsertLogsToDB = poloniexETHUSDNumberToInsertLogsToDB + 1000;
+    console.log("POLONIEX ETHUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['poloniex'].LTCBTC.length > poloniexLTCBTCNumberToInsertLogsToDB){
+    let poloniexLTCBTCArray = historicDataLogs['poloniex'].LTCBTC.slice(poloniexLTCBTCNumberToCountFromDB, poloniexLTCBTCNumberToInsertLogsToDB);
+    let poloniexLTCBTCData = [];
+
+    poloniexLTCBTCArray.forEach((spotPrice, i) => {
+      poloniexLTCBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    poloniexLTCBTCModel.insertMany(poloniexLTCBTCData);
+
+    poloniexLTCBTCNumberToCountFromDB = poloniexLTCBTCNumberToCountFromDB + 1000;
+    poloniexLTCBTCNumberToInsertLogsToDB = poloniexLTCBTCNumberToInsertLogsToDB + 1000;
+    console.log("POLONIEX LTCBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['poloniex'].LTCUSD.length > poloniexLTCUSDNumberToInsertLogsToDB){
+    let poloniexLTCUSDArray = historicDataLogs['poloniex'].LTCUSD.slice(poloniexLTCUSDNumberToCountFromDB, poloniexLTCUSDNumberToInsertLogsToDB);
+    let poloniexLTCUSDData = [];
+
+    poloniexLTCUSDArray.forEach((spotPrice, i) => {
+      poloniexLTCUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    poloniexLTCUSDModel.insertMany(poloniexLTCUSDData);
+
+    poloniexLTCUSDNumberToCountFromDB = poloniexLTCUSDNumberToCountFromDB + 1000;
+    poloniexLTCUSDNumberToInsertLogsToDB = poloniexLTCUSDNumberToInsertLogsToDB + 1000;
+    console.log("POLONIEX LTCUSD INSERTED");
+  }
+
   if(historicDataLogs['bittrex'].ETHBTC.length > 0 && historicDataLogs['bittrex'].BTCUSD.length > 0 && historicDataLogs['bittrex'].LTCETH.length > 0){
     if(cryptoSocket.Exchanges.bittrex.ETHBTC > historicDataLogs['bittrex'].ETHBTC[historicDataLogs['bittrex'].ETHBTC.length - 1][1] || cryptoSocket.Exchanges.bittrex.ETHBTC < historicDataLogs['bittrex'].ETHBTC[historicDataLogs['bittrex'].ETHBTC.length - 1][1]){
       historicDataLogs['bittrex'].ETHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.ETHBTC]);
@@ -271,16 +576,16 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
     historicDataLogs['poloniex'].ETHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.poloniex.ETHUSD]);
   }
 
-  if(historicDataLogs['gdax'].BTCUSD.length > 24 && historicDataLogs['bittrex'].BTCUSD.length > 24 && historicDataLogs['gemini'].BTCUSD.length > 24 && historicDataLogs['poloniex'].BTCUSD.length > 24){
-    console.log("\n\nEMA FOR GDAX BTCUSD IS: ", EMA.calculate({period: historicDataLogs['gdax'].BTCUSD.length / 3, values: historicDataLogs['gdax'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['gdax'].BTCUSD.length / 3, values: historicDataLogs['gdax'].BTCUSD.map(a => a[1])}).length - 1]);
-    console.log("\n\nEMA FOR BITTREX BTCUSD IS: ", EMA.calculate({period: historicDataLogs['bittrex'].BTCUSD.length / 3, values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['bittrex'].BTCUSD.length / 3, values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1])}).length - 1]);
-    console.log("\n\nEMA FOR GEMINI BTCUSD IS: ", EMA.calculate({period: historicDataLogs['gemini'].BTCUSD.length / 3, values: historicDataLogs['gemini'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['gemini'].BTCUSD.length / 3, values: historicDataLogs['gemini'].BTCUSD.map(a => a[1])}).length - 1]);
-    console.log("\n\nEMA FOR POLONIEX BTCUSD IS: ", EMA.calculate({period: historicDataLogs['poloniex'].BTCUSD.length / 3, values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['poloniex'].BTCUSD.length / 3, values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1])}).length - 1]);
-    console.log("\n\nMACD FOR GDAX BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['gdax'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['gdax'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
-    console.log("\n\nMACD FOR BITTREX BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
-    console.log("\n\nMACD FOR GEMINI BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['gemini'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['gemini'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
-    console.log("\n\nMACD FOR POLONIEX BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
-  }
+  // if(historicDataLogs['gdax'].BTCUSD.length > 24 && historicDataLogs['bittrex'].BTCUSD.length > 24 && historicDataLogs['gemini'].BTCUSD.length > 24 && historicDataLogs['poloniex'].BTCUSD.length > 24){
+  //   console.log("\n\nEMA FOR GDAX BTCUSD IS: ", EMA.calculate({period: historicDataLogs['gdax'].BTCUSD.length / 3, values: historicDataLogs['gdax'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['gdax'].BTCUSD.length / 3, values: historicDataLogs['gdax'].BTCUSD.map(a => a[1])}).length - 1]);
+  //   console.log("\n\nEMA FOR BITTREX BTCUSD IS: ", EMA.calculate({period: historicDataLogs['bittrex'].BTCUSD.length / 3, values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['bittrex'].BTCUSD.length / 3, values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1])}).length - 1]);
+  //   console.log("\n\nEMA FOR GEMINI BTCUSD IS: ", EMA.calculate({period: historicDataLogs['gemini'].BTCUSD.length / 3, values: historicDataLogs['gemini'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['gemini'].BTCUSD.length / 3, values: historicDataLogs['gemini'].BTCUSD.map(a => a[1])}).length - 1]);
+  //   console.log("\n\nEMA FOR POLONIEX BTCUSD IS: ", EMA.calculate({period: historicDataLogs['poloniex'].BTCUSD.length / 3, values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['poloniex'].BTCUSD.length / 3, values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1])}).length - 1]);
+  //   console.log("\n\nMACD FOR GDAX BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['gdax'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['gdax'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
+  //   console.log("\n\nMACD FOR BITTREX BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
+  //   console.log("\n\nMACD FOR GEMINI BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['gemini'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['gemini'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
+  //   console.log("\n\nMACD FOR POLONIEX BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
+  // }
 
   // if(Object.keys(historicDataLog).map(time => time).length > 86400){
   //   historicDataLogs = {};
@@ -315,31 +620,25 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     let gdaxVsGeminiBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.BTCUSD - (parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsPoloniexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let gdaxVsBitfinexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bitfinex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD * .0004).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsBittrexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let geminiVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD - parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gdax.BTCUSD - (parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .0005).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
 
     //let geminiVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD - parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let poloniexVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD - parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
-    // let bitfinexVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD * .002).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let bittrexVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
 
     //ETH
     let gdaxVsGeminiEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.ETHUSD - (parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsPoloniexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let gdaxVsBitfinexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bitfinex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.bitfinex.ETHUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsBittrexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .005).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let geminiVsGdaxEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD - parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let poloniexVsGdaxEth = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD - parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD).toFixed(5)).toFixed(5)).toFixed(2));
-    // let bitfinexVsGdaxEth = parseFloat((parseFloat((cryptoSocket.Exchanges.bitfinex.ETHUSD - parseFloat((cryptoSocket.Exchanges.bitfinex.ETHUSD * .002).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let bittrexVsGdaxEth = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD - parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD).toFixed(5)).toFixed(5)).toFixed(2));
 
     //LTC
     let gdaxVsPoloniexLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.LTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD * .0025).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let gdaxVsBitfinexLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.LTCUSD - (parseFloat((cryptoSocket.Exchanges.bitfinex.LTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsBittrexLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.LTCUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.LTCUSD * .002).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let poloniexVsGdaxLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD - parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
-    // let bitfinexVsGdaxLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bitfinex.LTCUSD - parseFloat((cryptoSocket.Exchanges.bitfinex.LTCUSD * .002).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let bittrexVsGdaxLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.LTCUSD - parseFloat((cryptoSocket.Exchanges.bittrex.LTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
 
 
@@ -350,14 +649,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       tradingAt = 'poloniex';
       withdrawFrom = 'gdax';
     }
-
-    // if (bitfinexVsGdaxLtc > largestSpread) {
-      // largestSpread = bitfinexVsGdaxLtc;
-      // spreadCurrency = "LTC";
-      // tradeAt = trades.bitfinex;
-      // tradingAt = 'bitfinex';
-      // withdrawFrom = 'gdax';
-    // }
 
     if (bittrexVsGdaxLtc > largestSpread) {
       largestSpread = bittrexVsGdaxLtc;
@@ -374,14 +665,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       tradingAt = 'gdax';
       withdrawFrom = 'poloniex';
     }
-
-    // if (gdaxVsBitfinexLtc > largestSpread) {
-      // largestSpread = gdaxVsBitfinexLtc;
-      // spreadCurrency = "LTC";
-      // tradeAt = trades.gdax;
-      // tradingAt = 'gdax';
-      // withdrawFrom = 'bitfinex';
-    // }
 
     if (gdaxVsBittrexLtc > largestSpread) {
       largestSpread = gdaxVsBittrexLtc;
@@ -407,14 +690,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       withdrawFrom = 'poloniex';
     }
 
-    // if (gdaxVsBitfinexBtc > largestSpread) {
-      // largestSpread = gdaxVsBitfinexBtc;
-      // spreadCurrency = "BTC";
-      // tradeAt = trades.gdax;
-      // tradingAt = 'gdax';
-      // withdrawFrom = 'bitfinex';
-    // }
-
     if (gdaxVsBittrexBtc > largestSpread) {
       largestSpread = gdaxVsBittrexBtc;
       spreadCurrency = "BTC";
@@ -439,14 +714,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       withdrawFrom = 'gdax';
     }
 
-    // if (bitfinexVsGdaxBtc > largestSpread) {
-      // largestSpread = bitfinexVsGdaxBtc;
-      // spreadCurrency = "BTC";
-      // tradeAt = trades.bitfinex;
-      // tradingAt = 'bitfinex';
-      // withdrawFrom = 'gdax';
-    // }
-
     if (bittrexVsGdaxBtc > largestSpread) {
       largestSpread = bittrexVsGdaxBtc;
       spreadCurrency = "BTC";
@@ -470,14 +737,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       tradingAt = 'gdax';
       withdrawFrom = 'poloniex';
     }
-
-    // if (gdaxVsBitfinexEth > largestSpread) {
-      // largestSpread = gdaxVsBitfinexEth;
-      // spreadCurrency = "ETH";
-      // tradeAt = trades.gdax;
-      // tradingAt = 'gdax';
-      // withdrawFrom = 'bitfinex';
-    // }
 
     if (gdaxVsBittrexEth > largestSpread) {
       largestSpread = gdaxVsBittrexEth;
@@ -503,14 +762,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       withdrawFrom = 'gdax';
     }
 
-    // if (bitfinexVsGdaxEth > largestSpread) {
-      // largestSpread = bitfinexVsGdaxEth;
-      // spreadCurrency = "ETH";
-      // tradeAt = trades.bitfinex;
-      // tradingAt = 'bitfinex';
-      // withdrawFrom = 'gdax';
-    // }
-
     if (bittrexVsGdaxEth > largestSpread) {
       largestSpread = bittrexVsGdaxEth;
       spreadCurrency = "ETH";
@@ -524,21 +775,17 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
     //BTC
     let geminiVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD - parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let geminiVsPoloniexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD - parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let geminiVsBitfinexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD - parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bitfinex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD * .0004).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let geminiVsBittrexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD - parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsGeminiBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.BTCUSD - (parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let poloniexVsGeminiBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD - parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.BTCUSD - (parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let bitfinexVsGeminiBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD * .002).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.BTCUSD - (parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let bittrexVsGeminiBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.BTCUSD - (parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
 
     //ETH
     let geminiVsGdaxEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD - parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let geminiVsPoloniexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD - parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let geminiVsBitfinexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD - parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bitfinex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.bitfinex.ETHUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let geminiVsBittrexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD - parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .005).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsGeminiEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.ETHUSD - (parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let poloniexVsGeminiEth = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD - parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.ETHUSD - (parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let bitfinexVsGeminiEth = parseFloat((parseFloat((cryptoSocket.Exchanges.bitfinex.ETHUSD - parseFloat((cryptoSocket.Exchanges.bitfinex.ETHUSD * .002).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.ETHUSD - (parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let bittrexVsGeminiEth = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD - parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.ETHUSD - (parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
 
     if (geminiVsGdaxBtc > largestSpread) {
@@ -556,14 +803,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       tradingAt = 'gemini';
       withdrawFrom = 'poloniex';
     }
-
-    // if (geminiVsBitfinexBtc > largestSpread) {
-      // largestSpread = geminiVsBitfinexBtc;
-      // spreadCurrency = "BTC";
-      // tradeAt = trades.gemini;
-      // tradingAt = 'gemini';
-      // withdrawFrom = 'bitfinex';
-    // }
 
     if (geminiVsBittrexBtc > largestSpread) {
       largestSpread = geminiVsBittrexBtc;
@@ -589,14 +828,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       withdrawFrom = 'gemini';
     }
 
-    // if (bitfinexVsGeminiBtc > largestSpread) {
-      // largestSpread = bitfinexVsGeminiBtc;
-      // spreadCurrency = "BTC";
-      // tradeAt = trades.bitfinex;
-      // tradingAt = 'bitfinex';
-      // withdrawFrom = 'gemini';
-    // }
-
     if (bittrexVsGeminiBtc > largestSpread) {
       largestSpread = bittrexVsGeminiBtc;
       spreadCurrency = "BTC";
@@ -620,14 +851,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       tradingAt = 'gemini';
       withdrawFrom = 'poloniex';
     }
-
-    // if (geminiVsBitfinexEth > largestSpread) {
-      // largestSpread = geminiVsBitfinexEth;
-      // spreadCurrency = "ETH";
-      // tradeAt = trades.gemini;
-      // tradingAt = 'gemini';
-      // withdrawFrom = 'bitfinex';
-    // }
 
     if (geminiVsBittrexEth > largestSpread) {
       largestSpread = geminiVsBittrexEth;
@@ -653,14 +876,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       withdrawFrom = 'gemini';
     }
 
-    // if (bitfinexVsGeminiEth > largestSpread) {
-      // largestSpread = bitfinexVsGeminiEth;
-      // spreadCurrency = "ETH";
-      // tradeAt = trades.bitfinex;
-      // tradingAt = 'bitfinex';
-      // withdrawFrom = 'gemini';
-    // }
-
     if (bittrexVsGeminiEth > largestSpread) {
       largestSpread = bittrexVsGeminiEth;
       spreadCurrency = "ETH";
@@ -674,29 +889,23 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
     //BTC
     let poloniexVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD - parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let poloniexVsGeminiBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD - parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.BTCUSD - (parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let poloniexVsBitfinexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD - parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bitfinex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD * .0004).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let poloniexVsBittrexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD - parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsPoloniexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let geminiVsPoloniexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD - parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let bitfinexVsPoloniexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD * .002).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let bittrexVsPoloniexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
 
     //ETH
     let poloniexVsGdaxEth = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD - parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let poloniexVsGeminiEth = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD - parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.ETHUSD - (parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let poloniexVsBitfinexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD - parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bitfinex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.bitfinex.ETHUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let poloniexVsBittrexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD - parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .005).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsPoloniexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let geminiVsPoloniexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD - parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let bitfinexVsPoloniexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.bitfinex.ETHUSD - parseFloat((cryptoSocket.Exchanges.bitfinex.ETHUSD * .002).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let bittrexVsPoloniexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD - parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
 
     //LTC
     let poloniexVsGdaxLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD - parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
-    // let poloniexVsBitfinexLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD - parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bitfinex.LTCUSD - (parseFloat((cryptoSocket.Exchanges.bitfinex.LTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let poloniexVsBittrexLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD - parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.LTCUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.LTCUSD * .002).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsPoloniexLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.LTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD * .0025).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let bitfinexVsPoloniexLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bitfinex.LTCUSD - parseFloat((cryptoSocket.Exchanges.bitfinex.LTCUSD * .002).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.LTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD * .0025).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let bittrexVsPoloniexLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.LTCUSD - parseFloat((cryptoSocket.Exchanges.bittrex.LTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.LTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD * .0025).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
 
 
@@ -707,14 +916,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       tradingAt = 'poloniex';
       withdrawFrom = 'gdax';
     }
-
-    // if (poloniexVsBitfinexLtc > largestSpread) {
-      // largestSpread = poloniexVsBitfinexLtc;
-      // spreadCurrency = "LTC";
-      // tradeAt = trades.poloniex;
-      // tradingAt = 'poloniex';
-      // withdrawFrom = 'bitfinex';
-    // }
 
     if (poloniexVsBittrexLtc > largestSpread) {
       largestSpread = poloniexVsBittrexLtc;
@@ -731,14 +932,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       tradingAt = 'gdax';
       withdrawFrom = 'poloniex';
     }
-
-    // if (bitfinexVsPoloniexLtc > largestSpread) {
-      // largestSpread = bitfinexVsPoloniexLtc;
-      // spreadCurrency = "LTC";
-      // tradeAt = trades.bitfinex;
-      // tradingAt = 'bitfinex';
-      // withdrawFrom = 'poloniex';
-    // }
 
     if (bittrexVsPoloniexLtc > largestSpread) {
       largestSpread = bittrexVsPoloniexLtc;
@@ -764,14 +957,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       withdrawFrom = 'gemini';
     }
 
-    // if (poloniexVsBitfinexBtc > largestSpread) {
-      // largestSpread = poloniexVsBitfinexBtc;
-      // spreadCurrency = "BTC";
-      // tradeAt = trades.poloniex;
-      // tradingAt = 'poloniex';
-      // withdrawFrom = 'bitfinex';
-    // }
-
     if (poloniexVsBittrexBtc > largestSpread) {
       largestSpread = poloniexVsBittrexBtc;
       spreadCurrency = "BTC";
@@ -795,14 +980,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       tradingAt = 'gemini';
       withdrawFrom = 'poloniex';
     }
-
-    // if (bitfinexVsPoloniexBtc > largestSpread) {
-      // largestSpread = bitfinexVsPoloniexBtc;
-      // spreadCurrency = "BTC";
-      // tradeAt = trades.bitfinex;
-      // tradingAt = 'bitfinex';
-      // withdrawFrom = 'poloniex';
-    // }
 
     if (bittrexVsPoloniexBtc > largestSpread) {
       largestSpread = bittrexVsPoloniexBtc;
@@ -828,14 +1005,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       withdrawFrom = 'gemini';
     }
 
-    // if (poloniexVsBitfinexEth > largestSpread) {
-      // largestSpread = poloniexVsBitfinexEth;
-      // spreadCurrency = "ETH";
-      // tradeAt = trades.poloniex;
-      // tradingAt = 'poloniex';
-      // withdrawFrom = 'bitfinex';
-    // }
-
     if (poloniexVsBittrexEth > largestSpread) {
       largestSpread = poloniexVsBittrexEth;
       spreadCurrency = "ETH";
@@ -860,14 +1029,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       withdrawFrom = 'poloniex';
     }
 
-    // if(bitfinexVsPoloniexEth > largestSpread) {
-      // largestSpread = bitfinexVsPoloniexEth;
-      // spreadCurrency = "ETH";
-      // tradeAt = trades.bitfinex;
-      // tradingAt = 'bitfinex';
-      // withdrawFrom = 'poloniex';
-    // }
-
     if(bittrexVsPoloniexEth > largestSpread) {
       largestSpread = bittrexVsPoloniexEth;
       spreadCurrency = "ETH";
@@ -882,29 +1043,23 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
     let bittrexVsGdaxBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let bittrexVsGeminiBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.BTCUSD - (parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let bittrexVsPoloniexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let bittrexVsBitfinexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bitfinex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD * .0004).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsBittrexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.BTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let geminiVsBittrexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD - parseFloat((cryptoSocket.Exchanges.gemini.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let poloniexVsBittrexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD - parseFloat((cryptoSocket.Exchanges.poloniex.BTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let bitfinexVsBittrexBtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD - parseFloat((cryptoSocket.Exchanges.bitfinex.BTCUSD * .002).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.BTCUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.BTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
 
     //ETH
     let bittrexVsGdaxEth = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD - parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let bittrexVsGeminiEth = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD - parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.ETHUSD - (parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let bittrexVsPoloniexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD - parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let bittrexVsBitfinexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD - parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bitfinex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.bitfinex.ETHUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsBittrexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .005).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let geminiVsBittrexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD - parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .005).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let poloniexVsBittrexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD - parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .005).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let bitfinexVsBittrexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.bitfinex.ETHUSD - parseFloat((cryptoSocket.Exchanges.bitfinex.ETHUSD * .002).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .005).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
 
     //LTC
     let bittrexVsGdaxLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.LTCUSD - parseFloat((cryptoSocket.Exchanges.bittrex.LTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD).toFixed(5)).toFixed(5)).toFixed(2));
     let bittrexVsPoloniexLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.LTCUSD - parseFloat((cryptoSocket.Exchanges.bittrex.LTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.LTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD * .0025).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let bittrexVsBitfinexLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.LTCUSD - parseFloat((cryptoSocket.Exchanges.bittrex.LTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bitfinex.LTCUSD - (parseFloat((cryptoSocket.Exchanges.bitfinex.LTCUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsBittrexLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.LTCUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.LTCUSD * .002).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let poloniexVsBittrexLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD - parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.LTCUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.LTCUSD * .002).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    // let bitfinexVsBittrexLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.bitfinex.LTCUSD - parseFloat((cryptoSocket.Exchanges.bitfinex.LTCUSD * .002).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.LTCUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.LTCUSD * .0025).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
 
 
     if (bittrexVsGdaxLtc > largestSpread) {
@@ -922,22 +1077,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       tradingAt = 'bittrex';
       withdrawFrom = 'poloniex';
     }
-
-    // if (bittrexVsBitfinexLtc > largestSpread) {
-      // largestSpread = bittrexVsBitfinexLtc;
-      // spreadCurrency = "LTC";
-      // tradeAt = trades.bittrex;
-      // tradingAt = 'bittrex';
-      // withdrawFrom = 'bitfinex';
-    // }
-
-    // if (bitfinexVsBittrexLtc > largestSpread) {
-      // largestSpread = bitfinexVsBittrexLtc;
-      // spreadCurrency = "LTC";
-      // tradeAt = trades.bitfinex;
-      // tradingAt = 'bitfinex';
-      // withdrawFrom = 'bittrex';
-    // }
 
     if (gdaxVsBittrexLtc > largestSpread) {
       largestSpread = gdaxVsBittrexLtc;
@@ -979,14 +1118,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       withdrawFrom = 'poloniex';
     }
 
-    // if (bittrexVsBitfinexBtc > largestSpread) {
-      // largestSpread = bittrexVsBitfinexBtc;
-      // spreadCurrency = "BTC";
-      // tradeAt = trades.bittrex;
-      // tradingAt = 'bittrex';
-      // withdrawFrom = 'bitfinex';
-    // }
-
     if (gdaxVsBittrexBtc > largestSpread) {
       largestSpread = gdaxVsBittrexBtc;
       spreadCurrency = "BTC";
@@ -1010,14 +1141,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       tradingAt = 'poloniex';
       withdrawFrom = 'bittrex';
     }
-
-    // if (bitfinexVsBittrexBtc > largestSpread) {
-      // largestSpread = bitfinexVsBittrexBtc;
-      // spreadCurrency = "BTC";
-      // tradeAt = trades.bitfinex;
-      // tradingAt = 'bitfinex';
-      // withdrawFrom = 'bittrex';
-    // }
 
     if (bittrexVsGdaxEth > largestSpread) {
       largestSpread = bittrexVsGdaxEth;
@@ -1043,14 +1166,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       withdrawFrom = 'poloniex';
     }
 
-    // if (bittrexVsBitfinexEth > largestSpread) {
-      // largestSpread = bittrexVsBitfinexEth;
-      // spreadCurrency = "ETH";
-      // tradeAt = trades.bittrex;
-      // tradingAt = 'bittrex';
-      // withdrawFrom = 'bitfinex';
-    // }
-
     if (gdaxVsBittrexEth > largestSpread) {
       largestSpread = gdaxVsBittrexEth;
       spreadCurrency = "ETH";
@@ -1074,14 +1189,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       tradingAt = 'poloniex';
       withdrawFrom = 'bittrex';
     }
-
-    // if (bitfinexVsBittrexEth > largestSpread) {
-      // largestSpread = bitfinexVsBittrexEth;
-      // spreadCurrency = "ETH";
-      // tradeAt = trades.bitfinex;
-      // tradingAt = 'bitfinex';
-      // withdrawFrom = 'bittrex';
-    // }
   }
 
   if (largestSpread) {
@@ -1089,7 +1196,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
     //loopConditonal(exchange, currency);
 
     flag = false;
-    setImmediate(() => {loopConditional(tradingAt, spreadCurrency + 'USD')});
+    setImmediate(() => {loopConditional(tradingAt, spreadCurrency + 'USD', false)});
     //if withdraw
       //need to take into account for each exchanges withdraw function and their
       //unique function paramters
@@ -1143,19 +1250,19 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
 
 
-loopConditional = (exchange, currency) => {
+loopConditional = (exchange, currency, needToWithdraw) => {
   //functionCounter.count = 0;
   flag = true;
   while (flag) {
-    checkArbitrage(exchange, currency);
+    checkArbitrage(exchange, currency, needToWithdraw);
   }
 };
 
-module.exports.loopConditional = function (exchange, currency){
+module.exports.loopConditional = function (exchange, currency, needToWithdraw){
     //functionCounter.count = 0;
     flag = true;
     while (flag) {
-      checkArbitrage(exchange, currency);
+      checkArbitrage(exchange, currency, needToWithdraw);
     }
   }
 
@@ -1188,11 +1295,11 @@ module.exports.loopConditional = function (exchange, currency){
 //4. test performance of overall functions, especially checkArb function!!!
 
 
-setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
+//setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
 
 //setTimeout(() => {setInterval(() => {console.log(trackSpreads())}, 30000)}, 140000);
 
-setTimeout(() => {console.log(loopConditional('gdax', 'ETHUSD'))}, 139000);
+setTimeout(() => {console.log(loopConditional('gdax', 'ETHUSD', false))}, 130000);
 //setTimeout(() => {console.log(`CHECK ARB FUNCTION FIRED OFF ${functionCounter.count} TIMES IN ONE SECOND!`)}, 201000)
 
 //checkArbitrage = (exchange, currency) => {
