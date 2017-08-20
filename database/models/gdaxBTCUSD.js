@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-// var debug = require('debug')('app:models');
 
 var gdaxBtcusdSchema = new mongoose.Schema({
   _id: String,
