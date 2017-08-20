@@ -1,8 +1,6 @@
 require('dotenv').config();
 require('dotenv').load();
-
 var mongoose = require('mongoose');
-
 
 // Use different database URIs based on whether an env var exists.
 var dbUri = process.env.PROD_MONGO || 'mongodb://localhost/gecko-bot';

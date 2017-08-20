@@ -7,12 +7,10 @@ let poloniex = new Poloniex(process.env.POLONIEX_API_KEY, process.env.POLONIEX_S
 let btcAddress = process.env.POLONIEX_BTC_ADDRESS;
 let ethAddress = process.env.POLONIEX_ETH_ADDRESS;
 var loopConditional = require('../index');
-let bitfinex = require('./bitfinex');
 let bittrex = require('./bittrex');
 let gdax = require('./gdax');
 let gemini = require('./gemini');
 let stategy = {
-  "bitfinex": bitfinex,
   "bittrex": bittrex,
   "gdax": gdax,
   "gemini": gemini
