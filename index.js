@@ -92,6 +92,112 @@ let CCI = require('technicalindicators').CCI;
 let VWAP = require('technicalindicators').VWAP;
 let ForceIndex = require('technicalindicators').ForceIndex;
 
+//TEST DATA RANGE LIMITS
+// let bittrexBTCUSDNumberToCountFromDB = 0;
+// let bittrexBTCUSDNumberToInsertLogsToDB = 30;
+// let bittrexETHBTCNumberToCountFromDB = 0;
+// let bittrexETHBTCNumberToInsertLogsToDB = 30;
+// let bittrexETHUSDNumberToCountFromDB = 0;
+// let bittrexETHUSDNumberToInsertLogsToDB = 30;
+// let bittrexLTCETHNumberToCountFromDB = 0;
+// let bittrexLTCETHNumberToInsertLogsToDB = 30;
+// let bittrexLTCUSDNumberToCountFromDB = 0;
+// let bittrexLTCUSDNumberToInsertLogsToDB = 30;
+// let cCexBTCUSDNumberToCountFromDB = 0;
+// let cCexBTCUSDNumberToInsertLogsToDB = 30;
+// let cCexDASHBTCNumberToCountFromDB = 0;
+// let cCexDASHBTCNumberToInsertLogsToDB = 30;
+// let cCexDASHUSDNumberToCountFromDB = 0;
+// let cCexDASHUSDNumberToInsertLogsToDB = 30;
+// let cCexETHBTCNumberToCountFromDB = 0;
+// let cCexETHBTCNumberToInsertLogsToDB = 30;
+// let cCexETHUSDNumberToCountFromDB = 0;
+// let cCexETHUSDNumberToInsertLogsToDB = 30;
+// let cCexLTCBTCNumberToCountFromDB = 0;
+// let cCexLTCBTCNumberToInsertLogsToDB = 30;
+// let cCexLTCUSDNumberToCountFromDB = 0;
+// let cCexLTCUSDNumberToInsertLogsToDB = 30;
+// let cexBCHUSDNumberToCountFromDB = 0;
+// let cexBCHUSDNumberToInsertLogsToDB = 30;
+// let cexBTCUSDNumberToCountFromDb = 0;
+// let cexBTCUSDNumberToInsertLogsToDB = 30;
+// let cexETHBTCNumberToCountFromDB = 0;
+// let cexETHBTCNumberToInsertLogsToDB = 30;
+// let cexETHUSDNumberToCountFromDB = 0;
+// let cexETHUSDNumberToInsertLogsToDB = 30;
+// let gdaxBTCUSDNumberToCountFromDB = 0;
+// let gdaxBTCUSDNumberToInsertLogsToDB = 30;
+// let gdaxETHBTCNumberToCountFromDB = 0;
+// let gdaxETHBTCNumberToInsertLogsToDB = 30;
+// let gdaxLTCBTCNumberToCountFromDB = 0;
+// let gdaxLTCBTCNumberToInsertLogsToDB = 30;
+// let gdaxETHUSDNumberToCountFromDB = 0;
+// let gdaxETHUSDNumberToInsertLogsToDB = 30;
+// let gdaxLTCUSDNumberToCountFromDB = 0;
+// let gdaxLTCUSDNumberToInsertLogsToDB = 30;
+// let geminiETHBTCNumberToCountFromDB = 0;
+// let geminiETHBTCNumberToInsertLogsToDB = 30;
+// let geminiETHUSDNumberToCountFromDB = 0;
+// let geminiETHUSDNumberToInsertLogsToDB = 30;
+// let geminiBTCUSDNumberToCountFromDB = 0;
+// let geminiBTCUSDNumberToInsertLogsToDB = 30;
+// let hitbtcBCCUSDNumberToCountFromDB = 0;
+// let hitbtcBCCUSDNumberToInsertLogsToDB = 30;
+// let hitbtcBTCUSDNumberToCountFromDB = 0;
+// let hitbtcBTCUSDNumberToInsertLogsToDB = 30;
+// let hitbtcDASHUSDNumberToCountFromDB = 0;
+// let hitbtcDASHUSDNumberToInsertLogsToDB = 30;
+// let hitbtcEOSBTCNumberToCountFromDB = 0;
+// let hitbtcEOSBTCNumberToInsertLogsToDB = 30;
+// let hitbtcEOSUSDNumberToCountFromDB = 0;
+// let hitbtcEOSUSDNumberToInsertLogsToDB = 30;
+// let hitbtcETHBTCNumberToCountFromDB = 0;
+// let hitbtcETHBTCNumberToInsertLogsToDB = 30;
+// let hitbtcETHUSDNumberToCountFromDB = 0;
+// let hitbtcETHUSDNumberToInsertLogsToDB = 30;
+// let hitbtcLTCBTCNumberToCountFromDB = 0;
+// let hitbtcLTCBTCNumberToInsertLogsToDB = 30;
+// let hitbtcLTCUSDNumberToCountFromDB = 0;
+// let hitbtcLTCUSDNumberToInsertLogsToDB = 30;
+// let livecoinBCHBTCNumberToCountFromDB = 0;
+// let livecoinBCHBTCNumberToInsertLogsToDB = 30;
+// let livecoinBCHETHNumberToCountFromDB = 0;
+// let livecoinBCHETHNumberToInsertLogsToDB = 30;
+// let livecoinBCHUSDNumberToCountFromDB = 0;
+// let livecoinBCHUSDNumberToInsertLogsToDB = 30;
+// let livecoinBTCUSDNumberToCountFromDB = 0;
+// let livecoinBTCUSDNumberToInsertLogsToDB = 30;
+// let livecoinDASHBTCNumberToCountFromDB = 0;
+// let livecoinDASHBTCNumberToInsertLogsToDB = 30;
+// let livecoinDASHUSDNumberToCountFromDB = 0;
+// let livecoinDASHUSDNumberToInsertLogsToDB = 30;
+// let livecoinETHBTCNumberToCountFromDB = 0;
+// let livecoinETHBTCNumberToInsertLogsToDB = 30;
+// let livecoinETHUSDNumberToCountFromDB = 0;
+// let livecoinETHUSDNumberToInsertLogsToDB = 30;
+// let livecoinLTCBTCNumberToCountFromDB = 0;
+// let livecoinLTCBTCNumberToInsertLogsToDB = 30;
+// let livecoinLTCUSDNumberToCountFromDB = 0;
+// let livecoinLTCUSDNumberToInsertLogsToDB = 30;
+// let poloniexBCHBTCNumberToCountFromDB = 0;
+// let poloniexBCHBTCNumberToInsertLogsToDB = 30;
+// let poloniexBCHUSDNumberToCountFromDB = 0;
+// let poloniexBCHUSDNumberToInsertLogsToDB = 30;
+// let poloniexBTCUSDNumberToCountFromDB = 0;
+// let poloniexBTCUSDNumberToInsertLogsToDB = 30;
+// let poloniexDASHBTCNumberToCountFromDB = 0;
+// let poloniexDASHBTCNumberToInsertLogsToDB = 30;
+// let poloniexDASHUSDNumberToCountFromDB = 0;
+// let poloniexDASHUSDNumberToInsertLogsToDB = 30;
+// let poloniexETHBTCNumberToCountFromDB = 0;
+// let poloniexETHBTCNumberToInsertLogsToDB = 30;
+// let poloniexETHUSDNumberToCountFromDB = 0;
+// let poloniexETHUSDNumberToInsertLogsToDB = 30;
+// let poloniexLTCBTCNumberToCountFromDB = 0;
+// let poloniexLTCBTCNumberToInsertLogsToDB = 30;
+// let poloniexLTCUSDNumberToCountFromDB = 0;
+// let poloniexLTCUSDNumberToInsertLogsToDB = 30;
+
 let bittrexBTCUSDNumberToCountFromDB = 0;
 let bittrexBTCUSDNumberToInsertLogsToDB = 1000;
 let bittrexETHBTCNumberToCountFromDB = 0;
@@ -99,9 +205,9 @@ let bittrexETHBTCNumberToInsertLogsToDB = 1000;
 let bittrexETHUSDNumberToCountFromDB = 0;
 let bittrexETHUSDNumberToInsertLogsToDB = 1000;
 let bittrexLTCETHNumberToCountFromDB = 0;
-let bittrexLTCETHNumberToInsertLogsToDB = 1;
+let bittrexLTCETHNumberToInsertLogsToDB = 1000;
 let bittrexLTCUSDNumberToCountFromDB = 0;
-let bittrexLTCUSDNumberToInsertLogsToDB = 1;
+let bittrexLTCUSDNumberToInsertLogsToDB = 1000;
 let cCexBTCUSDNumberToCountFromDB = 0;
 let cCexBTCUSDNumberToInsertLogsToDB = 1000;
 let cCexDASHBTCNumberToCountFromDB = 0;
@@ -113,9 +219,9 @@ let cCexETHBTCNumberToInsertLogsToDB = 1000;
 let cCexETHUSDNumberToCountFromDB = 0;
 let cCexETHUSDNumberToInsertLogsToDB = 1000;
 let cCexLTCBTCNumberToCountFromDB = 0;
-let cCexLTCBTCNumberToInsertLogsToDB = 1;
+let cCexLTCBTCNumberToInsertLogsToDB = 1000;
 let cCexLTCUSDNumberToCountFromDB = 0;
-let cCexLTCUSDNumberToInsertLogsToDB = 1;
+let cCexLTCUSDNumberToInsertLogsToDB = 1000;
 let cexBCHUSDNumberToCountFromDB = 0;
 let cexBCHUSDNumberToInsertLogsToDB = 1000;
 let cexBTCUSDNumberToCountFromDb = 0;
@@ -129,11 +235,11 @@ let gdaxBTCUSDNumberToInsertLogsToDB = 1000;
 let gdaxETHBTCNumberToCountFromDB = 0;
 let gdaxETHBTCNumberToInsertLogsToDB = 1000;
 let gdaxLTCBTCNumberToCountFromDB = 0;
-let gdaxLTCBTCNumberToInsertLogsToDB = 1;
+let gdaxLTCBTCNumberToInsertLogsToDB = 1000;
 let gdaxETHUSDNumberToCountFromDB = 0;
 let gdaxETHUSDNumberToInsertLogsToDB = 1000;
 let gdaxLTCUSDNumberToCountFromDB = 0;
-let gdaxLTCUSDNumberToInsertLogsToDB = 1;
+let gdaxLTCUSDNumberToInsertLogsToDB = 1000;
 let geminiETHBTCNumberToCountFromDB = 0;
 let geminiETHBTCNumberToInsertLogsToDB = 1000;
 let geminiETHUSDNumberToCountFromDB = 0;
@@ -147,17 +253,17 @@ let hitbtcBTCUSDNumberToInsertLogsToDB = 1000;
 let hitbtcDASHUSDNumberToCountFromDB = 0;
 let hitbtcDASHUSDNumberToInsertLogsToDB = 1000;
 let hitbtcEOSBTCNumberToCountFromDB = 0;
-let hitbtcEOSBTCNumberToInsertLogsToDB = 1;
+let hitbtcEOSBTCNumberToInsertLogsToDB = 1000;
 let hitbtcEOSUSDNumberToCountFromDB = 0;
-let hitbtcEOSUSDNumberToInsertLogsToDB = 1;
+let hitbtcEOSUSDNumberToInsertLogsToDB = 1000;
 let hitbtcETHBTCNumberToCountFromDB = 0;
 let hitbtcETHBTCNumberToInsertLogsToDB = 1000;
 let hitbtcETHUSDNumberToCountFromDB = 0;
-let hitbtcEHTUSDNumberToInsertLogsToDB = 1000;
+let hitbtcETHUSDNumberToInsertLogsToDB = 1000;
 let hitbtcLTCBTCNumberToCountFromDB = 0;
-let hitbtcLTCBTCNumberToInsertLogsToDB = 1;
+let hitbtcLTCBTCNumberToInsertLogsToDB = 1000;
 let hitbtcLTCUSDNumberToCountFromDB = 0;
-let hitbtcLTCUSDNumberToInsertLogsToDB = 1;
+let hitbtcLTCUSDNumberToInsertLogsToDB = 1000;
 let livecoinBCHBTCNumberToCountFromDB = 0;
 let livecoinBCHBTCNumberToInsertLogsToDB = 1000;
 let livecoinBCHETHNumberToCountFromDB = 0;
@@ -175,9 +281,9 @@ let livecoinETHBTCNumberToInsertLogsToDB = 1000;
 let livecoinETHUSDNumberToCountFromDB = 0;
 let livecoinETHUSDNumberToInsertLogsToDB = 1000;
 let livecoinLTCBTCNumberToCountFromDB = 0;
-let livecoinLTCBTCNumberToInsertLogsToDB = 1;
+let livecoinLTCBTCNumberToInsertLogsToDB = 1000;
 let livecoinLTCUSDNumberToCountFromDB = 0;
-let livecoinLTCUSDNumberToInsertLogsToDB = 1;
+let livecoinLTCUSDNumberToInsertLogsToDB = 1000;
 let poloniexBCHBTCNumberToCountFromDB = 0;
 let poloniexBCHBTCNumberToInsertLogsToDB = 1000;
 let poloniexBCHUSDNumberToCountFromDB = 0;
@@ -193,9 +299,9 @@ let poloniexETHBTCNumberToInsertLogsToDB = 1000;
 let poloniexETHUSDNumberToCountFromDB = 0;
 let poloniexETHUSDNumberToInsertLogsToDB = 1000;
 let poloniexLTCBTCNumberToCountFromDB = 0;
-let poloniexLTCBTCNumberToInsertLogsToDB = 1;
+let poloniexLTCBTCNumberToInsertLogsToDB = 1000;
 let poloniexLTCUSDNumberToCountFromDB = 0;
-let poloniexLTCUSDNumberToInsertLogsToDB = 1;
+let poloniexLTCUSDNumberToInsertLogsToDB = 1000;
 
 let bittrexBTCUSDModel = require('./database/models/bittrexBTCUSD');
 let bittrexETHBTCModel = require('./database/models/bittrexETHBTC');
@@ -261,7 +367,7 @@ let historicDataLogs = {
       'LTCETH': [],
       'BTCUSD': [],
       'ETHUSD': [],
-      'LTCBTC': []
+      'LTCUSD': []
     },
     'gemini': {
       'ETHBTC': [],
@@ -280,7 +386,11 @@ let historicDataLogs = {
       'LTCBTC': [],
       'BTCUSD': [],
       'ETHUSD': [],
-      'LTCUSD': []
+      'LTCUSD': [],
+      'BCHUSD': [],
+      'BCHBTC': [],
+      'DASHBTC': [],
+      'DASHUSD': []
     },
     'cex': {
       'BCHUSD': [],
@@ -328,7 +438,7 @@ let hourlyAvgPrices = {
       'LTCETH': [],
       'BTCUSD': [],
       'ETHUSD': [],
-      'LTCBTC': []
+      'LTCUSD': []
     },
     'gemini': {
       'ETHBTC': [],
@@ -347,7 +457,11 @@ let hourlyAvgPrices = {
       'LTCBTC': [],
       'BTCUSD': [],
       'ETHUSD': [],
-      'LTCUSD': []
+      'LTCUSD': [],
+      'BCHUSD': [],
+      'BCHBTC': [],
+      'DASHBTC': [],
+      'DASHUSD': []
     },
     'cex': {
       'BCHUSD': [],
@@ -444,7 +558,425 @@ let hourlyAvgPrices = {
 
 
 checkArbitrage = (exchange, currency, needToWithdraw) => {
-  //add livecoin, hitbtc, poloniex, cCex, cex, bittrex stuff
+  if(needToWithdraw === false && historicDataLogs['cCex'].BTCUSD.length > cCexBTCUSDNumberToInsertLogsToDB){
+    let cCexBTCUSDArray = historicDataLogs['cCex'].BTCUSD.slice(cCexBTCUSDNumberToCountFromDB, cCexBTCUSDNumberToInsertLogsToDB);
+    let cCexBTCUSDData = [];
+    cCexBTCUSDArray.forEach((spotPrice, i) => {
+      cCexBTCUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    cCexBTCUSDModel.insertMany(cCexBTCUSDData);
+
+    cCexBTCUSDNumberToCountFromDB = cCexBTCUSDNumberToCountFromDB + 1001;
+    cCexBTCUSDNumberToInsertLogsToDB = cCexBTCUSDNumberToInsertLogsToDB + 1001;
+    console.log("CCEX BTCUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['cCex'].ETHUSD.length > cCexETHUSDNumberToInsertLogsToDB){
+    let cCexETHUSDArray = historicDataLogs['cCex'].ETHUSD.slice(cCexETHUSDNumberToCountFromDB, cCexETHUSDNumberToInsertLogsToDB);
+    let cCexETHUSDData = [];
+    cCexETHUSDArray.forEach((spotPrice, i) => {
+      cCexETHUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    cCexETHUSDModel.insertMany(cCexETHUSDData);
+
+    cCexETHUSDNumberToCountFromDB = cCexETHUSDNumberToCountFromDB + 1001;
+    cCexETHUSDNumberToInsertLogsToDB = cCexETHUSDNumberToInsertLogsToDB + 1001;
+    console.log("CCEX ETHUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['cCex'].LTCUSD.length > cCexLTCUSDNumberToInsertLogsToDB){
+    let cCexLTCUSDArray = historicDataLogs['cCex'].LTCUSD.slice(cCexLTCUSDNumberToCountFromDB, cCexLTCUSDNumberToInsertLogsToDB);
+    let cCexLTCUSDData = [];
+    cCexLTCUSDArray.forEach((spotPrice, i) => {
+      cCexLTCUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    cCexLTCUSDModel.insertMany(cCexLTCUSDData);
+
+    cCexLTCUSDNumberToCountFromDB = cCexLTCUSDNumberToCountFromDB + 1001;
+    cCexLTCUSDNumberToInsertLogsToDB = cCexLTCUSDNumberToInsertLogsToDB + 1001;
+    console.log("CCEX LTCUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['cCex'].DASHUSD.length > cCexDASHUSDNumberToInsertLogsToDB){
+    let cCexDASHUSDArray = historicDataLogs['cCex'].DASHUSD.slice(cCexDASHUSDNumberToCountFromDB, cCexDASHUSDNumberToInsertLogsToDB);
+    let cCexDASHUSDData = [];
+    cCexDASHUSDArray.forEach((spotPrice, i) => {
+      cCexDASHUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    cCexDASHUSDModel.insertMany(cCexDASHUSDData);
+
+    cCexDASHUSDNumberToCountFromDB = cCexDASHUSDNumberToCountFromDB + 1001;
+    cCexDASHUSDNumberToInsertLogsToDB = cCexDASHUSDNumberToInsertLogsToDB + 1001;
+    console.log("CCEX DASHUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['cCex'].DASHBTC.length > cCexDASHBTCNumberToInsertLogsToDB){
+    let cCexDASHBTCArray = historicDataLogs['cCex'].DASHBTC.slice(cCexDASHBTCNumberToCountFromDB, cCexDASHBTCNumberToInsertLogsToDB);
+    let cCexDASHBTCData = [];
+    cCexDASHBTCArray.forEach((spotPrice, i) => {
+      cCexDASHBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    cCexDASHBTCModel.insertMany(cCexDASHBTCData);
+
+    cCexDASHBTCNumberToCountFromDB = cCexDASHBTCNumberToCountFromDB + 1001;
+    cCexDASHBTCNumberToInsertLogsToDB = cCexDASHBTCNumberToInsertLogsToDB + 1001;
+    console.log("CCEX DASHBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['cCex'].LTCBTC.length > cCexLTCBTCNumberToInsertLogsToDB){
+    let cCexLTCBTCArray = historicDataLogs['cCex'].LTCBTC.slice(cCexLTCBTCNumberToCountFromDB, cCexLTCBTCNumberToInsertLogsToDB);
+    let cCexLTCBTCData = [];
+    cCexLTCBTCArray.forEach((spotPrice, i) => {
+      cCexLTCBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    cCexLTCBTCModel.insertMany(cCexLTCBTCData);
+
+    cCexLTCBTCNumberToCountFromDB = cCexLTCBTCNumberToCountFromDB + 1001;
+    cCexLTCBTCNumberToInsertLogsToDB = cCexLTCBTCNumberToInsertLogsToDB + 1001;
+    console.log("CCEX LTCBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['cCex'].ETHBTC.length > cCexETHBTCNumberToInsertLogsToDB){
+    let cCexETHBTCArray = historicDataLogs['cCex'].ETHBTC.slice(cCexETHBTCNumberToCountFromDB, cCexETHBTCNumberToInsertLogsToDB);
+    let cCexETHBTCData = [];
+    cCexETHBTCArray.forEach((spotPrice, i) => {
+      cCexETHBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    cCexETHBTCModel.insertMany(cCexETHBTCData);
+
+    cCexETHBTCNumberToCountFromDB = cCexETHBTCNumberToCountFromDB + 1001;
+    cCexETHBTCNumberToInsertLogsToDB = cCexETHBTCNumberToInsertLogsToDB + 1001;
+    console.log("CCEX ETHBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['cex'].BTCUSD.length > cexBTCUSDNumberToInsertLogsToDB){
+    let cexBTCUSDArray = historicDataLogs['cex'].BTCUSD.slice(cexBTCUSDNumberToCountFromDB, cexBTCUSDNumberToInsertLogsToDB);
+    let cexBTCUSDData = [];
+    cexBTCUSDArray.forEach((spotPrice, i) => {
+      cexBTCUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    cexBTCUSDModel.insertMany(cexBTCUSDData);
+
+    cexBTCUSDNumberToCountFromDB = cexBTCUSDNumberToCountFromDB + 1001;
+    cexBTCUSDNumberToInsertLogsToDB = cexBTCUSDNumberToInsertLogsToDB + 1001;
+    console.log("CEX BTCUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['cex'].BCHUSD.length > cexBCHUSDNumberToInsertLogsToDB){
+    let cexBCHUSDArray = historicDataLogs['cex'].BCHUSD.slice(cexBCHUSDNumberToCountFromDB, cexBCHUSDNumberToInsertLogsToDB);
+    let cexBCHUSDData = [];
+    cexBCHUSDArray.forEach((spotPrice, i) => {
+      cexBCHUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    cexBCHUSDModel.insertMany(cexBCHUSDData);
+
+    cexBCHUSDNumberToCountFromDB = cexBCHUSDNumberToCountFromDB + 1001;
+    cexBCHUSDNumberToInsertLogsToDB = cexBCHUSDNumberToInsertLogsToDB + 1001;
+    console.log("CEX BCHUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['cex'].ETHUSD.length > cexETHUSDNumberToInsertLogsToDB){
+    let cexETHUSDArray = historicDataLogs['cex'].ETHUSD.slice(cexETHUSDNumberToCountFromDB, cexETHUSDNumberToInsertLogsToDB);
+    let cexETHUSDData = [];
+    cexETHUSDArray.forEach((spotPrice, i) => {
+      cexETHUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    cexETHUSDModel.insertMany(cexETHUSDData);
+
+    cexETHUSDNumberToCountFromDB = cexETHUSDNumberToCountFromDB + 1001;
+    cexETHUSDNumberToInsertLogsToDB = cexETHUSDNumberToInsertLogsToDB + 1001;
+    console.log("CEX ETHUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['cex'].ETHBTC.length > cexETHBTCNumberToInsertLogsToDB){
+    let cexETHBTCArray = historicDataLogs['cex'].ETHBTC.slice(cexETHBTCNumberToCountFromDB, cexETHBTCNumberToInsertLogsToDB);
+    let cexETHBTCData = [];
+    cexETHBTCArray.forEach((spotPrice, i) => {
+      cexETHBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    cexETHBTCModel.insertMany(cexETHBTCData);
+
+    cexETHBTCNumberToCountFromDB = cexETHBTCNumberToCountFromDB + 1001;
+    cexETHBTCNumberToInsertLogsToDB = cexETHBTCNumberToInsertLogsToDB + 1001;
+    console.log("CEX ETHBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['hitbtc'].ETHUSD.length > hitbtcETHUSDNumberToInsertLogsToDB){
+    let hitbtcETHUSDArray = historicDataLogs['hitbtc'].ETHUSD.slice(hitbtcETHUSDNumberToCountFromDB, hitbtcETHUSDNumberToInsertLogsToDB);
+    let hitbtcETHUSDData = [];
+    hitbtcETHUSDArray.forEach((spotPrice, i) => {
+      hitbtcETHUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    hitbtcETHUSDModel.insertMany(hitbtcETHUSDData);
+
+    hitbtcETHUSDNumberToCountFromDB = hitbtcETHUSDNumberToCountFromDB + 1001;
+    hitbtcETHUSDNumberToInsertLogsToDB = hitbtcETHUSDNumberToInsertLogsToDB + 1001;
+    console.log("HITBTC ETHUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['hitbtc'].EOSBTC.length > hitbtcEOSBTCNumberToInsertLogsToDB){
+    let hitbtcEOSBTCArray = historicDataLogs['hitbtc'].EOSBTC.slice(hitbtcEOSBTCNumberToCountFromDB, hitbtcEOSBTCNumberToInsertLogsToDB);
+    let hitbtcEOSBTCData = [];
+    hitbtcEOSBTCArray.forEach((spotPrice, i) => {
+      hitbtcEOSBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    hitbtcEOSBTCModel.insertMany(hitbtcEOSBTCData);
+
+    hitbtcEOSBTCNumberToCountFromDB = hitbtcEOSBTCNumberToCountFromDB + 1001;
+    hitbtcEOSBTCNumberToInsertLogsToDB = hitbtcEOSBTCNumberToInsertLogsToDB + 1001;
+    console.log("HITBTC EOSBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['hitbtc'].LTCBTC.length > hitbtcLTCBTCNumberToInsertLogsToDB){
+    let hitbtcLTCBTCArray = historicDataLogs['hitbtc'].LTCBTC.slice(hitbtcLTCBTCNumberToCountFromDB, hitbtcLTCBTCNumberToInsertLogsToDB);
+    let hitbtcLTCBTCData = [];
+    hitbtcLTCBTCArray.forEach((spotPrice, i) => {
+      hitbtcLTCBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    hitbtcLTCBTCModel.insertMany(hitbtcLTCBTCData);
+
+    hitbtcLTCBTCNumberToCountFromDB = hitbtcLTCBTCNumberToCountFromDB + 1001;
+    hitbtcLTCBTCNumberToInsertLogsToDB = hitbtcLTCBTCNumberToInsertLogsToDB + 1001;
+    console.log("HITBTC LTCBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['hitbtc'].ETHBTC.length > hitbtcETHBTCNumberToInsertLogsToDB){
+    let hitbtcETHBTCArray = historicDataLogs['hitbtc'].ETHBTC.slice(hitbtcETHBTCNumberToCountFromDB, hitbtcETHBTCNumberToInsertLogsToDB);
+    let hitbtcETHBTCData = [];
+    hitbtcETHBTCArray.forEach((spotPrice, i) => {
+      hitbtcETHBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    hitbtcETHBTCModel.insertMany(hitbtcETHBTCData);
+
+    hitbtcETHBTCNumberToCountFromDB = hitbtcETHBTCNumberToCountFromDB + 1001;
+    hitbtcETHBTCNumberToInsertLogsToDB = hitbtcETHBTCNumberToInsertLogsToDB + 1001;
+    console.log("HITBTC ETHBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['hitbtc'].BTCUSD.length > hitbtcBTCUSDNumberToInsertLogsToDB){
+    let hitbtcBTCUSDArray = historicDataLogs['hitbtc'].BTCUSD.slice(hitbtcBTCUSDNumberToCountFromDB, hitbtcBTCUSDNumberToInsertLogsToDB);
+    let hitbtcBTCUSDData = [];
+    hitbtcBTCUSDArray.forEach((spotPrice, i) => {
+      hitbtcBTCUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    hitbtcBTCUSDModel.insertMany(hitbtcBTCUSDData);
+
+    hitbtcBTCUSDNumberToCountFromDB = hitbtcBTCUSDNumberToCountFromDB + 1001;
+    hitbtcBTCUSDNumberToInsertLogsToDB = hitbtcBTCUSDNumberToInsertLogsToDB + 1001;
+    console.log("HITBTC BTCUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['hitbtc'].BCCUSD.length > hitbtcBCCUSDNumberToInsertLogsToDB){
+    let hitbtcBCCUSDArray = historicDataLogs['hitbtc'].BCCUSD.slice(hitbtcBCCUSDNumberToCountFromDB, hitbtcBCCUSDNumberToInsertLogsToDB);
+    let hitbtcBCCUSDData = [];
+    hitbtcBCCUSDArray.forEach((spotPrice, i) => {
+      hitbtcBCCUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    hitbtcBCCUSDModel.insertMany(hitbtcBCCUSDData);
+
+    hitbtcBCCUSDNumberToCountFromDB = hitbtcBCCUSDNumberToCountFromDB + 1001;
+    hitbtcBCCUSDNumberToInsertLogsToDB = hitbtcBCCUSDNumberToInsertLogsToDB + 1001;
+    console.log("HITBTC BCCUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['hitbtc'].EOSUSD.length > hitbtcEOSUSDNumberToInsertLogsToDB){
+    let hitbtcEOSUSDArray = historicDataLogs['hitbtc'].EOSUSD.slice(hitbtcEOSUSDNumberToCountFromDB, hitbtcEOSUSDNumberToInsertLogsToDB);
+    let hitbtcEOSUSDData = [];
+    hitbtcEOSUSDArray.forEach((spotPrice, i) => {
+      hitbtcEOSUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    hitbtcEOSUSDModel.insertMany(hitbtcEOSUSDData);
+
+    hitbtcEOSUSDNumberToCountFromDB = hitbtcEOSUSDNumberToCountFromDB + 1001;
+    hitbtcEOSUSDNumberToInsertLogsToDB = hitbtcEOSUSDNumberToInsertLogsToDB + 1001;
+    console.log("HITBTC EOSUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['hitbtc'].DASHUSD.length > hitbtcDASHUSDNumberToInsertLogsToDB){
+    let hitbtcDASHUSDArray = historicDataLogs['hitbtc'].DASHUSD.slice(hitbtcDASHUSDNumberToCountFromDB, hitbtcDASHUSDNumberToInsertLogsToDB);
+    let hitbtcDASHUSDData = [];
+    hitbtcDASHUSDArray.forEach((spotPrice, i) => {
+      hitbtcDASHUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    hitbtcDASHUSDModel.insertMany(hitbtcDASHUSDData);
+
+    hitbtcDASHUSDNumberToCountFromDB = hitbtcDASHUSDNumberToCountFromDB + 1001;
+    hitbtcDASHUSDNumberToInsertLogsToDB = hitbtcDASHUSDNumberToInsertLogsToDB + 1001;
+    console.log("HITBTC DASHUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['hitbtc'].LTCUSD.length > hitbtcLTCUSDNumberToInsertLogsToDB){
+    let hitbtcLTCUSDArray = historicDataLogs['hitbtc'].LTCUSD.slice(hitbtcLTCUSDNumberToCountFromDB, hitbtcLTCUSDNumberToInsertLogsToDB);
+    let hitbtcLTCUSDData = [];
+    hitbtcLTCUSDArray.forEach((spotPrice, i) => {
+      hitbtcLTCUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    hitbtcLTCUSDModel.insertMany(hitbtcLTCUSDData);
+
+    hitbtcLTCUSDNumberToCountFromDB = hitbtcLTCUSDNumberToCountFromDB + 1001;
+    hitbtcLTCUSDNumberToInsertLogsToDB = hitbtcLTCUSDNumberToInsertLogsToDB + 1001;
+    console.log("HITBTC LTCUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['livecoin'].BTCUSD.length > livecoinBTCUSDNumberToInsertLogsToDB){
+    let livecoinBTCUSDArray = historicDataLogs['livecoin'].BTCUSD.slice(livecoinBTCUSDNumberToCountFromDB, livecoinBTCUSDNumberToInsertLogsToDB);
+    let livecoinBTCUSDData = [];
+    livecoinBTCUSDArray.forEach((spotPrice, i) => {
+      livecoinBTCUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    livecoinBTCUSDModel.insertMany(livecoinBTCUSDData);
+
+    livecoinBTCUSDNumberToCountFromDB = livecoinBTCUSDNumberToCountFromDB + 1001;
+    livecoinBTCUSDNumberToInsertLogsToDB = livecoinBTCUSDNumberToInsertLogsToDB + 1001;
+    console.log("LIVECOIN BTCUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['livecoin'].ETHUSD.length > livecoinETHUSDNumberToInsertLogsToDB){
+    let livecoinETHUSDArray = historicDataLogs['livecoin'].ETHUSD.slice(livecoinETHUSDNumberToCountFromDB, livecoinETHUSDNumberToInsertLogsToDB);
+    let livecoinETHUSDData = [];
+    livecoinETHUSDArray.forEach((spotPrice, i) => {
+      livecoinETHUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    livecoinETHUSDModel.insertMany(livecoinETHUSDData);
+
+    livecoinETHUSDNumberToCountFromDB = livecoinETHUSDNumberToCountFromDB + 1001;
+    livecoinETHUSDNumberToInsertLogsToDB = livecoinETHUSDNumberToInsertLogsToDB + 1001;
+    console.log("LIVECOIN ETHUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['livecoin'].LTCUSD.length > livecoinLTCUSDNumberToInsertLogsToDB){
+    let livecoinLTCUSDArray = historicDataLogs['livecoin'].LTCUSD.slice(livecoinLTCUSDNumberToCountFromDB, livecoinLTCUSDNumberToInsertLogsToDB);
+    let livecoinLTCUSDData = [];
+    livecoinLTCUSDArray.forEach((spotPrice, i) => {
+      livecoinLTCUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    livecoinLTCUSDModel.insertMany(livecoinLTCUSDData);
+
+    livecoinLTCUSDNumberToCountFromDB = livecoinLTCUSDNumberToCountFromDB + 1001;
+    livecoinLTCUSDNumberToInsertLogsToDB = livecoinLTCUSDNumberToInsertLogsToDB + 1001;
+    console.log("LIVECOIN LTCUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['livecoin'].LTCBTC.length > livecoinLTCBTCNumberToInsertLogsToDB){
+    let livecoinLTCBTCArray = historicDataLogs['livecoin'].LTCBTC.slice(livecoinLTCBTCNumberToCountFromDB, livecoinLTCBTCNumberToInsertLogsToDB);
+    let livecoinLTCBTCData = [];
+    livecoinLTCBTCArray.forEach((spotPrice, i) => {
+      livecoinLTCBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    livecoinLTCBTCModel.insertMany(livecoinLTCBTCData);
+
+    livecoinLTCBTCNumberToCountFromDB = livecoinLTCBTCNumberToCountFromDB + 1001;
+    livecoinLTCBTCNumberToInsertLogsToDB = livecoinLTCBTCNumberToInsertLogsToDB + 1001;
+    console.log("LIVECOIN LTCBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['livecoin'].BCHUSD.length > livecoinBCHUSDNumberToInsertLogsToDB){
+    let livecoinBCHUSDArray = historicDataLogs['livecoin'].BCHUSD.slice(livecoinBCHUSDNumberToCountFromDB, livecoinBCHUSDNumberToInsertLogsToDB);
+    let livecoinBCHUSDData = [];
+    livecoinBCHUSDArray.forEach((spotPrice, i) => {
+      livecoinBCHUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    livecoinBCHUSDModel.insertMany(livecoinBCHUSDData);
+
+    livecoinBCHUSDNumberToCountFromDB = livecoinBCHUSDNumberToCountFromDB + 1001;
+    livecoinBCHUSDNumberToInsertLogsToDB = livecoinBCHUSDNumberToInsertLogsToDB + 1001;
+    console.log("LIVECOIN BCHUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['livecoin'].DASHUSD.length > livecoinDASHUSDNumberToInsertLogsToDB){
+    let livecoinDASHUSDArray = historicDataLogs['livecoin'].DASHUSD.slice(livecoinDASHUSDNumberToCountFromDB, livecoinDASHUSDNumberToInsertLogsToDB);
+    let livecoinDASHUSDData = [];
+    livecoinDASHUSDArray.forEach((spotPrice, i) => {
+      livecoinDASHUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    livecoinDASHUSDModel.insertMany(livecoinDASHUSDData);
+
+    livecoinDASHUSDNumberToCountFromDB = livecoinDASHUSDNumberToCountFromDB + 1001;
+    livecoinDASHUSDNumberToInsertLogsToDB = livecoinDASHUSDNumberToInsertLogsToDB + 1001;
+    console.log("LIVECOIN DASHUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['livecoin'].DASHBTC.length > livecoinDASHBTCNumberToInsertLogsToDB){
+    let livecoinDASHBTCArray = historicDataLogs['livecoin'].DASHBTC.slice(livecoinDASHBTCNumberToCountFromDB, livecoinDASHBTCNumberToInsertLogsToDB);
+    let livecoinDASHBTCData = [];
+    livecoinDASHBTCArray.forEach((spotPrice, i) => {
+      livecoinDASHBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    livecoinDASHBTCModel.insertMany(livecoinDASHBTCData);
+
+    livecoinDASHBTCNumberToCountFromDB = livecoinDASHBTCNumberToCountFromDB + 1001;
+    livecoinDASHBTCNumberToInsertLogsToDB = livecoinDASHBTCNumberToInsertLogsToDB + 1001;
+    console.log("LIVECOIN DASHBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['livecoin'].BCHBTC.length > livecoinBCHBTCNumberToInsertLogsToDB){
+    let livecoinBCHBTCArray = historicDataLogs['livecoin'].BCHBTC.slice(livecoinBCHBTCNumberToCountFromDB, livecoinBCHBTCNumberToInsertLogsToDB);
+    let livecoinBCHBTCData = [];
+    livecoinBCHBTCArray.forEach((spotPrice, i) => {
+      livecoinBCHBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    livecoinBCHBTCModel.insertMany(livecoinBCHBTCData);
+
+    livecoinBCHBTCNumberToCountFromDB = livecoinBCHBTCNumberToCountFromDB + 1001;
+    livecoinBCHBTCNumberToInsertLogsToDB = livecoinBCHBTCNumberToInsertLogsToDB + 1001;
+    console.log("LIVECOIN BCHBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['livecoin'].ETHBTC.length > livecoinETHBTCNumberToInsertLogsToDB){
+    let livecoinETHBTCArray = historicDataLogs['livecoin'].ETHBTC.slice(livecoinETHBTCNumberToCountFromDB, livecoinETHBTCNumberToInsertLogsToDB);
+    let livecoinETHBTCData = [];
+    livecoinETHBTCArray.forEach((spotPrice, i) => {
+      livecoinETHBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    livecoinETHBTCModel.insertMany(livecoinETHBTCData);
+
+    livecoinETHBTCNumberToCountFromDB = livecoinETHBTCNumberToCountFromDB + 1001;
+    livecoinETHBTCNumberToInsertLogsToDB = livecoinETHBTCNumberToInsertLogsToDB + 1001;
+    console.log("LIVECOIN ETHBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['livecoin'].BCHETH.length > livecoinBCHETHNumberToInsertLogsToDB){
+    let livecoinBCHETHArray = historicDataLogs['livecoin'].BCHETH.slice(livecoinBCHETHNumberToCountFromDB, livecoinBCHETHNumberToInsertLogsToDB);
+    let livecoinBCHETHData = [];
+    livecoinBCHETHArray.forEach((spotPrice, i) => {
+      livecoinBCHETHData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    livecoinBCHETHModel.insertMany(livecoinBCHETHData);
+
+    livecoinBCHETHNumberToCountFromDB = livecoinBCHETHNumberToCountFromDB + 1001;
+    livecoinBCHETHNumberToInsertLogsToDB = livecoinBCHETHNumberToInsertLogsToDB + 1001;
+    console.log("LIVECOIN BCHETH INSERTED");
+  }
 
   if(needToWithdraw === false && historicDataLogs['bittrex'].BTCUSD.length > bittrexBTCUSDNumberToInsertLogsToDB){
     let bittrexBTCUSDArray = historicDataLogs['bittrex'].BTCUSD.slice(bittrexBTCUSDNumberToCountFromDB, bittrexBTCUSDNumberToInsertLogsToDB);
@@ -457,7 +989,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     bittrexBTCUSDNumberToCountFromDB = bittrexBTCUSDNumberToCountFromDB + 1001;
     bittrexBTCUSDNumberToInsertLogsToDB = bittrexBTCUSDNumberToInsertLogsToDB + 1001;
-    console.log("BITTREX BTCUSD INSERTED");
+    console.log("BITTREX BTCUSD INSERTED: ", bittrexBTCUSDNumberToInsertLogsToDB);
   }
 
   if(needToWithdraw === false && historicDataLogs['bittrex'].ETHBTC.length > bittrexETHBTCNumberToInsertLogsToDB){
@@ -475,6 +1007,21 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
     console.log("BITTREX ETHBTC INSERTED");
   }
 
+  if(needToWithdraw === false && historicDataLogs['bittrex'].ETHUSD.length > bittrexETHUSDNumberToInsertLogsToDB){
+    let bittrexETHUSDArray = historicDataLogs['bittrex'].ETHUSD.slice(bittrexETHUSDNumberToCountFromDB, bittrexETHUSDNumberToInsertLogsToDB);
+    let bittrexETHUSDData = [];
+
+    bittrexETHUSDArray.forEach((spotPrice, i) => {
+      bittrexETHUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    bittrexETHUSDModel.insertMany(bittrexETHUSDData);
+
+    bittrexETHUSDNumberToCountFromDB = bittrexETHUSDNumberToCountFromDB + 1001;
+    bittrexETHUSDNumberToInsertLogsToDB = bittrexETHUSDNumberToInsertLogsToDB + 1001;
+    console.log("BITTREX ETHUSD INSERTED");
+  }
+
   if(needToWithdraw === false && historicDataLogs['bittrex'].LTCETH.length > bittrexLTCETHNumberToInsertLogsToDB){
     let bittrexLTCETHArray = historicDataLogs['bittrex'].LTCETH.slice(bittrexLTCETHNumberToCountFromDB, bittrexLTCETHNumberToInsertLogsToDB);
     let bittrexLTCETHData = [];
@@ -487,6 +1034,20 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
     bittrexLTCETHNumberToCountFromDB = bittrexLTCETHNumberToCountFromDB + 1001;
     bittrexLTCETHNumberToInsertLogsToDB = bittrexLTCETHNumberToInsertLogsToDB + 1001;
     console.log("BITTREX LTCETH INSERTED")
+  }
+
+  if(needToWithdraw === false && historicDataLogs['bittrex'].LTCUSD.length > bittrexLTCUSDNumberToInsertLogsToDB){
+    let bittrexLTCUSDArray = historicDataLogs['bittrex'].LTCUSD.slice(bittrexLTCUSDNumberToCountFromDB, bittrexLTCUSDNumberToInsertLogsToDB);
+    let bittrexLTCUSDData = [];
+    bittrexLTCUSDArray.forEach((spotPrice, i) => {
+      bittrexLTCUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    bittrexLTCUSDModel.insertMany(bittrexLTCUSDData);
+
+    bittrexLTCUSDNumberToCountFromDB = bittrexLTCUSDNumberToCountFromDB + 1001;
+    bittrexLTCUSDNumberToInsertLogsToDB = bittrexLTCUSDNumberToInsertLogsToDB + 1001;
+    console.log("BITTREX LTCUSD INSERTED")
   }
 
   if(needToWithdraw === false && historicDataLogs['gdax'].BTCUSD.length > gdaxBTCUSDNumberToInsertLogsToDB){
@@ -653,6 +1214,66 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
     console.log("POLONIEX ETHUSD INSERTED");
   }
 
+  if(needToWithdraw === false && historicDataLogs['poloniex'].BCHBTC.length > poloniexBCHBTCNumberToInsertLogsToDB){
+    let poloniexBCHBTCArray = historicDataLogs['poloniex'].BCHBTC.slice(poloniexBCHBTCNumberToCountFromDB, poloniexBCHBTCNumberToInsertLogsToDB);
+    let poloniexBCHBTCData = [];
+
+    poloniexBCHBTCArray.forEach((spotPrice, i) => {
+      poloniexBCHBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    poloniexBCHBTCModel.insertMany(poloniexBCHBTCData);
+
+    poloniexBCHBTCNumberToCountFromDB = poloniexBCHBTCNumberToCountFromDB + 1001;
+    poloniexBCHBTCNumberToInsertLogsToDB = poloniexBCHBTCNumberToInsertLogsToDB + 1001;
+    console.log("POLONIEX BCHBTC INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['poloniex'].BCHUSD.length > poloniexBCHUSDNumberToInsertLogsToDB){
+    let poloniexBCHUSDArray = historicDataLogs['poloniex'].BCHUSD.slice(poloniexBCHUSDNumberToCountFromDB, poloniexBCHUSDNumberToInsertLogsToDB);
+    let poloniexBCHUSDData = [];
+
+    poloniexBCHUSDArray.forEach((spotPrice, i) => {
+      poloniexBCHUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    poloniexBCHUSDModel.insertMany(poloniexBCHUSDData);
+
+    poloniexBCHUSDNumberToCountFromDB = poloniexBCHUSDNumberToCountFromDB + 1001;
+    poloniexBCHUSDNumberToInsertLogsToDB = poloniexBCHUSDNumberToInsertLogsToDB + 1001;
+    console.log("POLONIEX BCHUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['poloniex'].DASHUSD.length > poloniexDASHUSDNumberToInsertLogsToDB){
+    let poloniexDASHUSDArray = historicDataLogs['poloniex'].DASHUSD.slice(poloniexDASHUSDNumberToCountFromDB, poloniexDASHUSDNumberToInsertLogsToDB);
+    let poloniexDASHUSDData = [];
+
+    poloniexDASHUSDArray.forEach((spotPrice, i) => {
+      poloniexDASHUSDData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    poloniexDASHUSDModel.insertMany(poloniexDASHUSDData);
+
+    poloniexDASHUSDNumberToCountFromDB = poloniexDASHUSDNumberToCountFromDB + 1001;
+    poloniexDASHUSDNumberToInsertLogsToDB = poloniexDASHUSDNumberToInsertLogsToDB + 1001;
+    console.log("POLONIEX DASHUSD INSERTED");
+  }
+
+  if(needToWithdraw === false && historicDataLogs['poloniex'].DASHBTC.length > poloniexDASHBTCNumberToInsertLogsToDB){
+    let poloniexDASHBTCArray = historicDataLogs['poloniex'].DASHBTC.slice(poloniexDASHBTCNumberToCountFromDB, poloniexDASHBTCNumberToInsertLogsToDB);
+    let poloniexDASHBTCData = [];
+
+    poloniexDASHBTCArray.forEach((spotPrice, i) => {
+      poloniexDASHBTCData.push({_id: (Date.now() + i).toString(), time: spotPrice[0], price: spotPrice[1]});
+    });
+
+    poloniexDASHBTCModel.insertMany(poloniexDASHBTCData);
+
+    poloniexDASHBTCNumberToCountFromDB = poloniexDASHBTCNumberToCountFromDB + 1001;
+    poloniexDASHBTCNumberToInsertLogsToDB = poloniexDASHBTCNumberToInsertLogsToDB + 1001;
+    console.log("POLONIEX DASHBTC INSERTED");
+  }
+
   if(needToWithdraw === false && historicDataLogs['poloniex'].LTCBTC.length > poloniexLTCBTCNumberToInsertLogsToDB){
     let poloniexLTCBTCArray = historicDataLogs['poloniex'].LTCBTC.slice(poloniexLTCBTCNumberToCountFromDB, poloniexLTCBTCNumberToInsertLogsToDB);
     let poloniexLTCBTCData = [];
@@ -683,15 +1304,145 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
     console.log("POLONIEX LTCUSD INSERTED");
   }
 
+  if(historicDataLogs['hitbtc'].EOSBTC.length > 0 && historicDataLogs['hitbtc'].EOSUSD.length > 0 && historicDataLogs['hitbtc'].DASHUSD.length > 0 && historicDataLogs['hitbtc'].BCCUSD.length > 0 && historicDataLogs['hitbtc'].ETHBTC.length > 0 && historicDataLogs['hitbtc'].BTCUSD.length > 0 && historicDataLogs['hitbtc'].LTCBTC.length > 0 && historicDataLogs['hitbtc'].ETHUSD.length > 0 && historicDataLogs['hitbtc'].LTCUSD.length > 0){
+    if(cryptoSocket.Exchanges.hitbtc.ETHBTC > historicDataLogs['hitbtc'].ETHBTC[historicDataLogs['hitbtc'].ETHBTC.length - 1][1] || cryptoSocket.Exchanges.hitbtc.ETHBTC < historicDataLogs['hitbtc'].ETHBTC[historicDataLogs['hitbtc'].ETHBTC.length - 1][1]){
+      historicDataLogs['hitbtc'].ETHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.ETHBTC]);
+    }
 
-  //add livecoin, hitbtc, poloniex, cCex, cex, bittrex stuff
-  if(historicDataLogs['bittrex'].ETHBTC.length > 0 && historicDataLogs['bittrex'].BTCUSD.length > 0 && historicDataLogs['bittrex'].LTCETH.length > 0){
+    if(cryptoSocket.Exchanges.hitbtc.EOSBTC > historicDataLogs['hitbtc'].EOSBTC[historicDataLogs['hitbtc'].EOSBTC.length - 1][1] || cryptoSocket.Exchanges.hitbtc.EOSBTC < historicDataLogs['hitbtc'].EOSBTC[historicDataLogs['hitbtc'].EOSBTC.length - 1][1]){
+      historicDataLogs['hitbtc'].EOSBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.EOSBTC]);
+    }
+
+    if(cryptoSocket.Exchanges.hitbtc.DASHUSD > historicDataLogs['hitbtc'].DASHUSD[historicDataLogs['hitbtc'].DASHUSD.length - 1][1] || cryptoSocket.Exchanges.hitbtc.DASHUSD < historicDataLogs['hitbtc'].DASHUSD[historicDataLogs['hitbtc'].DASHUSD.length - 1][1]){
+      historicDataLogs['hitbtc'].DASHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.DASHUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.hitbtc.EOSUSD > historicDataLogs['hitbtc'].EOSUSD[historicDataLogs['hitbtc'].EOSUSD.length - 1][1] || cryptoSocket.Exchanges.hitbtc.EOSUSD < historicDataLogs['hitbtc'].EOSUSD[historicDataLogs['hitbtc'].EOSUSD.length - 1][1]){
+      historicDataLogs['hitbtc'].EOSUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.EOSUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.hitbtc.BCCUSD > historicDataLogs['hitbtc'].BCCUSD[historicDataLogs['hitbtc'].BCCUSD.length - 1][1] || cryptoSocket.Exchanges.hitbtc.BCCUSD < historicDataLogs['hitbtc'].BCCUSD[historicDataLogs['hitbtc'].BCCUSD.length - 1][1]){
+      historicDataLogs['hitbtc'].BCCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.BCCUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.hitbtc.BTCUSD > historicDataLogs['hitbtc'].BTCUSD[historicDataLogs['hitbtc'].BTCUSD.length - 1][1] || cryptoSocket.Exchanges.hitbtc.BTCUSD < historicDataLogs['hitbtc'].BTCUSD[historicDataLogs['hitbtc'].BTCUSD.length - 1][1]){
+      historicDataLogs['hitbtc'].BTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.BTCUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.hitbtc.LTCBTC > historicDataLogs['hitbtc'].LTCBTC[historicDataLogs['hitbtc'].LTCBTC.length - 1][1] || cryptoSocket.Exchanges.hitbtc.LTCBTC < historicDataLogs['hitbtc'].LTCBTC[historicDataLogs['hitbtc'].LTCBTC.length - 1][1]){
+      historicDataLogs['hitbtc'].LTCBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.LTCBTC]);
+    }
+
+    if(cryptoSocket.Exchanges.hitbtc.ETHUSD > historicDataLogs['hitbtc'].ETHUSD[historicDataLogs['hitbtc'].ETHUSD.length - 1][1] || cryptoSocket.Exchanges.hitbtc.ETHUSD < historicDataLogs['hitbtc'].ETHUSD[historicDataLogs['hitbtc'].ETHUSD.length - 1][1]){
+      historicDataLogs['hitbtc'].ETHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.ETHUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.hitbtc.LTCUSD > historicDataLogs['hitbtc'].LTCUSD[historicDataLogs['hitbtc'].LTCUSD.length - 1][1] || cryptoSocket.Exchanges.hitbtc.LTCUSD < historicDataLogs['hitbtc'].LTCUSD[historicDataLogs['hitbtc'].LTCUSD.length - 1][1]){
+      historicDataLogs['hitbtc'].LTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.LTCUSD]);
+    }
+  } else {
+    historicDataLogs['hitbtc'].ETHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.ETHBTC]);
+    historicDataLogs['hitbtc'].EOSBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.EOSBTC]);
+    historicDataLogs['hitbtc'].BTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.BTCUSD]);
+    historicDataLogs['hitbtc'].EOSUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.EOSUSD]);
+    historicDataLogs['hitbtc'].DASHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.DASHUSD]);
+    historicDataLogs['hitbtc'].BCCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.BCCUSD]);
+    historicDataLogs['hitbtc'].LTCBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.LTCBTC]);
+    historicDataLogs['hitbtc'].LTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.LTCUSD]);
+    historicDataLogs['hitbtc'].ETHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.hitbtc.ETHUSD]);
+  }
+
+  if(historicDataLogs['cex'].ETHBTC.length > 0 && historicDataLogs['cex'].BTCUSD.length > 0 && historicDataLogs['cex'].ETHUSD.length > 0 && historicDataLogs['cex'].BCHUSD.length > 0){
+    if(cryptoSocket.Exchanges.cex.ETHBTC > historicDataLogs['cex'].ETHBTC[historicDataLogs['cex'].ETHBTC.length - 1][1] || cryptoSocket.Exchanges.cex.ETHBTC < historicDataLogs['cex'].ETHBTC[historicDataLogs['cex'].ETHBTC.length - 1][1]){
+      historicDataLogs['cex'].ETHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cex.ETHBTC]);
+    }
+
+    if(cryptoSocket.Exchanges.cex.BTCUSD > historicDataLogs['cex'].BTCUSD[historicDataLogs['cex'].BTCUSD.length - 1][1] || cryptoSocket.Exchanges.cex.BTCUSD < historicDataLogs['cex'].BTCUSD[historicDataLogs['cex'].BTCUSD.length - 1][1]){
+      historicDataLogs['cex'].BTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cex.BTCUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.cex.ETHUSD > historicDataLogs['cex'].ETHUSD[historicDataLogs['cex'].ETHUSD.length - 1][1] || cryptoSocket.Exchanges.cex.ETHUSD < historicDataLogs['cex'].ETHUSD[historicDataLogs['cex'].ETHUSD.length - 1][1]){
+      historicDataLogs['cex'].ETHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cex.ETHUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.cex.BCHUSD > historicDataLogs['cex'].BCHUSD[historicDataLogs['cex'].BCHUSD.length - 1][1] || cryptoSocket.Exchanges.cex.BCHUSD < historicDataLogs['cex'].BCHUSD[historicDataLogs['cex'].BCHUSD.length - 1][1]){
+      historicDataLogs['cex'].BCHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cex.BCHUSD]);
+    }
+  } else {
+    historicDataLogs['cex'].ETHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cex.ETHBTC]);
+    historicDataLogs['cex'].BTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cex.BTCUSD]);
+    historicDataLogs['cex'].BCHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cex.BCHUSD]);
+    historicDataLogs['cex'].ETHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cex.ETHUSD]);
+  }
+
+  if(historicDataLogs['livecoin'].DASHUSD.length > 0 && historicDataLogs['livecoin'].BCHUSD.length > 0 && historicDataLogs['livecoin'].BCHBTC.length > 0 && historicDataLogs['livecoin'].BCHETH.length > 0 && historicDataLogs['livecoin'].ETHBTC.length > 0 && historicDataLogs['livecoin'].DASHBTC.length > 0 && historicDataLogs['livecoin'].BTCUSD.length > 0 && historicDataLogs['livecoin'].LTCBTC.length > 0 && historicDataLogs['livecoin'].ETHUSD.length > 0 && historicDataLogs['livecoin'].LTCUSD.length > 0){
+    if(cryptoSocket.Exchanges.livecoin.ETHBTC > historicDataLogs['livecoin'].ETHBTC[historicDataLogs['livecoin'].ETHBTC.length - 1][1] || cryptoSocket.Exchanges.livecoin.ETHBTC < historicDataLogs['livecoin'].ETHBTC[historicDataLogs['livecoin'].ETHBTC.length - 1][1]){
+      historicDataLogs['livecoin'].ETHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.ETHBTC]);
+    }
+
+    if(cryptoSocket.Exchanges.livecoin.DASHBTC > historicDataLogs['livecoin'].DASHBTC[historicDataLogs['livecoin'].DASHBTC.length - 1][1] || cryptoSocket.Exchanges.livecoin.DASHBTC < historicDataLogs['livecoin'].DASHBTC[historicDataLogs['livecoin'].DASHBTC.length - 1][1]){
+      historicDataLogs['livecoin'].DASHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.DASHBTC]);
+    }
+
+    if(cryptoSocket.Exchanges.livecoin.DASHUSD > historicDataLogs['livecoin'].DASHUSD[historicDataLogs['livecoin'].DASHUSD.length - 1][1] || cryptoSocket.Exchanges.livecoin.DASHUSD < historicDataLogs['livecoin'].DASHUSD[historicDataLogs['livecoin'].DASHUSD.length - 1][1]){
+      historicDataLogs['livecoin'].DASHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.DASHUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.livecoin.BCHBTC > historicDataLogs['livecoin'].BCHBTC[historicDataLogs['livecoin'].BCHBTC.length - 1][1] || cryptoSocket.Exchanges.livecoin.BCHBTC < historicDataLogs['livecoin'].BCHBTC[historicDataLogs['livecoin'].BCHBTC.length - 1][1]){
+      historicDataLogs['livecoin'].BCHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.BCHBTC]);
+    }
+
+    if(cryptoSocket.Exchanges.livecoin.BCHETH > historicDataLogs['livecoin'].BCHETH[historicDataLogs['livecoin'].BCHETH.length - 1][1] || cryptoSocket.Exchanges.livecoin.BCHETH < historicDataLogs['livecoin'].BCHETH[historicDataLogs['livecoin'].BCHETH.length - 1][1]){
+      historicDataLogs['livecoin'].BCHETH.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.BCHETH]);
+    }
+
+    if(cryptoSocket.Exchanges.livecoin.BCHUSD > historicDataLogs['livecoin'].BCHUSD[historicDataLogs['livecoin'].BCHUSD.length - 1][1] || cryptoSocket.Exchanges.livecoin.BCHUSD < historicDataLogs['livecoin'].BCHUSD[historicDataLogs['livecoin'].BCHUSD.length - 1][1]){
+      historicDataLogs['livecoin'].BCHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.BCHUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.livecoin.BTCUSD > historicDataLogs['livecoin'].BTCUSD[historicDataLogs['livecoin'].BTCUSD.length - 1][1] || cryptoSocket.Exchanges.livecoin.BTCUSD < historicDataLogs['livecoin'].BTCUSD[historicDataLogs['livecoin'].BTCUSD.length - 1][1]){
+      historicDataLogs['livecoin'].BTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.BTCUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.livecoin.LTCBTC > historicDataLogs['livecoin'].LTCBTC[historicDataLogs['livecoin'].LTCBTC.length - 1][1] || cryptoSocket.Exchanges.livecoin.LTCBTC < historicDataLogs['livecoin'].LTCBTC[historicDataLogs['livecoin'].LTCBTC.length - 1][1]){
+      historicDataLogs['livecoin'].LTCBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.LTCBTC]);
+    }
+
+    if(cryptoSocket.Exchanges.livecoin.ETHUSD > historicDataLogs['livecoin'].ETHUSD[historicDataLogs['livecoin'].ETHUSD.length - 1][1] || cryptoSocket.Exchanges.livecoin.ETHUSD < historicDataLogs['livecoin'].ETHUSD[historicDataLogs['livecoin'].ETHUSD.length - 1][1]){
+      historicDataLogs['livecoin'].ETHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.ETHUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.livecoin.LTCUSD > historicDataLogs['livecoin'].LTCUSD[historicDataLogs['livecoin'].LTCUSD.length - 1][1] || cryptoSocket.Exchanges.livecoin.LTCUSD < historicDataLogs['livecoin'].LTCUSD[historicDataLogs['livecoin'].LTCUSD.length - 1][1]){
+      historicDataLogs['livecoin'].LTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.LTCUSD]);
+    }
+  } else {
+    historicDataLogs['livecoin'].ETHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.ETHBTC]);
+    historicDataLogs['livecoin'].BCHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.BCHBTC]);
+    historicDataLogs['livecoin'].BCHETH.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.BCHETH]);
+    historicDataLogs['livecoin'].DASHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.DASHBTC]);
+    historicDataLogs['livecoin'].BTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.BTCUSD]);
+    historicDataLogs['livecoin'].DASHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.DASHUSD]);
+    historicDataLogs['livecoin'].BCHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.BCHUSD]);
+    historicDataLogs['livecoin'].LTCBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.LTCBTC]);
+    historicDataLogs['livecoin'].LTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.LTCUSD]);
+    historicDataLogs['livecoin'].ETHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.livecoin.ETHUSD]);
+  }
+
+  if(historicDataLogs['bittrex'].ETHUSD.length > 0 && historicDataLogs['bittrex'].ETHBTC.length > 0 && historicDataLogs['bittrex'].BTCUSD.length > 0 && historicDataLogs['bittrex'].LTCUSD.length > 0 && historicDataLogs['bittrex'].LTCETH.length > 0){
     if(cryptoSocket.Exchanges.bittrex.ETHBTC > historicDataLogs['bittrex'].ETHBTC[historicDataLogs['bittrex'].ETHBTC.length - 1][1] || cryptoSocket.Exchanges.bittrex.ETHBTC < historicDataLogs['bittrex'].ETHBTC[historicDataLogs['bittrex'].ETHBTC.length - 1][1]){
       historicDataLogs['bittrex'].ETHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.ETHBTC]);
     }
 
+    if(cryptoSocket.Exchanges.bittrex.LTCUSD > historicDataLogs['bittrex'].LTCUSD[historicDataLogs['bittrex'].LTCUSD.length - 1][1] || cryptoSocket.Exchanges.bittrex.LTCUSD < historicDataLogs['bittrex'].LTCUSD[historicDataLogs['bittrex'].LTCUSD.length - 1][1]){
+      historicDataLogs['bittrex'].LTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.LTCUSD]);
+    }
+
     if(cryptoSocket.Exchanges.bittrex.BTCUSD > historicDataLogs['bittrex'].BTCUSD[historicDataLogs['bittrex'].BTCUSD.length - 1][1] || cryptoSocket.Exchanges.bittrex.BTCUSD < historicDataLogs['bittrex'].BTCUSD[historicDataLogs['bittrex'].BTCUSD.length - 1][1]){
       historicDataLogs['bittrex'].BTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.BTCUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.bittrex.ETHUSD > historicDataLogs['bittrex'].ETHUSD[historicDataLogs['bittrex'].ETHUSD.length - 1][1] || cryptoSocket.Exchanges.bittrex.ETHUSD < historicDataLogs['bittrex'].ETHUSD[historicDataLogs['bittrex'].ETHUSD.length - 1][1]){
+      historicDataLogs['bittrex'].ETHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.ETHUSD]);
     }
 
     if(cryptoSocket.Exchanges.bittrex.LTCETH > historicDataLogs['bittrex'].LTCETH[historicDataLogs['bittrex'].LTCETH.length - 1][1] || cryptoSocket.Exchanges.bittrex.LTCETH < historicDataLogs['bittrex'].LTCETH[historicDataLogs['bittrex'].LTCETH.length - 1][1]){
@@ -700,7 +1451,9 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
   } else {
     historicDataLogs['bittrex'].ETHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.ETHBTC]);
     historicDataLogs['bittrex'].BTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.BTCUSD]);
+    historicDataLogs['bittrex'].ETHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.ETHUSD]);
     historicDataLogs['bittrex'].LTCETH.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.LTCETH]);
+    historicDataLogs['bittrex'].LTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.bittrex.LTCUSD]);
   }
 
   if(historicDataLogs['gdax'].ETHBTC.length > 0 && historicDataLogs['gdax'].BTCUSD.length > 0 && historicDataLogs['gdax'].LTCBTC.length > 0 && historicDataLogs['gdax'].ETHUSD.length > 0 && historicDataLogs['gdax'].LTCUSD.length > 0){
@@ -749,9 +1502,25 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
     historicDataLogs['gemini'].ETHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.gemini.ETHUSD]);
   }
 
-  if(historicDataLogs['poloniex'].ETHBTC.length > 0 && historicDataLogs['poloniex'].BTCUSD.length > 0 && historicDataLogs['poloniex'].LTCBTC.length > 0 && historicDataLogs['poloniex'].ETHUSD.length > 0 && historicDataLogs['poloniex'].LTCUSD.length > 0){
+  if(historicDataLogs['poloniex'].DASHUSD.length > 0 && historicDataLogs['poloniex'].BCHUSD.length > 0 && historicDataLogs['poloniex'].BCHBTC.length > 0 && historicDataLogs['poloniex'].ETHBTC.length > 0 && historicDataLogs['poloniex'].DASHBTC.length > 0 && historicDataLogs['poloniex'].BTCUSD.length > 0 && historicDataLogs['poloniex'].LTCBTC.length > 0 && historicDataLogs['poloniex'].ETHUSD.length > 0 && historicDataLogs['poloniex'].LTCUSD.length > 0){
     if(cryptoSocket.Exchanges.poloniex.ETHBTC > historicDataLogs['poloniex'].ETHBTC[historicDataLogs['poloniex'].ETHBTC.length - 1][1] || cryptoSocket.Exchanges.poloniex.ETHBTC < historicDataLogs['poloniex'].ETHBTC[historicDataLogs['poloniex'].ETHBTC.length - 1][1]){
       historicDataLogs['poloniex'].ETHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.poloniex.ETHBTC]);
+    }
+
+    if(cryptoSocket.Exchanges.poloniex.DASHBTC > historicDataLogs['poloniex'].DASHBTC[historicDataLogs['poloniex'].DASHBTC.length - 1][1] || cryptoSocket.Exchanges.poloniex.DASHBTC < historicDataLogs['poloniex'].DASHBTC[historicDataLogs['poloniex'].DASHBTC.length - 1][1]){
+      historicDataLogs['poloniex'].DASHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.poloniex.DASHBTC]);
+    }
+
+    if(cryptoSocket.Exchanges.poloniex.DASHUSD > historicDataLogs['poloniex'].DASHUSD[historicDataLogs['poloniex'].DASHUSD.length - 1][1] || cryptoSocket.Exchanges.poloniex.DASHUSD < historicDataLogs['poloniex'].DASHUSD[historicDataLogs['poloniex'].DASHUSD.length - 1][1]){
+      historicDataLogs['poloniex'].DASHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.poloniex.DASHUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.poloniex.BCHBTC > historicDataLogs['poloniex'].BCHBTC[historicDataLogs['poloniex'].BCHBTC.length - 1][1] || cryptoSocket.Exchanges.poloniex.BCHBTC < historicDataLogs['poloniex'].BCHBTC[historicDataLogs['poloniex'].BCHBTC.length - 1][1]){
+      historicDataLogs['poloniex'].BCHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.poloniex.BCHBTC]);
+    }
+
+    if(cryptoSocket.Exchanges.poloniex.BCHUSD > historicDataLogs['poloniex'].BCHUSD[historicDataLogs['poloniex'].BCHUSD.length - 1][1] || cryptoSocket.Exchanges.poloniex.BCHUSD < historicDataLogs['poloniex'].BCHUSD[historicDataLogs['poloniex'].BCHUSD.length - 1][1]){
+      historicDataLogs['poloniex'].BCHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.poloniex.BCHUSD]);
     }
 
     if(cryptoSocket.Exchanges.poloniex.BTCUSD > historicDataLogs['poloniex'].BTCUSD[historicDataLogs['poloniex'].BTCUSD.length - 1][1] || cryptoSocket.Exchanges.poloniex.BTCUSD < historicDataLogs['poloniex'].BTCUSD[historicDataLogs['poloniex'].BTCUSD.length - 1][1]){
@@ -771,10 +1540,52 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
     }
   } else {
     historicDataLogs['poloniex'].ETHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.poloniex.ETHBTC]);
+    historicDataLogs['poloniex'].BCHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.poloniex.BCHBTC]);
+    historicDataLogs['poloniex'].DASHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.poloniex.DASHBTC]);
     historicDataLogs['poloniex'].BTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.poloniex.BTCUSD]);
+    historicDataLogs['poloniex'].DASHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.poloniex.DASHUSD]);
+    historicDataLogs['poloniex'].BCHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.poloniex.BCHUSD]);
     historicDataLogs['poloniex'].LTCBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.poloniex.LTCBTC]);
     historicDataLogs['poloniex'].LTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.poloniex.LTCUSD]);
     historicDataLogs['poloniex'].ETHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.poloniex.ETHUSD]);
+  }
+
+  if(historicDataLogs['cCex'].DASHUSD.length > 0 && historicDataLogs['cCex'].ETHBTC.length > 0 && historicDataLogs['cCex'].DASHBTC.length > 0 && historicDataLogs['cCex'].BTCUSD.length > 0 && historicDataLogs['cCex'].LTCBTC.length > 0 && historicDataLogs['cCex'].ETHUSD.length > 0 && historicDataLogs['cCex'].LTCUSD.length > 0){
+    if(cryptoSocket.Exchanges.cCex.ETHBTC > historicDataLogs['cCex'].ETHBTC[historicDataLogs['cCex'].ETHBTC.length - 1][1] || cryptoSocket.Exchanges.cCex.ETHBTC < historicDataLogs['cCex'].ETHBTC[historicDataLogs['cCex'].ETHBTC.length - 1][1]){
+      historicDataLogs['cCex'].ETHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cCex.ETHBTC]);
+    }
+
+    if(cryptoSocket.Exchanges.cCex.DASHBTC > historicDataLogs['cCex'].DASHBTC[historicDataLogs['cCex'].DASHBTC.length - 1][1] || cryptoSocket.Exchanges.cCex.DASHBTC < historicDataLogs['cCex'].DASHBTC[historicDataLogs['cCex'].DASHBTC.length - 1][1]){
+      historicDataLogs['cCex'].DASHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cCex.DASHBTC]);
+    }
+
+    if(cryptoSocket.Exchanges.cCex.DASHUSD > historicDataLogs['cCex'].DASHUSD[historicDataLogs['cCex'].DASHUSD.length - 1][1] || cryptoSocket.Exchanges.cCex.DASHUSD < historicDataLogs['cCex'].DASHUSD[historicDataLogs['cCex'].DASHUSD.length - 1][1]){
+      historicDataLogs['cCex'].DASHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cCex.DASHUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.cCex.BTCUSD > historicDataLogs['cCex'].BTCUSD[historicDataLogs['cCex'].BTCUSD.length - 1][1] || cryptoSocket.Exchanges.cCex.BTCUSD < historicDataLogs['cCex'].BTCUSD[historicDataLogs['cCex'].BTCUSD.length - 1][1]){
+      historicDataLogs['cCex'].BTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cCex.BTCUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.cCex.LTCBTC > historicDataLogs['cCex'].LTCBTC[historicDataLogs['cCex'].LTCBTC.length - 1][1] || cryptoSocket.Exchanges.cCex.LTCBTC < historicDataLogs['cCex'].LTCBTC[historicDataLogs['cCex'].LTCBTC.length - 1][1]){
+      historicDataLogs['cCex'].LTCBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cCex.LTCBTC]);
+    }
+
+    if(cryptoSocket.Exchanges.cCex.ETHUSD > historicDataLogs['cCex'].ETHUSD[historicDataLogs['cCex'].ETHUSD.length - 1][1] || cryptoSocket.Exchanges.cCex.ETHUSD < historicDataLogs['cCex'].ETHUSD[historicDataLogs['cCex'].ETHUSD.length - 1][1]){
+      historicDataLogs['cCex'].ETHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cCex.ETHUSD]);
+    }
+
+    if(cryptoSocket.Exchanges.cCex.LTCUSD > historicDataLogs['cCex'].LTCUSD[historicDataLogs['cCex'].LTCUSD.length - 1][1] || cryptoSocket.Exchanges.cCex.LTCUSD < historicDataLogs['cCex'].LTCUSD[historicDataLogs['cCex'].LTCUSD.length - 1][1]){
+      historicDataLogs['cCex'].LTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cCex.LTCUSD]);
+    }
+  } else {
+    historicDataLogs['cCex'].ETHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cCex.ETHBTC]);
+    historicDataLogs['cCex'].DASHBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cCex.DASHBTC]);
+    historicDataLogs['cCex'].BTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cCex.BTCUSD]);
+    historicDataLogs['cCex'].DASHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cCex.DASHUSD]);
+    historicDataLogs['cCex'].LTCBTC.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cCex.LTCBTC]);
+    historicDataLogs['cCex'].LTCUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cCex.LTCUSD]);
+    historicDataLogs['cCex'].ETHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cCex.ETHUSD]);
   }
 
   // if(historicDataLogs['gdax'].BTCUSD.length > 24 && historicDataLogs['bittrex'].BTCUSD.length > 24 && historicDataLogs['gemini'].BTCUSD.length > 24 && historicDataLogs['poloniex'].BTCUSD.length > 24){
@@ -1395,7 +2206,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
   if (largestSpread) {
     //console.log(`${tradingAt} ${spreadCurrency} ARB OPPORTUNITY OF: $${largestSpread} AND WITHDRAWING FROM ${withdrawFrom}`)
     //loopConditonal(exchange, currency);
-
     flag = false;
     setImmediate(() => {loopConditional(tradingAt, spreadCurrency + 'USD', false)});
     //if withdraw
@@ -1450,7 +2260,6 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
 
 loopConditional = (exchange, currency, needToWithdraw) => {
-  //functionCounter.count = 0;
   flag = true;
   while (flag) {
     checkArbitrage(exchange, currency, needToWithdraw);
@@ -1458,16 +2267,15 @@ loopConditional = (exchange, currency, needToWithdraw) => {
 };
 
 module.exports.loopConditional = function (exchange, currency, needToWithdraw){
-  //functionCounter.count = 0;
   flag = true;
   while (flag) {
     checkArbitrage(exchange, currency, needToWithdraw);
   }
 }
 
-setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
+//setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
 //setTimeout(() => {setInterval(() => {console.log(trackSpreads())}, 30000)}, 140000);
-//setTimeout(() => {console.log(loopConditional('gdax', 'ETHUSD', false))}, 130000);
+setTimeout(() => {console.log(loopConditional('gdax', 'ETHUSD', false))}, 200000);
 //setTimeout(() => {console.log(`CHECK ARB FUNCTION FIRED OFF ${functionCounter.count} TIMES IN ONE SECOND!`)}, 201000)
 
 
