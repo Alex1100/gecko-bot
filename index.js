@@ -48,8 +48,12 @@ setImmediate(() => {
         }
       })
       .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
+  }, 1500)
+});
 
-      axios.get("https://c-cex.com/t/prices.json")
+setImmediate(() => {
+  setInterval(() => {
+    axios.get("https://c-cex.com/t/prices.json")
         .then(data => {
           cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice);
           cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice);
@@ -60,9 +64,8 @@ setImmediate(() => {
           cryptoSocket.Exchanges.cCex.DASHBTC = parseFloat(data.data['dash-btc'].lastprice);
         })
         .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
-  }, 1500)
+      }, 2100);
 });
-
 
 let flag = true;
 let bittrex = require('./exchanges/bittrex');
@@ -75,9 +78,10 @@ let cex = require('./exchanges/cex');
 let hitbtc = require('./exchanges/hitbtc');
 let SMA = require('technicalindicators').SMA;
 let EMA = require('technicalindicators').EMA;
-let RSI = require('technicalindicators').RSI;
+let WMA = require('technicalindicators').WMA;
 let MACD = require('technicalindicators').MACD;
 let BB = require('technicalindicators').BollingerBands;
+let RSI = require('technicalindicators').RSI;
 let ATR = require('technicalindicators').ATR;
 let WEMA = require('technicalindicators').WEMA;
 let ROC = require('technicalindicators').ROC;
@@ -91,7 +95,17 @@ let ADX = require('technicalindicators').ADX;
 let CCI = require('technicalindicators').CCI;
 let VWAP = require('technicalindicators').VWAP;
 let ForceIndex = require('technicalindicators').ForceIndex;
+//TEST AROON OUT LATER ON
+let AROON = require('technicalindicators/lib/oscillators/AROON');
+let sampleArray = [4127.88, 4127.89, 417.7, 4127.89, 4127.88, 4127.71, 4127.7, 4127.15, 4127.71, 4127.19, 4127.18, 4127.15, 4127.13, 4125.83, 4125.34, 4127.7, 4126.37, 4127.69, 4126.37, 4127.69];
+console.log(AROON(sampleArray));
+//WEIGHTED MOVING AVERAGE NEEDS TO BE CONFIRMED TEST IT OUT!!
+console.log(WMA.calculate({period: sampleArray.length, values: sampleArray}));
+//Bollinger Bands
 
+
+
+//hitbtc.withdraw();
 //TEST DATA RANGE LIMITS
 // let bittrexBTCUSDNumberToCountFromDB = 0;
 // let bittrexBTCUSDNumberToInsertLogsToDB = 30;
@@ -1610,8 +1624,13 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
     gdax,
     gemini,
     poloniex,
-    bittrex
+    bittrex,
+    hitbtc,
+    livecoin,
+    cCex,
+    cex
   };
+
   let tradeAt;
   let tradingAt;
   let withdrawFrom;
@@ -2275,7 +2294,7 @@ module.exports.loopConditional = function (exchange, currency, needToWithdraw){
 
 //setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
 //setTimeout(() => {setInterval(() => {console.log(trackSpreads())}, 30000)}, 140000);
-setTimeout(() => {console.log(loopConditional('gdax', 'ETHUSD', false))}, 200000);
+//setTimeout(() => {console.log(loopConditional('gdax', 'ETHUSD', false))}, 200000);
 //setTimeout(() => {console.log(`CHECK ARB FUNCTION FIRED OFF ${functionCounter.count} TIMES IN ONE SECOND!`)}, 201000)
 
 
