@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "btoa": "^1.1.2",
+    "ccxt": "^1.4.45",
     "create-hmac": "^1.1.6",
     "crypto-socket": "^1.0.6",
     "dotenv": "^4.0.0",

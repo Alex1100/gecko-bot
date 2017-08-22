@@ -1,7 +1,6 @@
 //GDAX API DOCS LINK
 //https://docs.gdax.com/#signing-a-message
 require("dotenv").load();
-const btoa = require("btoa");
 const crypto = require('crypto');
 const createHmac = require("create-hmac");
 const n = require("nonce")();
