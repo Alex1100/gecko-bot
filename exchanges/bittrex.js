@@ -10,7 +10,22 @@ bittrex.options({
 });
 let cryptoSocket = require("crypto-socket");
 let loopConditional = require('../index');
-
+let cCex = require('./cCex');
+let gdax = require('./gdax');
+let gemini = require('./gemini');
+let cex = require('./cex');
+let HitBTC = require('./hitbtc');
+let livecoin = require('./livecoin');
+let poloniex = require('./poloniex');
+let strategy = {
+  "cCex": cCex,
+  "gdax": gdax,
+  "gemini": gemini,
+  "poloniex": poloniex,
+  "HitBTC": HitBTC,
+  "cex": cex,
+  "livecoin": livecoin
+};
 
 //need to place a cancel order for orders that stay in the books longer than a certain time
 async function buy(exchange, currency, rate){

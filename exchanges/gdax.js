@@ -8,6 +8,23 @@ const axios = require("axios");
 var apiURI = 'https://api.gdax.com';
 var cryptoSocket = require("crypto-socket");
 let loopConditional = require('../index');
+let cCex = require('./cCex');
+let bittrex = require('./bittrex');
+let gemini = require('./gemini');
+let cex = require('./cex');
+let HitBTC = require('./hitbtc');
+let livecoin = require('./livecoin');
+let poloniex = require('./poloniex');
+let strategy = {
+  "cCex": cCex,
+  "bittrex": bittrex,
+  "gemini": gemini,
+  "poloniex": poloniex,
+  "HitBTC": HitBTC,
+  "cex": cex,
+  "livecoin": livecoin
+};
+
 
 //works
 signGdaxRequest = (timestamp, method, reqPath, reqBody) => {

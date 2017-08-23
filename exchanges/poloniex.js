@@ -10,10 +10,18 @@ var loopConditional = require('../index');
 let bittrex = require('./bittrex');
 let gdax = require('./gdax');
 let gemini = require('./gemini');
-let stategy = {
+let cCex = require('./cCex');
+let cex = require('./cex');
+let HitBTC = require('./hitbtc');
+let livecoin = requirE('./livecoin');
+let strategy = {
   "bittrex": bittrex,
   "gdax": gdax,
-  "gemini": gemini
+  "gemini": gemini,
+  "livecoin": livecoin,
+  "HitBTC": HitBTC,
+  "cex": cex,
+  "cCex": cCex
 };
 
 requestBalances = (exchange, currency) => {

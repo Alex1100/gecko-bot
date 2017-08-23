@@ -7,6 +7,23 @@ const n = require("nonce")();
 const axios = require("axios");
 var cryptoSocket = require("crypto-socket");
 var loopConditional = require('../index');
+let cCex = require('./cCex');
+let bittrex = require('./bittrex');
+let gdax = require('./gdax');
+let cex = require('./cex');
+let HitBTC = require('./hitbtc');
+let livecoin = require('./livecoin');
+let poloniex = require('./poloniex');
+let strategy = {
+  "cCex": cCex,
+  "bittrex": bittrex,
+  "gdax": gdax,
+  "poloniex": poloniex,
+  "HitBTC": HitBTC,
+  "cex": cex,
+  "livecoin": livecoin
+};
+
 
 signRequest = request => {
   let base = btoa(JSON.stringify(request));

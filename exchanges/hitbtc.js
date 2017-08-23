@@ -9,6 +9,23 @@ var HitBTC = require('ccxt').hitbtc({
   apiKey: process.env.HITBTC_API_KEY,
   secret: process.env.HITBTC_API_KEY_SECRET,
 });
+let cCex = require('./cCex');
+let bittrex = require('./bittrex');
+let gdax = require('./gdax');
+let cex = require('./cex');
+let gemini = require('./gemini');
+let livecoin = require('./livecoin');
+let poloniex = require('./poloniex');
+let strategy = {
+  "cCex": cCex,
+  "bittrex": bittrex,
+  "gdax": gdax,
+  "poloniex": poloniex,
+  "gemini": gemini,
+  "cex": cex,
+  "livecoin": livecoin
+};
+
 
 requestBalances = (currency) => {
   HitBTC.tradingGetBalance()

@@ -9,6 +9,22 @@ var cCex = require('ccxt').ccex({
   apiKey: process.env.CCEX_API_KEY,
   secret: process.env.CCEX_API_KEY_SECRET
 });
+let bittrex = require('./bittrex');
+let gdax = require('./gdax');
+let gemini = require('./gemini');
+let cex = require('./cex');
+let HitBTC = require('./hitbtc');
+let livecoin = require('./livecoin');
+let poloniex = require('./poloniex');
+let strategy = {
+  "bittrex": bittrex,
+  "gdax": gdax,
+  "gemini": gemini,
+  "poloniex": poloniex,
+  "HitBTC": HitBTC,
+  "cex": cex,
+  "livecoin": livecoin
+};
 
 //when dealing with an arb opportunity
 //with this exchange, the other exchange
@@ -21,6 +37,7 @@ var cCex = require('ccxt').ccex({
 requestBalance = (currency) => {
   cCex.privateGetBalances()
     .then(res => {
+      console.log(`${currency} BALANCE IS: `, res.result.filter(el => el.Currency === currency.toUpperCase())[0])
       return res.result.filter(el => el.Currency === currency.toUpperCase())[0];
     })
     .catch(err => console.log("COUNDN'T GET BALANCES: ", err));

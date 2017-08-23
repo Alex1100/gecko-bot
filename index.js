@@ -30,42 +30,42 @@ cryptoSocket.Exchanges.cCex.ETHBTC = '';
 cryptoSocket.Exchanges.cCex.DASHUSD = '';
 cryptoSocket.Exchanges.cCex.DASHBTC = '';
 
-setImmediate(() => {
-  setInterval(() => {
-    axios.get('https://api.livecoin.net/exchange/ticker')
-      .then(data => {
-        if(data.data){
-          cryptoSocket.Exchanges.livecoin.BTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BTC/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.ETHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.LTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.LTCBTC = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/BTC')[0].last);
-          cryptoSocket.Exchanges.livecoin.ETHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/BTC')[0].last);
-          cryptoSocket.Exchanges.livecoin.BCHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.DASHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.BCHETH = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/ETH')[0].last);
-          cryptoSocket.Exchanges.livecoin.BCHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/BTC')[0].last);
-          cryptoSocket.Exchanges.livecoin.DASHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/BTC')[0].last);
-        }
-      })
-      .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
-  }, 1500)
-});
+// setImmediate(() => {
+//   setInterval(() => {
+//     axios.get('https://api.livecoin.net/exchange/ticker')
+//       .then(data => {
+//         if(data.data){
+//           cryptoSocket.Exchanges.livecoin.BTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BTC/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.ETHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.LTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.LTCBTC = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/BTC')[0].last);
+//           cryptoSocket.Exchanges.livecoin.ETHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/BTC')[0].last);
+//           cryptoSocket.Exchanges.livecoin.BCHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.DASHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.BCHETH = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/ETH')[0].last);
+//           cryptoSocket.Exchanges.livecoin.BCHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/BTC')[0].last);
+//           cryptoSocket.Exchanges.livecoin.DASHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/BTC')[0].last);
+//         }
+//       })
+//       .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
+//   }, 1500)
+// });
 
-setImmediate(() => {
-  setInterval(() => {
-    axios.get("https://c-cex.com/t/prices.json")
-        .then(data => {
-          cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice);
-          cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice);
-          cryptoSocket.Exchanges.cCex.LTCUSD = parseFloat(data.data['ltc-usd'].lastprice);
-          cryptoSocket.Exchanges.cCex.ETHBTC = parseFloat(data.data['eth-btc'].lastprice);
-          cryptoSocket.Exchanges.cCex.LTCBTC = parseFloat(data.data['ltc-btc'].lastprice);
-          cryptoSocket.Exchanges.cCex.DASHUSD = parseFloat(data.data['dash-usd'].lastprice);
-          cryptoSocket.Exchanges.cCex.DASHBTC = parseFloat(data.data['dash-btc'].lastprice);
-        })
-        .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
-      }, 2100);
-});
+// setImmediate(() => {
+//   setInterval(() => {
+//     axios.get("https://c-cex.com/t/prices.json")
+//         .then(data => {
+//           cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice);
+//           cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice);
+//           cryptoSocket.Exchanges.cCex.LTCUSD = parseFloat(data.data['ltc-usd'].lastprice);
+//           cryptoSocket.Exchanges.cCex.ETHBTC = parseFloat(data.data['eth-btc'].lastprice);
+//           cryptoSocket.Exchanges.cCex.LTCBTC = parseFloat(data.data['ltc-btc'].lastprice);
+//           cryptoSocket.Exchanges.cCex.DASHUSD = parseFloat(data.data['dash-usd'].lastprice);
+//           cryptoSocket.Exchanges.cCex.DASHBTC = parseFloat(data.data['dash-btc'].lastprice);
+//         })
+//         .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
+//       }, 2100);
+// });
 
 let flag = true;
 let bittrex = require('./exchanges/bittrex');
@@ -95,9 +95,11 @@ let ADX = require('technicalindicators').ADX;
 let CCI = require('technicalindicators').CCI;
 let VWAP = require('technicalindicators').VWAP;
 let ForceIndex = require('technicalindicators').ForceIndex;
+
+
 //TEST AROON OUT LATER ON
 let AROON = require('technicalindicators/lib/oscillators/AROON');
-let sampleArray = [4127.88, 4127.89, 417.7, 4127.89, 4127.88, 4127.71, 4127.7, 4127.15, 4127.71, 4127.19, 4127.18, 4127.15, 4127.13, 4125.83, 4125.34, 4127.7, 4126.37, 4127.69, 4126.37, 4127.69];
+let sampleArray = [4127.88, 4127.89, 4127.7, 4127.89, 4127.88, 4127.71, 4127.7, 4127.15, 4127.71, 4127.19, 4127.18, 4127.15, 4127.13, 4125.83, 4125.34, 4127.7, 4126.37, 4127.69, 4126.37, 4127.69];
 console.log(AROON(sampleArray));
 //WEIGHTED MOVING AVERAGE NEEDS TO BE CONFIRMED TEST IT OUT!!
 console.log(WMA.calculate({period: sampleArray.length, values: sampleArray}));
