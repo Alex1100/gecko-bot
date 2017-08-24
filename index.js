@@ -96,7 +96,14 @@ let CCI = require('technicalindicators').CCI;
 let VWAP = require('technicalindicators').VWAP;
 let ForceIndex = require('technicalindicators').ForceIndex;
 
-
+let ATRSAMPLE = [300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6];
+//console.log("THE ANSWER IS: ", Math.max((Math.max(...ATRSAMPLE) - Math.min(...ATRSAMPLE)), Math.abs(...Math.max(...ATRSAMPLE) - ATRSAMPLE[ATRSAMPLE.length - 2]), Math.abs(...Math.min(...ATRSAMPLE) - ATRSAMPLE[ATRSAMPLE.length - 2])));
+// console.log("THE ANSWER IS: ", Math.max(304 - 299.8, Math.abs(304 - ATRSAMPLE[ATRSAMPLE.length - 2]), Math.abs(299.8 - ATRSAMPLE[ATRSAMPLE.length - 2])));
+// console.log("\n\n\n", ATR.calculate({period: 14, values: [300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6]}));
+//TEST OUT ATR
+// console.log("YOOO: ", EMA.calculate({period: 5, values: [11,12,13,14,15,16,18, 19, 22, 23, 23]}).reverse()[0]);
+// console.log("YOOOO: ", WEMA.calculate({period: 5, values: [11,12,13,14,15,16,18, 19, 22, 23, 23]}));
+console.log("RATE OF CHANGE: ", ROC.calculate({period: 1, values: [1, 3, 5, 4, 2, 7]}));
 //TEST AROON OUT LATER ON
 let AROON = require('technicalindicators/lib/oscillators/AROON');
 let sampleArray = [4127.88, 4127.89, 4127.7, 4127.89, 4127.88, 4127.71, 4127.7, 4127.15, 4127.71, 4127.19, 4127.18, 4127.15, 4127.13, 4125.83, 4125.34, 4127.7, 4126.37, 4127.69, 4126.37, 4127.69];

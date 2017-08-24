@@ -13,7 +13,7 @@ let gemini = require('./gemini');
 let cCex = require('./cCex');
 let cex = require('./cex');
 let HitBTC = require('./hitbtc');
-let livecoin = requirE('./livecoin');
+let livecoin = require('./livecoin');
 let strategy = {
   "bittrex": bittrex,
   "gdax": gdax,
