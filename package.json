@@ -11,10 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.16.2",
+    "bitfinex": "^1.0.3",
     "btoa": "^1.1.2",
     "ccxt": "^1.4.45",
     "create-hmac": "^1.1.6",
-    "crypto-socket": "^1.0.6",
+    "crypto-socket": "^1.1.0",
     "dotenv": "^4.0.0",
     "mongoose": "^4.10.8",
     "node.bittrex.api": "^0.3.3",

@@ -30,42 +30,42 @@ cryptoSocket.Exchanges.cCex.ETHBTC = '';
 cryptoSocket.Exchanges.cCex.DASHUSD = '';
 cryptoSocket.Exchanges.cCex.DASHBTC = '';
 
-// setImmediate(() => {
-//   setInterval(() => {
-//     axios.get('https://api.livecoin.net/exchange/ticker')
-//       .then(data => {
-//         if(data.data){
-//           cryptoSocket.Exchanges.livecoin.BTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BTC/USD')[0].last);
-//           cryptoSocket.Exchanges.livecoin.ETHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/USD')[0].last);
-//           cryptoSocket.Exchanges.livecoin.LTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/USD')[0].last);
-//           cryptoSocket.Exchanges.livecoin.LTCBTC = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/BTC')[0].last);
-//           cryptoSocket.Exchanges.livecoin.ETHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/BTC')[0].last);
-//           cryptoSocket.Exchanges.livecoin.BCHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/USD')[0].last);
-//           cryptoSocket.Exchanges.livecoin.DASHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/USD')[0].last);
-//           cryptoSocket.Exchanges.livecoin.BCHETH = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/ETH')[0].last);
-//           cryptoSocket.Exchanges.livecoin.BCHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/BTC')[0].last);
-//           cryptoSocket.Exchanges.livecoin.DASHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/BTC')[0].last);
-//         }
-//       })
-//       .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
-//   }, 1500)
-// });
+setImmediate(() => {
+  setInterval(() => {
+    axios.get('https://api.livecoin.net/exchange/ticker')
+      .then(data => {
+        if(data.data){
+          cryptoSocket.Exchanges.livecoin.BTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BTC/USD')[0].last);
+          cryptoSocket.Exchanges.livecoin.ETHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/USD')[0].last);
+          cryptoSocket.Exchanges.livecoin.LTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/USD')[0].last);
+          cryptoSocket.Exchanges.livecoin.LTCBTC = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/BTC')[0].last);
+          cryptoSocket.Exchanges.livecoin.ETHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/BTC')[0].last);
+          cryptoSocket.Exchanges.livecoin.BCHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/USD')[0].last);
+          cryptoSocket.Exchanges.livecoin.DASHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/USD')[0].last);
+          cryptoSocket.Exchanges.livecoin.BCHETH = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/ETH')[0].last);
+          cryptoSocket.Exchanges.livecoin.BCHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/BTC')[0].last);
+          cryptoSocket.Exchanges.livecoin.DASHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/BTC')[0].last);
+        }
+      })
+      .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
+  }, 1500)
+});
 
-// setImmediate(() => {
-//   setInterval(() => {
-//     axios.get("https://c-cex.com/t/prices.json")
-//         .then(data => {
-//           cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice);
-//           cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice);
-//           cryptoSocket.Exchanges.cCex.LTCUSD = parseFloat(data.data['ltc-usd'].lastprice);
-//           cryptoSocket.Exchanges.cCex.ETHBTC = parseFloat(data.data['eth-btc'].lastprice);
-//           cryptoSocket.Exchanges.cCex.LTCBTC = parseFloat(data.data['ltc-btc'].lastprice);
-//           cryptoSocket.Exchanges.cCex.DASHUSD = parseFloat(data.data['dash-usd'].lastprice);
-//           cryptoSocket.Exchanges.cCex.DASHBTC = parseFloat(data.data['dash-btc'].lastprice);
-//         })
-//         .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
-//       }, 2100);
-// });
+setImmediate(() => {
+  setInterval(() => {
+    axios.get("https://c-cex.com/t/prices.json")
+        .then(data => {
+          cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice);
+          cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice);
+          cryptoSocket.Exchanges.cCex.LTCUSD = parseFloat(data.data['ltc-usd'].lastprice);
+          cryptoSocket.Exchanges.cCex.ETHBTC = parseFloat(data.data['eth-btc'].lastprice);
+          cryptoSocket.Exchanges.cCex.LTCBTC = parseFloat(data.data['ltc-btc'].lastprice);
+          cryptoSocket.Exchanges.cCex.DASHUSD = parseFloat(data.data['dash-usd'].lastprice);
+          cryptoSocket.Exchanges.cCex.DASHBTC = parseFloat(data.data['dash-btc'].lastprice);
+        })
+        .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
+      }, 2100);
+});
 
 let flag = true;
 let bittrex = require('./exchanges/bittrex');
@@ -96,20 +96,37 @@ let CCI = require('technicalindicators').CCI;
 let VWAP = require('technicalindicators').VWAP;
 let ForceIndex = require('technicalindicators').ForceIndex;
 
-let ATRSAMPLE = [300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6];
+//let ATRSAMPLE = [300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6, 300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6, 300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6, 300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6, 300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6, 300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6];
 //console.log("THE ANSWER IS: ", Math.max((Math.max(...ATRSAMPLE) - Math.min(...ATRSAMPLE)), Math.abs(...Math.max(...ATRSAMPLE) - ATRSAMPLE[ATRSAMPLE.length - 2]), Math.abs(...Math.min(...ATRSAMPLE) - ATRSAMPLE[ATRSAMPLE.length - 2])));
 // console.log("THE ANSWER IS: ", Math.max(304 - 299.8, Math.abs(304 - ATRSAMPLE[ATRSAMPLE.length - 2]), Math.abs(299.8 - ATRSAMPLE[ATRSAMPLE.length - 2])));
 // console.log("\n\n\n", ATR.calculate({period: 14, values: [300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6]}));
 //TEST OUT ATR
 // console.log("YOOO: ", EMA.calculate({period: 5, values: [11,12,13,14,15,16,18, 19, 22, 23, 23]}).reverse()[0]);
 // console.log("YOOOO: ", WEMA.calculate({period: 5, values: [11,12,13,14,15,16,18, 19, 22, 23, 23]}));
-console.log("RATE OF CHANGE: ", ROC.calculate({period: 1, values: [1, 3, 5, 4, 2, 7]}));
+// let a = ROC.calculate({period: 1, values: ATRSAMPLE});
+// console.log("A IS: ", a);
+// console.log("\n\n\n");
+// console.log("KST IS: ", KST.calculate({
+//   values: ATRSAMPLE,
+//   ROCPer1: 10,
+//   ROCPer2: 15,
+//   ROCPer3: 20,
+//   ROCPer4: 30,
+//   SMAROCPer1: 10,
+//   SMAROCPer2: 10,
+//   SMAROCPer3: 10,
+//   SMAROCPer4: 15,
+//   signalPeriod: 3
+// }));
+
+// console.log("\n\n\n")
+// console.log("EMA OF ATRSAMPE IS: ", EMA.calculate({period: 9, values: ATRSAMPLE}));
 //TEST AROON OUT LATER ON
-let AROON = require('technicalindicators/lib/oscillators/AROON');
-let sampleArray = [4127.88, 4127.89, 4127.7, 4127.89, 4127.88, 4127.71, 4127.7, 4127.15, 4127.71, 4127.19, 4127.18, 4127.15, 4127.13, 4125.83, 4125.34, 4127.7, 4126.37, 4127.69, 4126.37, 4127.69];
-console.log(AROON(sampleArray));
+//let AROON = require('technicalindicators/lib/oscillators/AROON');
+//let sampleArray = [4127.88, 4127.89, 4127.7, 4127.89, 4127.88, 4127.71, 4127.7, 4127.15, 4127.71, 4127.19, 4127.18, 4127.15, 4127.13, 4125.83, 4125.34, 4127.7, 4126.37, 4127.69, 4126.37, 4127.69];
+//console.log(AROON(sampleArray));
 //WEIGHTED MOVING AVERAGE NEEDS TO BE CONFIRMED TEST IT OUT!!
-console.log(WMA.calculate({period: sampleArray.length, values: sampleArray}));
+//console.log(WMA.calculate({period: sampleArray.length, values: sampleArray}));
 //Bollinger Bands
 
 
@@ -527,43 +544,43 @@ let hourlyAvgPrices = {
 };
 
 
-//setTimeout(() => {setInterval(() => {console.log(historicDataLogs.bittrex.ETHBTC)}, 500)}, 121000);
-// setTimeout(() => {
-//   setInterval(() => {
-//     console.log("THERE ARE " + historicDataLogs['bittrex']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE BITTREX BTCUSD ARRAY!");
-//     console.log("\n\n");
-//     console.log("THERE ARE " + historicDataLogs['bittrex']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE BITTREX ETHBTC ARRAY!");
-//     console.log("\n\n");
-//     console.log("THERE ARE " + historicDataLogs['bittrex']['LTCETH'].length + " NUMBER OF ENTRIES IN THE BITTREX LTCETH ARRAY!");
-//     console.log("\n\n");
-//     console.log("THERE ARE " + historicDataLogs['gdax']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE GDAX BTCUSD ARRAY!");
-//     console.log("\n\n");
-//     console.log("THERE ARE " + historicDataLogs['gdax']['ETHUSD'].length + " NUMBER OF ENTRIES IN THE GDAX ETHUSD ARRAY!");
-//     console.log("\n\n");
-//     console.log("THERE ARE " + historicDataLogs['gdax']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE GDAX ETHBTC ARRAY!");
-//     console.log("\n\n");
-//     console.log("THERE ARE " + historicDataLogs['gdax']['LTCBTC'].length + " NUMBER OF ENTRIES IN THE GDAX LTCBTC ARRAY!");
-//     console.log("\n\n");
-//     console.log("THERE ARE " + historicDataLogs['gdax']['LTCUSD'].length + " NUMBER OF ENTRIES IN THE GDAX LTCUSD ARRAY!");
-//     console.log("\n\n");
-//     console.log("THERE ARE " + historicDataLogs['poloniex']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE POLONIEX BTCUSD ARRAY!");
-//     console.log("\n\n");
-//     console.log("THERE ARE " + historicDataLogs['poloniex']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE POLONIEX ETHBTC ARRAY!");
-//     console.log("\n\n");
-//     console.log("THERE ARE " + historicDataLogs['poloniex']['LTCBTC'].length + " NUMBER OF ENTRIES IN THE POLONIEX LTCBTC ARRAY!");
-//     console.log("\n\n");
-//     console.log("THERE ARE " + historicDataLogs['poloniex']['ETHUSD'].length + " NUMBER OF ENTRIES IN THE POLONIEX ETHUSD ARRAY!");
-//     console.log("\n\n");
-//     console.log("THERE ARE " + historicDataLogs['poloniex']['LTCUSD'].length + " NUMBER OF ENTRIES IN THE POLONIEX LTCUSD ARRAY!");
-//     console.log("\n\n");
-//     console.log("THERE ARE " + historicDataLogs['gemini']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE GEMINI BTCUSD ARRAY!");
-//     console.log("\n\n");
-//     console.log("THERE ARE " + historicDataLogs['gemini']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE GEMINI ETHBTC ARRAY!");
-//     console.log("\n\n");
-//     console.log("THERE ARE " + historicDataLogs['gemini']['ETHUSD'].length + " NUMBER OF ENTRIES IN THE GEMINI ETHUSD ARRAY!");
-//     console.log("\n\n");
-//   }, 10000);
-// }, 140000);
+setTimeout(() => {setInterval(() => {console.log(historicDataLogs.bittrex.ETHBTC)}, 500)}, 121000);
+setTimeout(() => {
+  setInterval(() => {
+    console.log("THERE ARE " + historicDataLogs['bittrex']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE BITTREX BTCUSD ARRAY!");
+    console.log("\n\n");
+    console.log("THERE ARE " + historicDataLogs['bittrex']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE BITTREX ETHBTC ARRAY!");
+    console.log("\n\n");
+    console.log("THERE ARE " + historicDataLogs['bittrex']['LTCETH'].length + " NUMBER OF ENTRIES IN THE BITTREX LTCETH ARRAY!");
+    console.log("\n\n");
+    console.log("THERE ARE " + historicDataLogs['gdax']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE GDAX BTCUSD ARRAY!");
+    console.log("\n\n");
+    console.log("THERE ARE " + historicDataLogs['gdax']['ETHUSD'].length + " NUMBER OF ENTRIES IN THE GDAX ETHUSD ARRAY!");
+    console.log("\n\n");
+    console.log("THERE ARE " + historicDataLogs['gdax']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE GDAX ETHBTC ARRAY!");
+    console.log("\n\n");
+    console.log("THERE ARE " + historicDataLogs['gdax']['LTCBTC'].length + " NUMBER OF ENTRIES IN THE GDAX LTCBTC ARRAY!");
+    console.log("\n\n");
+    console.log("THERE ARE " + historicDataLogs['gdax']['LTCUSD'].length + " NUMBER OF ENTRIES IN THE GDAX LTCUSD ARRAY!");
+    console.log("\n\n");
+    console.log("THERE ARE " + historicDataLogs['poloniex']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE POLONIEX BTCUSD ARRAY!");
+    console.log("\n\n");
+    console.log("THERE ARE " + historicDataLogs['poloniex']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE POLONIEX ETHBTC ARRAY!");
+    console.log("\n\n");
+    console.log("THERE ARE " + historicDataLogs['poloniex']['LTCBTC'].length + " NUMBER OF ENTRIES IN THE POLONIEX LTCBTC ARRAY!");
+    console.log("\n\n");
+    console.log("THERE ARE " + historicDataLogs['poloniex']['ETHUSD'].length + " NUMBER OF ENTRIES IN THE POLONIEX ETHUSD ARRAY!");
+    console.log("\n\n");
+    console.log("THERE ARE " + historicDataLogs['poloniex']['LTCUSD'].length + " NUMBER OF ENTRIES IN THE POLONIEX LTCUSD ARRAY!");
+    console.log("\n\n");
+    console.log("THERE ARE " + historicDataLogs['gemini']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE GEMINI BTCUSD ARRAY!");
+    console.log("\n\n");
+    console.log("THERE ARE " + historicDataLogs['gemini']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE GEMINI ETHBTC ARRAY!");
+    console.log("\n\n");
+    console.log("THERE ARE " + historicDataLogs['gemini']['ETHUSD'].length + " NUMBER OF ENTRIES IN THE GEMINI ETHUSD ARRAY!");
+    console.log("\n\n");
+  }, 10000);
+}, 140000);
 
 
 
@@ -2301,7 +2318,7 @@ module.exports.loopConditional = function (exchange, currency, needToWithdraw){
   }
 }
 
-//setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
+setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
 //setTimeout(() => {setInterval(() => {console.log(trackSpreads())}, 30000)}, 140000);
 //setTimeout(() => {console.log(loopConditional('gdax', 'ETHUSD', false))}, 200000);
 //setTimeout(() => {console.log(`CHECK ARB FUNCTION FIRED OFF ${functionCounter.count} TIMES IN ONE SECOND!`)}, 201000)
