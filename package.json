@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "bitfinex": "^1.0.3",
+    "bitfinex-api": "^0.2.3",
     "btoa": "^1.1.2",
     "ccxt": "^1.4.45",
     "create-hmac": "^1.1.6",

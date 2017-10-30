@@ -4,12 +4,13 @@ let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const axios = require("axios");
 let cryptoSocket = require("crypto-socket");
-cryptoSocket.start("gemini");
-cryptoSocket.start("gdax");
-cryptoSocket.start("poloniex");
-cryptoSocket.start("bittrex");
-cryptoSocket.start("hitbtc");
-cryptoSocket.start("cex");
+// cryptoSocket.start("gemini");
+// cryptoSocket.start("gdax");
+// cryptoSocket.start("poloniex");
+// cryptoSocket.start("bittrex");
+// cryptoSocket.start("hitbtc");
+// cryptoSocket.start("cex");
+cryptoSocket.start("bitfinex");
 cryptoSocket.Exchanges.livecoin = {};
 cryptoSocket.Exchanges.cCex = {};
 cryptoSocket.Exchanges.livecoin.BTCUSD = '';
@@ -30,42 +31,42 @@ cryptoSocket.Exchanges.cCex.ETHBTC = '';
 cryptoSocket.Exchanges.cCex.DASHUSD = '';
 cryptoSocket.Exchanges.cCex.DASHBTC = '';
 
-setImmediate(() => {
-  setInterval(() => {
-    axios.get('https://api.livecoin.net/exchange/ticker')
-      .then(data => {
-        if(data.data){
-          cryptoSocket.Exchanges.livecoin.BTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BTC/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.ETHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.LTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.LTCBTC = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/BTC')[0].last);
-          cryptoSocket.Exchanges.livecoin.ETHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/BTC')[0].last);
-          cryptoSocket.Exchanges.livecoin.BCHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.DASHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/USD')[0].last);
-          cryptoSocket.Exchanges.livecoin.BCHETH = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/ETH')[0].last);
-          cryptoSocket.Exchanges.livecoin.BCHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/BTC')[0].last);
-          cryptoSocket.Exchanges.livecoin.DASHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/BTC')[0].last);
-        }
-      })
-      .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
-  }, 1500)
-});
+// setImmediate(() => {
+//   setInterval(() => {
+//     axios.get('https://api.livecoin.net/exchange/ticker')
+//       .then(data => {
+//         if(data.data){
+//           cryptoSocket.Exchanges.livecoin.BTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BTC/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.ETHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.LTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.LTCBTC = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/BTC')[0].last);
+//           cryptoSocket.Exchanges.livecoin.ETHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/BTC')[0].last);
+//           cryptoSocket.Exchanges.livecoin.BCHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.DASHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/USD')[0].last);
+//           cryptoSocket.Exchanges.livecoin.BCHETH = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/ETH')[0].last);
+//           cryptoSocket.Exchanges.livecoin.BCHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/BTC')[0].last);
+//           cryptoSocket.Exchanges.livecoin.DASHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/BTC')[0].last);
+//         }
+//       })
+//       .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
+//   }, 1500)
+// });
 
-setImmediate(() => {
-  setInterval(() => {
-    axios.get("https://c-cex.com/t/prices.json")
-        .then(data => {
-          cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice);
-          cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice);
-          cryptoSocket.Exchanges.cCex.LTCUSD = parseFloat(data.data['ltc-usd'].lastprice);
-          cryptoSocket.Exchanges.cCex.ETHBTC = parseFloat(data.data['eth-btc'].lastprice);
-          cryptoSocket.Exchanges.cCex.LTCBTC = parseFloat(data.data['ltc-btc'].lastprice);
-          cryptoSocket.Exchanges.cCex.DASHUSD = parseFloat(data.data['dash-usd'].lastprice);
-          cryptoSocket.Exchanges.cCex.DASHBTC = parseFloat(data.data['dash-btc'].lastprice);
-        })
-        .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
-      }, 2100);
-});
+// setImmediate(() => {
+//   setInterval(() => {
+//     axios.get("https://c-cex.com/t/prices.json")
+//         .then(data => {
+//           cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice);
+//           cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice);
+//           cryptoSocket.Exchanges.cCex.LTCUSD = parseFloat(data.data['ltc-usd'].lastprice);
+//           cryptoSocket.Exchanges.cCex.ETHBTC = parseFloat(data.data['eth-btc'].lastprice);
+//           cryptoSocket.Exchanges.cCex.LTCBTC = parseFloat(data.data['ltc-btc'].lastprice);
+//           cryptoSocket.Exchanges.cCex.DASHUSD = parseFloat(data.data['dash-usd'].lastprice);
+//           cryptoSocket.Exchanges.cCex.DASHBTC = parseFloat(data.data['dash-btc'].lastprice);
+//         })
+//         .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
+//       }, 2100);
+// });
 
 let flag = true;
 let bittrex = require('./exchanges/bittrex');
@@ -76,6 +77,7 @@ let livecoin = require('./exchanges/livecoin');
 let cCex = require('./exchanges/cCex');
 let cex = require('./exchanges/cex');
 let hitbtc = require('./exchanges/hitbtc');
+
 let SMA = require('technicalindicators').SMA;
 let EMA = require('technicalindicators').EMA;
 let WMA = require('technicalindicators').WMA;
@@ -1643,7 +1645,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
   //   historicDataLogs = {};
   // }
 
-  let largestSpread = 5;
+  let largestSpread = 10;
   let spreadCurrency;
   let sufficientFunds = needToWithdraw;
   let trades = {
