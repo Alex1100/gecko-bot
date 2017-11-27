@@ -5,7 +5,8 @@ const createHmac = require("create-hmac");
 const n = require("nonce")();
 let loopConditional = require('../index');
 var cryptoSocket = require("crypto-socket");
-var cCex = require('ccxt').ccex({
+var ccex = require('ccxt')
+var cCex = new ccex.ccex({
   apiKey: process.env.CCEX_API_KEY,
   secret: process.env.CCEX_API_KEY_SECRET
 });

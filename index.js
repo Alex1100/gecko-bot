@@ -4,12 +4,12 @@ let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const axios = require("axios");
 let cryptoSocket = require("crypto-socket");
-// cryptoSocket.start("gemini");
-// cryptoSocket.start("gdax");
-// cryptoSocket.start("poloniex");
-// cryptoSocket.start("bittrex");
-// cryptoSocket.start("hitbtc");
-// cryptoSocket.start("cex");
+cryptoSocket.start("gemini");
+cryptoSocket.start("gdax");
+cryptoSocket.start("poloniex");
+cryptoSocket.start("bittrex");
+cryptoSocket.start("hitbtc");
+cryptoSocket.start("cex");
 cryptoSocket.start("bitfinex");
 cryptoSocket.Exchanges.livecoin = {};
 cryptoSocket.Exchanges.cCex = {};
@@ -31,42 +31,43 @@ cryptoSocket.Exchanges.cCex.ETHBTC = '';
 cryptoSocket.Exchanges.cCex.DASHUSD = '';
 cryptoSocket.Exchanges.cCex.DASHBTC = '';
 
-// setImmediate(() => {
-//   setInterval(() => {
-//     axios.get('https://api.livecoin.net/exchange/ticker')
-//       .then(data => {
-//         if(data.data){
-//           cryptoSocket.Exchanges.livecoin.BTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BTC/USD')[0].last);
-//           cryptoSocket.Exchanges.livecoin.ETHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/USD')[0].last);
-//           cryptoSocket.Exchanges.livecoin.LTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/USD')[0].last);
-//           cryptoSocket.Exchanges.livecoin.LTCBTC = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/BTC')[0].last);
-//           cryptoSocket.Exchanges.livecoin.ETHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/BTC')[0].last);
-//           cryptoSocket.Exchanges.livecoin.BCHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/USD')[0].last);
-//           cryptoSocket.Exchanges.livecoin.DASHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/USD')[0].last);
-//           cryptoSocket.Exchanges.livecoin.BCHETH = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/ETH')[0].last);
-//           cryptoSocket.Exchanges.livecoin.BCHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/BTC')[0].last);
-//           cryptoSocket.Exchanges.livecoin.DASHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/BTC')[0].last);
-//         }
-//       })
-//       .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
-//   }, 1500)
-// });
 
-// setImmediate(() => {
-//   setInterval(() => {
-//     axios.get("https://c-cex.com/t/prices.json")
-//         .then(data => {
-//           cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice);
-//           cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice);
-//           cryptoSocket.Exchanges.cCex.LTCUSD = parseFloat(data.data['ltc-usd'].lastprice);
-//           cryptoSocket.Exchanges.cCex.ETHBTC = parseFloat(data.data['eth-btc'].lastprice);
-//           cryptoSocket.Exchanges.cCex.LTCBTC = parseFloat(data.data['ltc-btc'].lastprice);
-//           cryptoSocket.Exchanges.cCex.DASHUSD = parseFloat(data.data['dash-usd'].lastprice);
-//           cryptoSocket.Exchanges.cCex.DASHBTC = parseFloat(data.data['dash-btc'].lastprice);
-//         })
-//         .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
-//       }, 2100);
-// });
+setImmediate(() => {
+  setInterval(() => {
+    axios.get('https://api.livecoin.net/exchange/ticker')
+      .then(data => {
+        if(data.data){
+          cryptoSocket.Exchanges.livecoin.BTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BTC/USD')[0].last);
+          cryptoSocket.Exchanges.livecoin.ETHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/USD')[0].last);
+          cryptoSocket.Exchanges.livecoin.LTCUSD = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/USD')[0].last);
+          cryptoSocket.Exchanges.livecoin.LTCBTC = parseFloat(data.data.filter(coin => coin.symbol === 'LTC/BTC')[0].last);
+          cryptoSocket.Exchanges.livecoin.ETHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'ETH/BTC')[0].last);
+          cryptoSocket.Exchanges.livecoin.BCHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/USD')[0].last);
+          cryptoSocket.Exchanges.livecoin.DASHUSD = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/USD')[0].last);
+          cryptoSocket.Exchanges.livecoin.BCHETH = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/ETH')[0].last);
+          cryptoSocket.Exchanges.livecoin.BCHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'BCH/BTC')[0].last);
+          cryptoSocket.Exchanges.livecoin.DASHBTC = parseFloat(data.data.filter(coin => coin.symbol === 'DASH/BTC')[0].last);
+        }
+      })
+      .catch(err => console.log("COULD NOT GET LIVECOIN QUOTES BECAUSE: ", err));
+  }, 1500)
+});
+
+setImmediate(() => {
+  setInterval(() => {
+    axios.get("https://c-cex.com/t/prices.json")
+        .then(data => {
+          cryptoSocket.Exchanges.cCex.BTCUSD = parseFloat(data.data['btc-usd'].lastprice);
+          cryptoSocket.Exchanges.cCex.ETHUSD = parseFloat(data.data['eth-usd'].lastprice);
+          cryptoSocket.Exchanges.cCex.LTCUSD = parseFloat(data.data['ltc-usd'].lastprice);
+          cryptoSocket.Exchanges.cCex.ETHBTC = parseFloat(data.data['eth-btc'].lastprice);
+          cryptoSocket.Exchanges.cCex.LTCBTC = parseFloat(data.data['ltc-btc'].lastprice);
+          cryptoSocket.Exchanges.cCex.DASHUSD = parseFloat(data.data['dash-usd'].lastprice);
+          cryptoSocket.Exchanges.cCex.DASHBTC = parseFloat(data.data['dash-btc'].lastprice);
+        })
+        .catch(err => console.log("COULD NOT GET C-CEX QUOTES BECAUSE: ", err));
+      }, 2100);
+});
 
 let flag = true;
 let bittrex = require('./exchanges/bittrex');
@@ -78,14 +79,135 @@ let cCex = require('./exchanges/cCex');
 let cex = require('./exchanges/cex');
 let hitbtc = require('./exchanges/hitbtc');
 
+
+
+//Chaikin Money Flow Indicator used for
+//Accumulation and Distribution
+
+//Formula is:
+
+// The calculation for Chaikin Money Flow (CMF) has three distinct steps (for this example we will use a 21 Period CMF):
+
+// 1. Find the Money Flow Multiplier
+//    [(Close  -  Low) - (High - Close)] /(High - Low) = Money Flow Multiplier
+
+// 2. Calculate Money Flow Volume
+//    Money Flow Multiplier x Volume for the Period = Money Flow Volume
+
+// 3. Calculate The CMF
+//    21 Period Sum of Money Flow Volume / 21 Period Sum of Volume = 21 Period CMF
+
+// During a Bullish Trend, continuous Buying Pressure (Chaikin Money Flow values above 0) can indicate that prices will continue to rise.
+
+// During a Bearish Trend, continuous Selling Pressure (Chaikin Money Flow values below 0) can indicate that prices will continue to fall.
+
+// When Chaikin Money Flow crosses the Zero Line, this can be an indication that there is an impending trend reversal.
+
+// Bullish Crosses occur when Chaikin Money Flow crosses from below the Zero Line to above the Zero Line. Price then falls.
+
+// Bearish Crosses occur when Chaikin Money Flow crosses from above the Zero Line to below the Zero Line. Price then rises.
+
+// It should be noted that brief crosses can occur resulting in false signals. The best way to avoid these false signals is by examining past performance for the particular security that is being analyzed and even adjusting the thresholds accordingly. For example, instead of a Zero Line Cross, a technical analyst may use two separate lines such as .05 and -.05.
+
+//0.5 and -0.5 crossing points are safer alternatives
+
+
+//Chaikin Oscillator
+
+// There are four steps in calculating The Chaikin Oscillator (This example is for a (3,10) Period):
+
+// 1. Find the Money Flow Multiplier
+//    [(Close  -  Low) - (High - Close)] /(High - Low) = Money Flow Multiplier
+
+// 2. Calculate Money Flow Volume
+//    Money Flow Multiplier x Volume for the Period = Money Flow Volume
+
+// 3. Determine ADL
+// Previous ADL + Current Period Money Flow Volume = ADL
+
+// 4. Apply EMA (user defined periods) to the ADL to generate the Chaikin Oscillator
+//   (3-day EMA of ADL)  -  (10-day EMA of ADL) = Chaikin Oscillator
+
+
+// When The Chaikin Oscillator's value is above 0, ADL's momentum and therefore buying pressure is higher.
+// When The Chaikin Oscillator's value is below 0, ADL's momentum and therefore selling pressure is higher.
+
+//Price Pattern Indicators
 let SMA = require('technicalindicators').SMA;
 let EMA = require('technicalindicators').EMA;
 let WMA = require('technicalindicators').WMA;
+
+//FOR MACD ONLY
+//WHEN THE MACD CROSSES ABOVE THE SIGNAL LINE
+//SIGNAL LINE IS A FASTER PERIOD MOVING AVERAGE
+//THAN THE ONES USED IN THE MACD
+//THEN IT's A BULLISH TREND AND PRICES
+//ARE EXPECTED TO KEEP TRENDING UPWARD
+//ELSE WHEN IT CROSSES BELOW THE SIGNAL LINE
+//BEARISH TREND AND PRICES ARE EXPECTED
+//TO KEEP TRENDING DOWNWARD
+
+//IN OTHER WORDS WHEN THE MACD HISTORGRAM
+//PLOTS A POSITIVE VALUE FROM A MINUS ORIGIN
+//THEN IT CROSSES OVER THE SIGNAL LINE
+//AND BULLISH TREND
+
+//CONVERSELY WHEN THE MACD HISTOGRAM
+//PLOTS A MINUS VALUE FROM A POSITIVE ORIGIN
+//THEN IT CROSSES UNDER THE SIGNAL LINE
+//AND BEARISH TREND
+
+//NOTE THE MACD COULD GENERATE WHIPSAWS
+//AKA QUICK REVERSALS OF ITSELF
+//AND IT COULD ALSO HAVE SOME LAG AND
+//REPORT THE TRENDS LATER THAN THEY OCCUR
+
 let MACD = require('technicalindicators').MACD;
+let WEMA = require('technicalindicators').WEMA;
+let VWAP = require('technicalindicators').VWAP;
+
+//Continuation Pattern Indicators
+
+
+//Momentum Indicators
+
+//WHEN IT COMES TO BREAKING A
+//RESISTANCE LEVEL/POINT OR BOUNCING
+//OFF A SUPPORT PRICE,
+//THEN IT's TIME TO BUY
+
+
+//INVERTED HAMMER WHEN BEARISH AND HAMMER HEAD
+//OF CANDLESTICK IS AT BOTTOM
+//INDICATES BULLISH TREND COMING
+
+//SHOOTING STAR IS THE OPPOSITE OF
+//INVERTED HAMMER
+//SAME CANDLESTICK STRUCTURE JUST OCCURS
+//DURING AN UPTREND AND INDICATES
+//A BEARISH DOWNTREND COMING SOON
+
+
+
+
+//When the majority of the momentum indicators
+//point to an upward trend in prices
+//then go ahead and fire off the checkArb
+//and trade functions accordingly
+
 let BB = require('technicalindicators').BollingerBands;
+
+//RSI ABOVE 70 OVERBOUGHT
+
+//RSI BELOW 30 OVERSOLD
+
+//RSI IF BELOW 30 then GOES ABOVE 30
+//THEN IT's A BULLISH TREND TIME TO BUY
+
+//RSI ABOVE 70 and THEN CROSSES BELOW 70
+//THE BEARISH TREND AND TIME TO SELL
 let RSI = require('technicalindicators').RSI;
 let ATR = require('technicalindicators').ATR;
-let WEMA = require('technicalindicators').WEMA;
 let ROC = require('technicalindicators').ROC;
 let KST = require('technicalindicators').KST;
 let Stochastic = require('technicalindicators').Stochastic;
@@ -94,9 +216,91 @@ let ADL = require('technicalindicators').ADL;
 let OBV = require('technicalindicators').OBV;
 let TRIX = require('technicalindicators').TRIX;
 let ADX = require('technicalindicators').ADX;
+
+//NOTE:
+//IF CCI DROPS BELOW -100 LINE and THEN
+//CROSSES BACK ABOVE IT THEN IT's A BULLISH TREND
+//TIME TO BUY THE STOCK/COIN
+//CONVERSELY IF THE CCI GOES ABOVE THE +100 line
+//AND THEN CROSSES BACK BELOW IT THEN IT's
+//TIME TO SELL THE STOCK/COIN
+//BECUASE A BEARISH TREND IS EXPECTED TO START
+
+
+//IF THE PRICE OF A COIN
+//IS LESS THAN THE MOVING AVERAGE OF THAT
+//COIN, AND THE CCI IS BELOW -100
+//THEN IT INDICATES A CONFIRMATION OF
+//A BULLISH DIVERGENCE or a BULLISH TREND
+
+//CONVERSELY WHEN A THE PRICE OF A COIN/STOCK
+//IS MORE THAN THE MOVING AVERAGE and THE
+//CCI is above +100
+//THEN IT INDICATES A BEARISH DIVERGNCE
+//AND A BEARISH TREND IS EXPECTED TO BE
+//CONFIRMED
+
+//CCI ABOVE +100 INDICATES THAT IT's OVERBOUGHT
+//CCI BELOW -100 INDICATES THAT
+//IT's OVERSOLD
+
 let CCI = require('technicalindicators').CCI;
-let VWAP = require('technicalindicators').VWAP;
 let ForceIndex = require('technicalindicators').ForceIndex;
+
+
+//VWAP FORMULA INPUT LOOKS LIKE THIS
+// var inputVWAP = {
+//   open : [
+//     127.28,127.11,127.15,127.04,126.98,127.07,126.93,127.05,127.11,127.15,127.30,127.28,127.28,127.29,127.25
+//   ],
+//   high : [
+//     127.36,127.31,127.21,127.15,127.08,127.19,127.09,127.08,127.18,127.16,127.31,127.35,127.34,127.29,127.36
+//   ],
+//   low : [
+//     126.99,127.10,127.11,126.93,126.98,126.99,126.82,126.95,127.05,127.05,127.08,127.20,127.25,127.17,127.25
+//   ],
+//   close : [
+//     127.28,127.11,127.15,127.04,126.98,127.07,126.93,127.05,127.11,127.15,127.30,127.28,127.28,127.29,127.25
+//   ],
+//   volume : [
+//     89329,16137,23945,20679,27252,20915,17372,17600,13896,6700,13848,9925,5540,10803,19400
+//   ],
+// };
+
+// var a = VWAP.calculate(inputVWAP);
+
+// setImmediate(() => {
+//   console.log("VWAP IS: ", VWAP.calculate(inputVWAP).reduce((acc, sum) => acc + sum, 0)/(a.length));
+// });
+
+
+//SMA EXAMPLE IS
+// setImmediate(() => {
+//   console.log("SMA IS: ", SMA.calculate({period: 5, values: [11,12,13,14,15,16,18, 19, 22, 23, 23]}));
+// });
+
+
+//EMA EXAMPLE IS
+// setImmediate(() => {
+//   console.log("EMA IS: ", EMA.calculate({period: 5, values: [11,12,13,14,15,16,18, 19, 22, 23, 23]}));
+// });
+
+
+//WMA EXAMPLE IS
+//period means that it starts
+//at that number - 1 index
+//position of the array
+
+// setImmediate(() => {
+//   console.log("WMA IS: ", WMA.calculate({period: 3, values: [6000,5995,5999,6001,5987,5988,5990,5992,6010,5970,5960,5955]}));
+// });
+
+//MACD EXAMPLE
+
+// setImmediate(() => {
+//
+// })
+
 
 //let ATRSAMPLE = [300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6, 300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6, 300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6, 300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6, 300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6, 300, 300.4, 299.8, 300.6, 301.2, 301.4, 301.43, 301.55, 301.2, 302, 304, 302, 301.6, 301.5, 301.8, 302.5, 303.6];
 //console.log("THE ANSWER IS: ", Math.max((Math.max(...ATRSAMPLE) - Math.min(...ATRSAMPLE)), Math.abs(...Math.max(...ATRSAMPLE) - ATRSAMPLE[ATRSAMPLE.length - 2]), Math.abs(...Math.min(...ATRSAMPLE) - ATRSAMPLE[ATRSAMPLE.length - 2])));
@@ -2320,10 +2524,19 @@ module.exports.loopConditional = function (exchange, currency, needToWithdraw){
   }
 }
 
-setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
-//setTimeout(() => {setInterval(() => {console.log(trackSpreads())}, 30000)}, 140000);
+
+// setInterval(() => {
+//   hitbtc.requestBalances('hitbtc', 'AIR');
+// }, 10000)
+
+// setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
+// setTimeout(() => {setInterval(() => {console.log(trackSpreads())}, 30000)}, 140000);
 //setTimeout(() => {console.log(loopConditional('gdax', 'ETHUSD', false))}, 200000);
 //setTimeout(() => {console.log(`CHECK ARB FUNCTION FIRED OFF ${functionCounter.count} TIMES IN ONE SECOND!`)}, 201000)
 
 
+
+// setTimeout(() => {
+//   hitbtc.trade();
+// }, 10000);
 

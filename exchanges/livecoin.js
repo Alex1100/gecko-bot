@@ -6,7 +6,8 @@ const n = require("nonce")();
 let loopConditional = require('../index');
 var cryptoSocket = require("crypto-socket");
 let baseUrl = 'https://api.livecoin.net';
-var Livecoin = require('ccxt').livecoin({
+var livecoin = require('ccxt')
+var Livecoin = new livecoin.livecoin({
   apiKey: process.env.LIVECOIN_API_KEY,
   secret: process.env.LIVECOIN_API_KEY_SECRET
 });
