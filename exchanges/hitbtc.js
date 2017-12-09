@@ -31,8 +31,8 @@ let strategy = {
 requestBalances = (exchange, currency) => {
   HitBTC.tradingGetBalance()
     .then(res => {
-      console.log("REMAINING ENJ IS: ", res.balance.filter(el => el.currency_code === 'ENJ'));
-      console.log("DATA SHOULD BE: ", res.balance.filter(el => el.reserved > 0));
+      console.log("REMAINING ETH IS: ", res.balance.filter(el => el.currency_code === 'EOS'));
+      console.log("DATA SHOULD BE: ", res.balance.filter(el => el.cash > 0 || el.reserved > 0));
       // console.log("DATA IS: ", res.balance.filter(el => el.currency_code === currency.toUpperCase())[0]);
       return res.balance.filter(el => el.currency_code === currency.toUpperCase());
     })
@@ -40,6 +40,14 @@ requestBalances = (exchange, currency) => {
       console.log("COUDN'T GET BALANCES: ", err);
     });
 };
+
+fetchOrders = (exchange, currency) => {
+  HitBTC.fetchOpenOrders()
+    .then(res => {
+      console.log("RES IS: ", res);
+    })
+    .catch(err => console.log("ERR IS: ", err));
+}
 
 withdraw = () => {
   console.log(HitBTC);
@@ -53,22 +61,23 @@ withdraw = () => {
 //method signature and everything else is
 //fine...
 trade = () => {
-  // HitBTC.createOrder('ENJ/USD', 'limit', 'sell', 1000, 0.02211)
-  //   .then(res => {
-  //     console.log("THE RES FROM THE TRADE OF ENJ FOR USD IS: ", res);
-  //     HitBTC.tradingGetBalance('hitbtc', 'USD')
-  //       .then(res => {
-  //         console.log("REMAINING ENJ IS: ", res.balance.filter(el => el.currency_code === 'ENJ'));
-  //         console.log("DATA SHOULD BE: ", res.balance.filter(el => el.reserved > 0));
-  //         // console.log("DATA IS: ", res.balance.filter(el => el.currency_code === currency.toUpperCase())[0]);
-  //         return res.balance.filter(el => el.currency_code === currency.toUpperCase());
-  //       })
-  //   })
-  //   .catch(err => console.log("ERRORED OUT AT: ", err));
+  HitBTC.createOrder('ZSC/USD', 'limit', 'buy', 51, 4.50)
+    .then(res => {
+      console.log("THE RES FROM THE TRADE OF EOS FOR USD IS: ", res);
+      HitBTC.tradingGetBalance('hitbtc', 'USD')
+        .then(res => {
+          console.log("REMAINING EOS IS: ", res.balance.filter(el => el.currency_code === 'EOS'));
+          console.log("DATA SHOULD BE: ", res.balance.filter(el => el.cash > 0 || el.reserved > 0));
+          // console.log("DATA IS: ", res.balance.filter(el => el.currency_code === currency.toUpperCase())[0]);
+          return res.balance.filter(el => el.currency_code === currency.toUpperCase());
+        })
+    })
+    .catch(err => console.log("ERRORED OUT AT: ", err));
 };
 
 module.exports = {
   requestBalances,
   withdraw,
-  trade
+  trade,
+  fetchOrders,
 }

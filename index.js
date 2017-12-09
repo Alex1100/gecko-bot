@@ -30,6 +30,9 @@ cryptoSocket.Exchanges.cCex.LTCBTC = '';
 cryptoSocket.Exchanges.cCex.ETHBTC = '';
 cryptoSocket.Exchanges.cCex.DASHUSD = '';
 cryptoSocket.Exchanges.cCex.DASHBTC = '';
+let functionCounter = {
+  count: 0
+};
 
 
 setImmediate(() => {
@@ -750,43 +753,43 @@ let hourlyAvgPrices = {
 };
 
 
-setTimeout(() => {setInterval(() => {console.log(historicDataLogs.bittrex.ETHBTC)}, 500)}, 121000);
+// setTimeout(() => {setInterval(() => {console.log(historicDataLogs.bittrex.ETHBTC)}, 500)}, 60000);
 setTimeout(() => {
   setInterval(() => {
-    console.log("THERE ARE " + historicDataLogs['bittrex']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE BITTREX BTCUSD ARRAY!");
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['bittrex']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE BITTREX BTCUSD ARRAY!", '\x1b[0m');
+    console.log("\n\n", '\x1b[0m');
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['bittrex']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE BITTREX ETHBTC ARRAY!", '\x1b[0m');
     console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['bittrex']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE BITTREX ETHBTC ARRAY!");
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['bittrex']['LTCETH'].length + " NUMBER OF ENTRIES IN THE BITTREX LTCETH ARRAY!", '\x1b[0m');
     console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['bittrex']['LTCETH'].length + " NUMBER OF ENTRIES IN THE BITTREX LTCETH ARRAY!");
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['gdax']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE GDAX BTCUSD ARRAY!", '\x1b[0m');
     console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['gdax']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE GDAX BTCUSD ARRAY!");
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['gdax']['ETHUSD'].length + " NUMBER OF ENTRIES IN THE GDAX ETHUSD ARRAY!", '\x1b[0m');
     console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['gdax']['ETHUSD'].length + " NUMBER OF ENTRIES IN THE GDAX ETHUSD ARRAY!");
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['gdax']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE GDAX ETHBTC ARRAY!", '\x1b[0m');
     console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['gdax']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE GDAX ETHBTC ARRAY!");
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['gdax']['LTCBTC'].length + " NUMBER OF ENTRIES IN THE GDAX LTCBTC ARRAY!", '\x1b[0m');
     console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['gdax']['LTCBTC'].length + " NUMBER OF ENTRIES IN THE GDAX LTCBTC ARRAY!");
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['gdax']['LTCUSD'].length + " NUMBER OF ENTRIES IN THE GDAX LTCUSD ARRAY!", '\x1b[0m');
     console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['gdax']['LTCUSD'].length + " NUMBER OF ENTRIES IN THE GDAX LTCUSD ARRAY!");
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['poloniex']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE POLONIEX BTCUSD ARRAY!", '\x1b[0m');
     console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['poloniex']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE POLONIEX BTCUSD ARRAY!");
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['poloniex']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE POLONIEX ETHBTC ARRAY!", '\x1b[0m');
     console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['poloniex']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE POLONIEX ETHBTC ARRAY!");
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['poloniex']['LTCBTC'].length + " NUMBER OF ENTRIES IN THE POLONIEX LTCBTC ARRAY!", '\x1b[0m');
     console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['poloniex']['LTCBTC'].length + " NUMBER OF ENTRIES IN THE POLONIEX LTCBTC ARRAY!");
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['poloniex']['ETHUSD'].length + " NUMBER OF ENTRIES IN THE POLONIEX ETHUSD ARRAY!", '\x1b[0m');
     console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['poloniex']['ETHUSD'].length + " NUMBER OF ENTRIES IN THE POLONIEX ETHUSD ARRAY!");
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['poloniex']['LTCUSD'].length + " NUMBER OF ENTRIES IN THE POLONIEX LTCUSD ARRAY!", '\x1b[0m');
     console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['poloniex']['LTCUSD'].length + " NUMBER OF ENTRIES IN THE POLONIEX LTCUSD ARRAY!");
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['gemini']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE GEMINI BTCUSD ARRAY!", '\x1b[0m');
     console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['gemini']['BTCUSD'].length + " NUMBER OF ENTRIES IN THE GEMINI BTCUSD ARRAY!");
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['gemini']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE GEMINI ETHBTC ARRAY!", '\x1b[0m');
     console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['gemini']['ETHBTC'].length + " NUMBER OF ENTRIES IN THE GEMINI ETHBTC ARRAY!");
+    console.log("\x1b[35m", "THERE ARE " + historicDataLogs['gemini']['ETHUSD'].length + " NUMBER OF ENTRIES IN THE GEMINI ETHUSD ARRAY!", '\x1b[0m');
     console.log("\n\n");
-    console.log("THERE ARE " + historicDataLogs['gemini']['ETHUSD'].length + " NUMBER OF ENTRIES IN THE GEMINI ETHUSD ARRAY!");
-    console.log("\n\n");
-  }, 10000);
-}, 140000);
+  }, 5000);
+}, 60000);
 
 
 
@@ -815,7 +818,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     cCexBTCUSDNumberToCountFromDB = cCexBTCUSDNumberToCountFromDB + 1001;
     cCexBTCUSDNumberToInsertLogsToDB = cCexBTCUSDNumberToInsertLogsToDB + 1001;
-    console.log("CCEX BTCUSD INSERTED");
+    console.log("\x1b[32m", "CCEX BTCUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['cCex'].ETHUSD.length > cCexETHUSDNumberToInsertLogsToDB){
@@ -829,7 +832,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     cCexETHUSDNumberToCountFromDB = cCexETHUSDNumberToCountFromDB + 1001;
     cCexETHUSDNumberToInsertLogsToDB = cCexETHUSDNumberToInsertLogsToDB + 1001;
-    console.log("CCEX ETHUSD INSERTED");
+    console.log("\x1b[32m", "CCEX ETHUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['cCex'].LTCUSD.length > cCexLTCUSDNumberToInsertLogsToDB){
@@ -843,7 +846,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     cCexLTCUSDNumberToCountFromDB = cCexLTCUSDNumberToCountFromDB + 1001;
     cCexLTCUSDNumberToInsertLogsToDB = cCexLTCUSDNumberToInsertLogsToDB + 1001;
-    console.log("CCEX LTCUSD INSERTED");
+    console.log("\x1b[32m", "CCEX LTCUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['cCex'].DASHUSD.length > cCexDASHUSDNumberToInsertLogsToDB){
@@ -857,7 +860,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     cCexDASHUSDNumberToCountFromDB = cCexDASHUSDNumberToCountFromDB + 1001;
     cCexDASHUSDNumberToInsertLogsToDB = cCexDASHUSDNumberToInsertLogsToDB + 1001;
-    console.log("CCEX DASHUSD INSERTED");
+    console.log("\x1b[32m", "CCEX DASHUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['cCex'].DASHBTC.length > cCexDASHBTCNumberToInsertLogsToDB){
@@ -871,7 +874,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     cCexDASHBTCNumberToCountFromDB = cCexDASHBTCNumberToCountFromDB + 1001;
     cCexDASHBTCNumberToInsertLogsToDB = cCexDASHBTCNumberToInsertLogsToDB + 1001;
-    console.log("CCEX DASHBTC INSERTED");
+    console.log("\x1b[32m", "CCEX DASHBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['cCex'].LTCBTC.length > cCexLTCBTCNumberToInsertLogsToDB){
@@ -885,7 +888,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     cCexLTCBTCNumberToCountFromDB = cCexLTCBTCNumberToCountFromDB + 1001;
     cCexLTCBTCNumberToInsertLogsToDB = cCexLTCBTCNumberToInsertLogsToDB + 1001;
-    console.log("CCEX LTCBTC INSERTED");
+    console.log("\x1b[32m", "CCEX LTCBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['cCex'].ETHBTC.length > cCexETHBTCNumberToInsertLogsToDB){
@@ -899,7 +902,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     cCexETHBTCNumberToCountFromDB = cCexETHBTCNumberToCountFromDB + 1001;
     cCexETHBTCNumberToInsertLogsToDB = cCexETHBTCNumberToInsertLogsToDB + 1001;
-    console.log("CCEX ETHBTC INSERTED");
+    console.log("\x1b[32m", "CCEX ETHBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['cex'].BTCUSD.length > cexBTCUSDNumberToInsertLogsToDB){
@@ -913,7 +916,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     cexBTCUSDNumberToCountFromDB = cexBTCUSDNumberToCountFromDB + 1001;
     cexBTCUSDNumberToInsertLogsToDB = cexBTCUSDNumberToInsertLogsToDB + 1001;
-    console.log("CEX BTCUSD INSERTED");
+    console.log("\x1b[32m", "CEX BTCUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['cex'].BCHUSD.length > cexBCHUSDNumberToInsertLogsToDB){
@@ -927,7 +930,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     cexBCHUSDNumberToCountFromDB = cexBCHUSDNumberToCountFromDB + 1001;
     cexBCHUSDNumberToInsertLogsToDB = cexBCHUSDNumberToInsertLogsToDB + 1001;
-    console.log("CEX BCHUSD INSERTED");
+    console.log("\x1b[32m", "CEX BCHUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['cex'].ETHUSD.length > cexETHUSDNumberToInsertLogsToDB){
@@ -941,7 +944,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     cexETHUSDNumberToCountFromDB = cexETHUSDNumberToCountFromDB + 1001;
     cexETHUSDNumberToInsertLogsToDB = cexETHUSDNumberToInsertLogsToDB + 1001;
-    console.log("CEX ETHUSD INSERTED");
+    console.log("\x1b[32m", "CEX ETHUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['cex'].ETHBTC.length > cexETHBTCNumberToInsertLogsToDB){
@@ -955,7 +958,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     cexETHBTCNumberToCountFromDB = cexETHBTCNumberToCountFromDB + 1001;
     cexETHBTCNumberToInsertLogsToDB = cexETHBTCNumberToInsertLogsToDB + 1001;
-    console.log("CEX ETHBTC INSERTED");
+    console.log("\x1b[32m", "CEX ETHBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['hitbtc'].ETHUSD.length > hitbtcETHUSDNumberToInsertLogsToDB){
@@ -969,7 +972,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     hitbtcETHUSDNumberToCountFromDB = hitbtcETHUSDNumberToCountFromDB + 1001;
     hitbtcETHUSDNumberToInsertLogsToDB = hitbtcETHUSDNumberToInsertLogsToDB + 1001;
-    console.log("HITBTC ETHUSD INSERTED");
+    console.log("\x1b[32m", "HITBTC ETHUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['hitbtc'].EOSBTC.length > hitbtcEOSBTCNumberToInsertLogsToDB){
@@ -983,7 +986,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     hitbtcEOSBTCNumberToCountFromDB = hitbtcEOSBTCNumberToCountFromDB + 1001;
     hitbtcEOSBTCNumberToInsertLogsToDB = hitbtcEOSBTCNumberToInsertLogsToDB + 1001;
-    console.log("HITBTC EOSBTC INSERTED");
+    console.log("\x1b[32m", "HITBTC EOSBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['hitbtc'].LTCBTC.length > hitbtcLTCBTCNumberToInsertLogsToDB){
@@ -997,7 +1000,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     hitbtcLTCBTCNumberToCountFromDB = hitbtcLTCBTCNumberToCountFromDB + 1001;
     hitbtcLTCBTCNumberToInsertLogsToDB = hitbtcLTCBTCNumberToInsertLogsToDB + 1001;
-    console.log("HITBTC LTCBTC INSERTED");
+    console.log("\x1b[32m", "HITBTC LTCBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['hitbtc'].ETHBTC.length > hitbtcETHBTCNumberToInsertLogsToDB){
@@ -1011,7 +1014,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     hitbtcETHBTCNumberToCountFromDB = hitbtcETHBTCNumberToCountFromDB + 1001;
     hitbtcETHBTCNumberToInsertLogsToDB = hitbtcETHBTCNumberToInsertLogsToDB + 1001;
-    console.log("HITBTC ETHBTC INSERTED");
+    console.log("\x1b[32m", "HITBTC ETHBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['hitbtc'].BTCUSD.length > hitbtcBTCUSDNumberToInsertLogsToDB){
@@ -1025,7 +1028,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     hitbtcBTCUSDNumberToCountFromDB = hitbtcBTCUSDNumberToCountFromDB + 1001;
     hitbtcBTCUSDNumberToInsertLogsToDB = hitbtcBTCUSDNumberToInsertLogsToDB + 1001;
-    console.log("HITBTC BTCUSD INSERTED");
+    console.log("\x1b[32m", "HITBTC BTCUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['hitbtc'].BCCUSD.length > hitbtcBCCUSDNumberToInsertLogsToDB){
@@ -1039,7 +1042,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     hitbtcBCCUSDNumberToCountFromDB = hitbtcBCCUSDNumberToCountFromDB + 1001;
     hitbtcBCCUSDNumberToInsertLogsToDB = hitbtcBCCUSDNumberToInsertLogsToDB + 1001;
-    console.log("HITBTC BCCUSD INSERTED");
+    console.log("\x1b[32m", "HITBTC BCCUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['hitbtc'].EOSUSD.length > hitbtcEOSUSDNumberToInsertLogsToDB){
@@ -1053,7 +1056,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     hitbtcEOSUSDNumberToCountFromDB = hitbtcEOSUSDNumberToCountFromDB + 1001;
     hitbtcEOSUSDNumberToInsertLogsToDB = hitbtcEOSUSDNumberToInsertLogsToDB + 1001;
-    console.log("HITBTC EOSUSD INSERTED");
+    console.log("\x1b[32m", "HITBTC EOSUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['hitbtc'].DASHUSD.length > hitbtcDASHUSDNumberToInsertLogsToDB){
@@ -1067,7 +1070,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     hitbtcDASHUSDNumberToCountFromDB = hitbtcDASHUSDNumberToCountFromDB + 1001;
     hitbtcDASHUSDNumberToInsertLogsToDB = hitbtcDASHUSDNumberToInsertLogsToDB + 1001;
-    console.log("HITBTC DASHUSD INSERTED");
+    console.log("\x1b[32m", "HITBTC DASHUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['hitbtc'].LTCUSD.length > hitbtcLTCUSDNumberToInsertLogsToDB){
@@ -1081,7 +1084,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     hitbtcLTCUSDNumberToCountFromDB = hitbtcLTCUSDNumberToCountFromDB + 1001;
     hitbtcLTCUSDNumberToInsertLogsToDB = hitbtcLTCUSDNumberToInsertLogsToDB + 1001;
-    console.log("HITBTC LTCUSD INSERTED");
+    console.log("\x1b[32m", "HITBTC LTCUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['livecoin'].BTCUSD.length > livecoinBTCUSDNumberToInsertLogsToDB){
@@ -1095,7 +1098,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     livecoinBTCUSDNumberToCountFromDB = livecoinBTCUSDNumberToCountFromDB + 1001;
     livecoinBTCUSDNumberToInsertLogsToDB = livecoinBTCUSDNumberToInsertLogsToDB + 1001;
-    console.log("LIVECOIN BTCUSD INSERTED");
+    console.log("\x1b[32m", "LIVECOIN BTCUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['livecoin'].ETHUSD.length > livecoinETHUSDNumberToInsertLogsToDB){
@@ -1109,7 +1112,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     livecoinETHUSDNumberToCountFromDB = livecoinETHUSDNumberToCountFromDB + 1001;
     livecoinETHUSDNumberToInsertLogsToDB = livecoinETHUSDNumberToInsertLogsToDB + 1001;
-    console.log("LIVECOIN ETHUSD INSERTED");
+    console.log("\x1b[32m", "LIVECOIN ETHUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['livecoin'].LTCUSD.length > livecoinLTCUSDNumberToInsertLogsToDB){
@@ -1123,7 +1126,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     livecoinLTCUSDNumberToCountFromDB = livecoinLTCUSDNumberToCountFromDB + 1001;
     livecoinLTCUSDNumberToInsertLogsToDB = livecoinLTCUSDNumberToInsertLogsToDB + 1001;
-    console.log("LIVECOIN LTCUSD INSERTED");
+    console.log("\x1b[32m", "LIVECOIN LTCUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['livecoin'].LTCBTC.length > livecoinLTCBTCNumberToInsertLogsToDB){
@@ -1137,7 +1140,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     livecoinLTCBTCNumberToCountFromDB = livecoinLTCBTCNumberToCountFromDB + 1001;
     livecoinLTCBTCNumberToInsertLogsToDB = livecoinLTCBTCNumberToInsertLogsToDB + 1001;
-    console.log("LIVECOIN LTCBTC INSERTED");
+    console.log("\x1b[32m", "LIVECOIN LTCBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['livecoin'].BCHUSD.length > livecoinBCHUSDNumberToInsertLogsToDB){
@@ -1151,7 +1154,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     livecoinBCHUSDNumberToCountFromDB = livecoinBCHUSDNumberToCountFromDB + 1001;
     livecoinBCHUSDNumberToInsertLogsToDB = livecoinBCHUSDNumberToInsertLogsToDB + 1001;
-    console.log("LIVECOIN BCHUSD INSERTED");
+    console.log("\x1b[32m", "LIVECOIN BCHUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['livecoin'].DASHUSD.length > livecoinDASHUSDNumberToInsertLogsToDB){
@@ -1165,7 +1168,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     livecoinDASHUSDNumberToCountFromDB = livecoinDASHUSDNumberToCountFromDB + 1001;
     livecoinDASHUSDNumberToInsertLogsToDB = livecoinDASHUSDNumberToInsertLogsToDB + 1001;
-    console.log("LIVECOIN DASHUSD INSERTED");
+    console.log("\x1b[32m", "LIVECOIN DASHUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['livecoin'].DASHBTC.length > livecoinDASHBTCNumberToInsertLogsToDB){
@@ -1179,7 +1182,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     livecoinDASHBTCNumberToCountFromDB = livecoinDASHBTCNumberToCountFromDB + 1001;
     livecoinDASHBTCNumberToInsertLogsToDB = livecoinDASHBTCNumberToInsertLogsToDB + 1001;
-    console.log("LIVECOIN DASHBTC INSERTED");
+    console.log("\x1b[32m", "LIVECOIN DASHBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['livecoin'].BCHBTC.length > livecoinBCHBTCNumberToInsertLogsToDB){
@@ -1193,7 +1196,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     livecoinBCHBTCNumberToCountFromDB = livecoinBCHBTCNumberToCountFromDB + 1001;
     livecoinBCHBTCNumberToInsertLogsToDB = livecoinBCHBTCNumberToInsertLogsToDB + 1001;
-    console.log("LIVECOIN BCHBTC INSERTED");
+    console.log("\x1b[32m", "LIVECOIN BCHBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['livecoin'].ETHBTC.length > livecoinETHBTCNumberToInsertLogsToDB){
@@ -1207,7 +1210,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     livecoinETHBTCNumberToCountFromDB = livecoinETHBTCNumberToCountFromDB + 1001;
     livecoinETHBTCNumberToInsertLogsToDB = livecoinETHBTCNumberToInsertLogsToDB + 1001;
-    console.log("LIVECOIN ETHBTC INSERTED");
+    console.log("\x1b[32m", "LIVECOIN ETHBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['livecoin'].BCHETH.length > livecoinBCHETHNumberToInsertLogsToDB){
@@ -1221,7 +1224,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     livecoinBCHETHNumberToCountFromDB = livecoinBCHETHNumberToCountFromDB + 1001;
     livecoinBCHETHNumberToInsertLogsToDB = livecoinBCHETHNumberToInsertLogsToDB + 1001;
-    console.log("LIVECOIN BCHETH INSERTED");
+    console.log("\x1b[32m", "LIVECOIN BCHETH INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['bittrex'].BTCUSD.length > bittrexBTCUSDNumberToInsertLogsToDB){
@@ -1235,7 +1238,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     bittrexBTCUSDNumberToCountFromDB = bittrexBTCUSDNumberToCountFromDB + 1001;
     bittrexBTCUSDNumberToInsertLogsToDB = bittrexBTCUSDNumberToInsertLogsToDB + 1001;
-    console.log("BITTREX BTCUSD INSERTED: ", bittrexBTCUSDNumberToInsertLogsToDB);
+    console.log("\x1b[32m", "BITTREX BTCUSD INSERTED: ", bittrexBTCUSDNumberToInsertLogsToDB, '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['bittrex'].ETHBTC.length > bittrexETHBTCNumberToInsertLogsToDB){
@@ -1250,7 +1253,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     bittrexETHBTCNumberToCountFromDB = bittrexETHBTCNumberToCountFromDB + 1001;
     bittrexETHBTCNumberToInsertLogsToDB = bittrexETHBTCNumberToInsertLogsToDB + 1001;
-    console.log("BITTREX ETHBTC INSERTED");
+    console.log("\x1b[32m", "BITTREX ETHBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['bittrex'].ETHUSD.length > bittrexETHUSDNumberToInsertLogsToDB){
@@ -1265,7 +1268,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     bittrexETHUSDNumberToCountFromDB = bittrexETHUSDNumberToCountFromDB + 1001;
     bittrexETHUSDNumberToInsertLogsToDB = bittrexETHUSDNumberToInsertLogsToDB + 1001;
-    console.log("BITTREX ETHUSD INSERTED");
+    console.log("\x1b[32m", "BITTREX ETHUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['bittrex'].LTCETH.length > bittrexLTCETHNumberToInsertLogsToDB){
@@ -1279,7 +1282,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     bittrexLTCETHNumberToCountFromDB = bittrexLTCETHNumberToCountFromDB + 1001;
     bittrexLTCETHNumberToInsertLogsToDB = bittrexLTCETHNumberToInsertLogsToDB + 1001;
-    console.log("BITTREX LTCETH INSERTED")
+    console.log("\x1b[32m", "BITTREX LTCETH INSERTED", '\x1b[0m')
   }
 
   if(needToWithdraw === false && historicDataLogs['bittrex'].LTCUSD.length > bittrexLTCUSDNumberToInsertLogsToDB){
@@ -1293,7 +1296,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     bittrexLTCUSDNumberToCountFromDB = bittrexLTCUSDNumberToCountFromDB + 1001;
     bittrexLTCUSDNumberToInsertLogsToDB = bittrexLTCUSDNumberToInsertLogsToDB + 1001;
-    console.log("BITTREX LTCUSD INSERTED")
+    console.log("\x1b[32m", "BITTREX LTCUSD INSERTED", '\x1b[0m')
   }
 
   if(needToWithdraw === false && historicDataLogs['gdax'].BTCUSD.length > gdaxBTCUSDNumberToInsertLogsToDB){
@@ -1307,7 +1310,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     gdaxBTCUSDNumberToCountFromDB = gdaxBTCUSDNumberToCountFromDB + 1001;
     gdaxBTCUSDNumberToInsertLogsToDB = gdaxBTCUSDNumberToInsertLogsToDB + 1001;
-    console.log("GDAX BTCUSD INSERTED");
+    console.log("\x1b[32m", "GDAX BTCUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['gdax'].ETHBTC.length > gdaxETHBTCNumberToInsertLogsToDB){
@@ -1322,7 +1325,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     gdaxETHBTCNumberToCountFromDB = gdaxETHBTCNumberToCountFromDB + 1001;
     gdaxETHBTCNumberToInsertLogsToDB = gdaxETHBTCNumberToInsertLogsToDB + 1001;
-    console.log("GDAX ETHBTC INSERTED");
+    console.log("\x1b[32m", "GDAX ETHBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['gdax'].LTCBTC.length > gdaxLTCBTCNumberToInsertLogsToDB){
@@ -1337,7 +1340,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     gdaxLTCBTCNumberToCountFromDB = gdaxLTCBTCNumberToCountFromDB + 1001;
     gdaxLTCBTCNumberToInsertLogsToDB = gdaxLTCBTCNumberToInsertLogsToDB + 1001;
-    console.log("GDAX LTCBTC INSERTED");
+    console.log("\x1b[32m", "GDAX LTCBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['gdax'].ETHUSD.length > gdaxETHUSDNumberToInsertLogsToDB){
@@ -1352,7 +1355,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     gdaxETHUSDNumberToCountFromDB = gdaxETHUSDNumberToCountFromDB + 1001;
     gdaxETHUSDNumberToInsertLogsToDB = gdaxETHUSDNumberToInsertLogsToDB + 1001;
-    console.log("GDAX ETHUSD INSERTED");
+    console.log("\x1b[32m", "GDAX ETHUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['gdax'].LTCUSD.length > gdaxLTCUSDNumberToInsertLogsToDB){
@@ -1367,7 +1370,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     gdaxLTCUSDNumberToCountFromDB = gdaxLTCUSDNumberToCountFromDB + 1001;
     gdaxLTCUSDNumberToInsertLogsToDB = gdaxLTCUSDNumberToInsertLogsToDB + 1001;
-    console.log("GDAX LTCUSD INSERTED");
+    console.log("\x1b[32m", "GDAX LTCUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['gemini'].ETHBTC.length > geminiETHBTCNumberToInsertLogsToDB){
@@ -1382,7 +1385,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     geminiETHBTCNumberToCountFromDB = geminiETHBTCNumberToCountFromDB + 1001;
     geminiETHBTCNumberToInsertLogsToDB = geminiETHBTCNumberToInsertLogsToDB + 1001;
-    console.log("GEMINI ETHBTC INSERTED");
+    console.log("\x1b[32m", "GEMINI ETHBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['gemini'].ETHUSD.length > geminiETHUSDNumberToInsertLogsToDB){
@@ -1397,7 +1400,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     geminiETHUSDNumberToCountFromDB = geminiETHUSDNumberToCountFromDB + 1001;
     geminiETHUSDNumberToInsertLogsToDB = geminiETHUSDNumberToInsertLogsToDB + 1001;
-    console.log("GEMINI ETHUSD INSERTED");
+    console.log("\x1b[32m", "GEMINI ETHUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['gemini'].BTCUSD.length > geminiBTCUSDNumberToInsertLogsToDB){
@@ -1412,7 +1415,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     geminiBTCUSDNumberToCountFromDB = geminiBTCUSDNumberToCountFromDB + 1001;
     geminiBTCUSDNumberToInsertLogsToDB = geminiBTCUSDNumberToInsertLogsToDB + 1001;
-    console.log("GEMINI BTCUSD INSERTED");
+    console.log("\x1b[32m", "GEMINI BTCUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['poloniex'].ETHBTC.length > poloniexETHBTCNumberToInsertLogsToDB){
@@ -1427,7 +1430,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     poloniexETHBTCNumberToCountFromDB = poloniexETHBTCNumberToCountFromDB + 1001;
     poloniexETHBTCNumberToInsertLogsToDB = poloniexETHBTCNumberToInsertLogsToDB + 1001;
-    console.log("POLONIEX ETHBTC INSERTED");
+    console.log("\x1b[32m", "POLONIEX ETHBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['poloniex'].BTCUSD.length > poloniexBTCUSDNumberToInsertLogsToDB){
@@ -1442,7 +1445,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     poloniexBTCUSDNumberToCountFromDB = poloniexBTCUSDNumberToCountFromDB + 1001;
     poloniexBTCUSDNumberToInsertLogsToDB = poloniexBTCUSDNumberToInsertLogsToDB + 1001;
-    console.log("POLONIEX BTCUSD INSERTED");
+    console.log("\x1b[32m", "POLONIEX BTCUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['poloniex'].ETHUSD.length > poloniexETHUSDNumberToInsertLogsToDB){
@@ -1457,7 +1460,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     poloniexETHUSDNumberToCountFromDB = poloniexETHUSDNumberToCountFromDB + 1001;
     poloniexETHUSDNumberToInsertLogsToDB = poloniexETHUSDNumberToInsertLogsToDB + 1001;
-    console.log("POLONIEX ETHUSD INSERTED");
+    console.log("\x1b[32m", "POLONIEX ETHUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['poloniex'].BCHBTC.length > poloniexBCHBTCNumberToInsertLogsToDB){
@@ -1472,7 +1475,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     poloniexBCHBTCNumberToCountFromDB = poloniexBCHBTCNumberToCountFromDB + 1001;
     poloniexBCHBTCNumberToInsertLogsToDB = poloniexBCHBTCNumberToInsertLogsToDB + 1001;
-    console.log("POLONIEX BCHBTC INSERTED");
+    console.log("\x1b[32m", "POLONIEX BCHBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['poloniex'].BCHUSD.length > poloniexBCHUSDNumberToInsertLogsToDB){
@@ -1487,7 +1490,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     poloniexBCHUSDNumberToCountFromDB = poloniexBCHUSDNumberToCountFromDB + 1001;
     poloniexBCHUSDNumberToInsertLogsToDB = poloniexBCHUSDNumberToInsertLogsToDB + 1001;
-    console.log("POLONIEX BCHUSD INSERTED");
+    console.log("\x1b[32m", "POLONIEX BCHUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['poloniex'].DASHUSD.length > poloniexDASHUSDNumberToInsertLogsToDB){
@@ -1502,7 +1505,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     poloniexDASHUSDNumberToCountFromDB = poloniexDASHUSDNumberToCountFromDB + 1001;
     poloniexDASHUSDNumberToInsertLogsToDB = poloniexDASHUSDNumberToInsertLogsToDB + 1001;
-    console.log("POLONIEX DASHUSD INSERTED");
+    console.log("\x1b[32m", "POLONIEX DASHUSD INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['poloniex'].DASHBTC.length > poloniexDASHBTCNumberToInsertLogsToDB){
@@ -1517,7 +1520,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     poloniexDASHBTCNumberToCountFromDB = poloniexDASHBTCNumberToCountFromDB + 1001;
     poloniexDASHBTCNumberToInsertLogsToDB = poloniexDASHBTCNumberToInsertLogsToDB + 1001;
-    console.log("POLONIEX DASHBTC INSERTED");
+    console.log("\x1b[32m", "POLONIEX DASHBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['poloniex'].LTCBTC.length > poloniexLTCBTCNumberToInsertLogsToDB){
@@ -1532,7 +1535,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     poloniexLTCBTCNumberToCountFromDB = poloniexLTCBTCNumberToCountFromDB + 1001;
     poloniexLTCBTCNumberToInsertLogsToDB = poloniexLTCBTCNumberToInsertLogsToDB + 1001;
-    console.log("POLONIEX LTCBTC INSERTED");
+    console.log("\x1b[32m", "POLONIEX LTCBTC INSERTED", '\x1b[0m');
   }
 
   if(needToWithdraw === false && historicDataLogs['poloniex'].LTCUSD.length > poloniexLTCUSDNumberToInsertLogsToDB){
@@ -1547,8 +1550,10 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
 
     poloniexLTCUSDNumberToCountFromDB = poloniexLTCUSDNumberToCountFromDB + 1001;
     poloniexLTCUSDNumberToInsertLogsToDB = poloniexLTCUSDNumberToInsertLogsToDB + 1001;
-    console.log("POLONIEX LTCUSD INSERTED");
+    console.log("\x1b[32m", "POLONIEX LTCUSD INSERTED", '\x1b[0m');
   }
+
+  console.log("\x1b[37m", " ", '\x1b[0m');
 
   if(historicDataLogs['hitbtc'].EOSBTC.length > 0 && historicDataLogs['hitbtc'].EOSUSD.length > 0 && historicDataLogs['hitbtc'].DASHUSD.length > 0 && historicDataLogs['hitbtc'].BCCUSD.length > 0 && historicDataLogs['hitbtc'].ETHBTC.length > 0 && historicDataLogs['hitbtc'].BTCUSD.length > 0 && historicDataLogs['hitbtc'].LTCBTC.length > 0 && historicDataLogs['hitbtc'].ETHUSD.length > 0 && historicDataLogs['hitbtc'].LTCUSD.length > 0){
     if(cryptoSocket.Exchanges.hitbtc.ETHBTC > historicDataLogs['hitbtc'].ETHBTC[historicDataLogs['hitbtc'].ETHBTC.length - 1][1] || cryptoSocket.Exchanges.hitbtc.ETHBTC < historicDataLogs['hitbtc'].ETHBTC[historicDataLogs['hitbtc'].ETHBTC.length - 1][1]){
@@ -1834,22 +1839,22 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
     historicDataLogs['cCex'].ETHUSD.push([new Date(Date.now()).toLocaleTimeString(), cryptoSocket.Exchanges.cCex.ETHUSD]);
   }
 
-  // if(historicDataLogs['gdax'].BTCUSD.length > 24 && historicDataLogs['bittrex'].BTCUSD.length > 24 && historicDataLogs['gemini'].BTCUSD.length > 24 && historicDataLogs['poloniex'].BTCUSD.length > 24){
-  //   console.log("\n\nEMA FOR GDAX BTCUSD IS: ", EMA.calculate({period: historicDataLogs['gdax'].BTCUSD.length / 3, values: historicDataLogs['gdax'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['gdax'].BTCUSD.length / 3, values: historicDataLogs['gdax'].BTCUSD.map(a => a[1])}).length - 1]);
-  //   console.log("\n\nEMA FOR BITTREX BTCUSD IS: ", EMA.calculate({period: historicDataLogs['bittrex'].BTCUSD.length / 3, values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['bittrex'].BTCUSD.length / 3, values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1])}).length - 1]);
-  //   console.log("\n\nEMA FOR GEMINI BTCUSD IS: ", EMA.calculate({period: historicDataLogs['gemini'].BTCUSD.length / 3, values: historicDataLogs['gemini'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['gemini'].BTCUSD.length / 3, values: historicDataLogs['gemini'].BTCUSD.map(a => a[1])}).length - 1]);
-  //   console.log("\n\nEMA FOR POLONIEX BTCUSD IS: ", EMA.calculate({period: historicDataLogs['poloniex'].BTCUSD.length / 3, values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['poloniex'].BTCUSD.length / 3, values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1])}).length - 1]);
-  //   console.log("\n\nMACD FOR GDAX BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['gdax'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['gdax'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
-  //   console.log("\n\nMACD FOR BITTREX BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
-  //   console.log("\n\nMACD FOR GEMINI BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['gemini'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['gemini'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
-  //   console.log("\n\nMACD FOR POLONIEX BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
-  // }
+  if(historicDataLogs['gdax'].BTCUSD.length > 24 && historicDataLogs['bittrex'].BTCUSD.length > 24 && historicDataLogs['gemini'].BTCUSD.length > 24 && historicDataLogs['poloniex'].BTCUSD.length > 24){
+    console.log("\n\nEMA FOR GDAX BTCUSD IS: ", EMA.calculate({period: historicDataLogs['gdax'].BTCUSD.length / 3, values: historicDataLogs['gdax'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['gdax'].BTCUSD.length / 3, values: historicDataLogs['gdax'].BTCUSD.map(a => a[1])}).length - 1]);
+    console.log("\n\nEMA FOR BITTREX BTCUSD IS: ", EMA.calculate({period: historicDataLogs['bittrex'].BTCUSD.length / 3, values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['bittrex'].BTCUSD.length / 3, values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1])}).length - 1]);
+    console.log("\n\nEMA FOR GEMINI BTCUSD IS: ", EMA.calculate({period: historicDataLogs['gemini'].BTCUSD.length / 3, values: historicDataLogs['gemini'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['gemini'].BTCUSD.length / 3, values: historicDataLogs['gemini'].BTCUSD.map(a => a[1])}).length - 1]);
+    console.log("\n\nEMA FOR POLONIEX BTCUSD IS: ", EMA.calculate({period: historicDataLogs['poloniex'].BTCUSD.length / 3, values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1])})[EMA.calculate({period: historicDataLogs['poloniex'].BTCUSD.length / 3, values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1])}).length - 1]);
+    console.log("\n\nMACD FOR GDAX BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['gdax'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['gdax'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
+    console.log("\n\nMACD FOR BITTREX BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['bittrex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
+    console.log("\n\nMACD FOR GEMINI BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['gemini'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['gemini'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
+    console.log("\n\nMACD FOR POLONIEX BTCUSD IS: ", MACD.calculate({ values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false })[MACD.calculate({ values: historicDataLogs['poloniex'].BTCUSD.map(a => a[1]), fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false }).length - 1]);
+  }
 
-  // if(Object.keys(historicDataLog).map(time => time).length > 86400){
-  //   historicDataLogs = {};
-  // }
+   if(Object.keys(historicDataLogs).map(time => time).length > 86400){
+     historicDataLogs = {};
+   }
 
-  let largestSpread = 10;
+  let largestSpread = 100;
   let spreadCurrency;
   let sufficientFunds = needToWithdraw;
   let trades = {
@@ -1894,9 +1899,9 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
     let gdaxVsGeminiEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.gemini.ETHUSD - (parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .01).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsPoloniexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .001).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
     let gdaxVsBittrexEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.bittrex.ETHUSD - (parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .005).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
-    let geminiVsGdaxEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD - parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD).toFixed(5)).toFixed(5)).toFixed(2));
-    let poloniexVsGdaxEth = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD - parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD).toFixed(5)).toFixed(5)).toFixed(2));
-    let bittrexVsGdaxEth = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD - parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD).toFixed(5)).toFixed(5)).toFixed(2));
+    // let geminiVsGdaxEth = parseFloat((parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD - parseFloat((cryptoSocket.Exchanges.gemini.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD).toFixed(5)).toFixed(5)).toFixed(2));
+    // let poloniexVsGdaxEth = parseFloat((parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD - parseFloat((cryptoSocket.Exchanges.poloniex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD).toFixed(5)).toFixed(5)).toFixed(2));
+    // let bittrexVsGdaxEth = parseFloat((parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD - parseFloat((cryptoSocket.Exchanges.bittrex.ETHUSD * .0025).toFixed(5)).toFixed(5))) - parseFloat((cryptoSocket.Exchanges.gdax.ETHUSD).toFixed(5)).toFixed(5)).toFixed(2));
 
     //LTC
     let gdaxVsPoloniexLtc = parseFloat((parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD - parseFloat((cryptoSocket.Exchanges.gdax.LTCUSD * .003).toFixed(5)).toFixed(5))) - parseFloat(((cryptoSocket.Exchanges.poloniex.LTCUSD - (parseFloat((cryptoSocket.Exchanges.poloniex.LTCUSD * .0025).toFixed(5)))).toFixed(5))).toFixed(5)).toFixed(2));
@@ -2009,7 +2014,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       withdrawFrom = 'bittrex';
     }
 
-    if (geminiVsGdaxEth > largestSpread) {
+    if (geminiVsGdaxEth = 0 > largestSpread) {
       largestSpread = geminiVsGdaxEth;
       spreadCurrency = "ETH";
       tradeAt = trades.gemini;
@@ -2017,7 +2022,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       withdrawFrom = 'gdax';
     }
 
-    if (poloniexVsGdaxEth > largestSpread) {
+    if (poloniexVsGdaxEth = 0 > largestSpread) {
       largestSpread = poloniexVsGdaxEth;
       spreadCurrency = "ETH";
       tradeAt = trades.poloniex;
@@ -2025,7 +2030,7 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
       withdrawFrom = 'gdax';
     }
 
-    if (bittrexVsGdaxEth > largestSpread) {
+    if (bittrexVsGdaxEth = 0 > largestSpread) {
       largestSpread = bittrexVsGdaxEth;
       spreadCurrency = "ETH";
       tradeAt = trades.bittrex;
@@ -2457,8 +2462,9 @@ checkArbitrage = (exchange, currency, needToWithdraw) => {
   if (largestSpread) {
     //console.log(`${tradingAt} ${spreadCurrency} ARB OPPORTUNITY OF: $${largestSpread} AND WITHDRAWING FROM ${withdrawFrom}`)
     //loopConditonal(exchange, currency);
+    ++functionCounter.count;
     flag = false;
-    setImmediate(() => {loopConditional(tradingAt, spreadCurrency + 'USD', false)});
+    setImmediate(() => {loopConditional('bitfinex', 'BTC' + 'USD', false)});
     //if withdraw
       //need to take into account for each exchanges withdraw function and their
       //unique function paramters
@@ -2522,21 +2528,29 @@ module.exports.loopConditional = function (exchange, currency, needToWithdraw){
   while (flag) {
     checkArbitrage(exchange, currency, needToWithdraw);
   }
-}
+};
 
 
-// setInterval(() => {
-//   hitbtc.requestBalances('hitbtc', 'AIR');
-// }, 10000)
+setImmediate(() => {console.log("\x1b[32m", `
+┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐
+└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐
+└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘
+                             ██████╗ ███████╗ ██████╗██╗  ██╗ ██████╗       ██████╗  ██████╗ ████████╗
+                            ██╔════╝ ██╔════╝██╔════╝██║ ██╔╝██╔═══██╗      ██╔══██╗██╔═══██╗╚══██╔══╝
+                            ██║  ███╗█████╗  ██║     █████╔╝ ██║   ██║█████╗██████╔╝██║   ██║   ██║
+                            ██║   ██║██╔══╝  ██║     ██╔═██╗ ██║   ██║╚════╝██╔══██╗██║   ██║   ██║
+                            ╚██████╔╝███████╗╚██████╗██║  ██╗╚██████╔╝      ██████╔╝╚██████╔╝   ██║
+                             ╚═════╝ ╚══════╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝       ╚═════╝  ╚═════╝    ╚═╝
+         █████╗ ██████╗ ██████╗ ██╗████████╗██████╗  █████╗  ██████╗ ███████╗    ██╗███████╗    ██╗     ██╗██╗   ██╗███████╗
+        ██╔══██╗██╔══██╗██╔══██╗██║╚══██╔══╝██╔══██╗██╔══██╗██╔════╝ ██╔════╝    ██║██╔════╝    ██║     ██║██║   ██║██╔════╝
+        ███████║██████╔╝██████╔╝██║   ██║   ██████╔╝███████║██║  ███╗█████╗      ██║███████╗    ██║     ██║██║   ██║█████╗
+        ██╔══██║██╔══██╗██╔══██╗██║   ██║   ██╔══██╗██╔══██║██║   ██║██╔══╝      ██║╚════██║    ██║     ██║╚██╗ ██╔╝██╔══╝
+        ██║  ██║██║  ██║██████╔╝██║   ██║   ██║  ██║██║  ██║╚██████╔╝███████╗    ██║███████║    ███████╗██║ ╚████╔╝ ███████╗
+        ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝    ╚═╝╚══════╝    ╚══════╝╚═╝  ╚═══╝  ╚══════╝
+┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐┌┼┐
+└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐└┼┐
+└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘└┼┘`, '\x1b[0m')});
 
-// setInterval(()=>{console.log(cryptoSocket.Exchanges)}, 0.001);
-// setTimeout(() => {setInterval(() => {console.log(trackSpreads())}, 30000)}, 140000);
-//setTimeout(() => {console.log(loopConditional('gdax', 'ETHUSD', false))}, 200000);
-//setTimeout(() => {console.log(`CHECK ARB FUNCTION FIRED OFF ${functionCounter.count} TIMES IN ONE SECOND!`)}, 201000)
-
-
-
-// setTimeout(() => {
-//   hitbtc.trade();
-// }, 10000);
-
+setTimeout(() => {setInterval(()=>{console.log("\x1b[37m", cryptoSocket.Exchanges, '\x1b[0m')}, 0.000001)}, 2000);
+setTimeout(() => loopConditional('bitfinex', 'BTCUSD', false), 60000);
+setTimeout(() => setInterval(() => {console.log(`CHECK ARB FUNCTION FIRED OFF ${functionCounter.count} TIMES IN ONE SECOND!`)}, 1000), 60000);
