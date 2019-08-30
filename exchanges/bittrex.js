@@ -114,6 +114,22 @@ requestBalances = (exchange, currency) => {
       }
     });
   });
+};
+
+
+getOrderHistory = (exchange, currency) => {
+  let curr = currency.toUpperCase();
+  return new Promise((resolve, reject) => {
+    bittrex.getdeposithistory({curr}, (data, err) => {
+      if(err){
+        console.log("SOMETHING WRONG: ", err);
+        reject(err);
+      } else {
+        console.log("DATA IS: ", data);
+        resolve(data);
+      }
+    });
+  });
 }
 
 
@@ -146,7 +162,8 @@ module.exports = {
   withdraw,
   requestBalances,
   getLtcDepositAddress,
-  bittrex
+  bittrex,
+  getOrderHistory,
 };
 
 

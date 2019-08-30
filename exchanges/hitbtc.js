@@ -28,10 +28,10 @@ let strategy = {
 };
 
 
-requestBalances = (exchange, currency) => {
+requestTradingBalances = (exchange, currency) => {
   HitBTC.tradingGetBalance()
     .then(res => {
-      console.log("REMAINING ETH IS: ", res.balance.filter(el => el.currency_code === 'EOS'));
+      console.log("REMAINING ETH IS: ", res.balance.filter(el => el.currency_code === 'ETH'));
       console.log("DATA SHOULD BE: ", res.balance.filter(el => el.cash > 0 || el.reserved > 0));
       // console.log("DATA IS: ", res.balance.filter(el => el.currency_code === currency.toUpperCase())[0]);
       return res.balance.filter(el => el.currency_code === currency.toUpperCase());
@@ -53,6 +53,14 @@ withdraw = () => {
   console.log(HitBTC);
 };
 
+getOrders = () => {
+  HitBTC.fetchClosedOrders()
+    .then(res => {
+      console.log("ALL ORDERS ARE: ", res);
+    })
+    .catch(err => console.log("ERR BECAUSE: ", err));
+}
+
 //Just added the library we needed for trades
 //still working on the trades stuff
 //I'm having trouble getting the funds that are marked as reserved
@@ -61,7 +69,7 @@ withdraw = () => {
 //method signature and everything else is
 //fine...
 trade = () => {
-  HitBTC.createOrder('ZSC/USD', 'limit', 'buy', 51, 4.50)
+  HitBTC.createOrder('EOS/USD', 'limit', 'buy', 1, 3.81)
     .then(res => {
       console.log("THE RES FROM THE TRADE OF EOS FOR USD IS: ", res);
       HitBTC.tradingGetBalance('hitbtc', 'USD')
@@ -75,9 +83,28 @@ trade = () => {
     .catch(err => console.log("ERRORED OUT AT: ", err));
 };
 
+cancelLiveOrder = () => {
+  HitBTC.cancelOrder('1512888101175')
+    .then(res => {
+      console.log("ORDER CANCELLED: ", res);
+    })
+    .catch(err => console.log("ERR: ", err));
+}
+
+requestBalances = () => {
+  HitBTC.fetchBalance()
+    .then(res => {
+      console.log("RES IS: ", res);
+    })
+    .catch(err => console.log("ERR: ", err));
+}
+
 module.exports = {
+  requestTradingBalances,
   requestBalances,
   withdraw,
   trade,
   fetchOrders,
+  getOrders,
+  cancelLiveOrder,
 }
